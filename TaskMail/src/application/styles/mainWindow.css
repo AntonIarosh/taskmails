@@ -1,0 +1,16 @@
+#alarm {-fx-text-fill: white; -fx-font-size: 14pt; -fx-font-weight: bold; -fx-alignment: center;
+	-fx-background-color: black;
+}
+#job {  -fx-background-color: #00FFFF; -fx-alignment: center; -fx-padding: 2px; -fx-font-weight: bold}
+#name { -fx-background-color: #00FFFF; -fx-alignment: center;-fx-padding: 2px; -fx-font-weight: bold;
+	-fx-border-style: dashed centered; -fx-border-width: 1.5px;
+}
+#secondName { -fx-background-color: #00FFFF; -fx-alignment: center;-fx-padding: 2px;-fx-font-weight: bold;
+	-fx-border-style: dashed centered; -fx-border-width: 1.5px;
+}
+     #win{-fx-background-color: #DCDCDC; -fx-stroke: red;}
+     
+     #BoxForAlarm{-fx-background-color: #F0FFF0; -fx-alignment: center;}
+     #pp{-fx-background-color: #7B68EE; -fx-padding: 10px;  /*-fx-background-radius: 6;*/ }
+     #exit{-fx-background-color: #7B68EE;}
+     #H {-fx-background-color: #00ced1}

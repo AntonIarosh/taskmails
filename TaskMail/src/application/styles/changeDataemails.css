@@ -1,0 +1,8 @@
+.EnterUserData {
+	-fx-alignment: center; -fx-padding: 15px; -fx-background-color: #FFA07A; -fx-background-radius: 6;
+}
+#Data {-fx-alignment: center; -fx-padding: 20px; -fx-background-color:#8B008B; -fx-background-radius: 6;}
+#email { -fx-padding: 15px; -fx-background-color:#CD5C5C; -fx-background-radius: 6; -fx-alignment: center;}
+ #flowPane {-fx-padding: 20px; -fx-background-color: #7B68EE; -fx-alignment: center;}
+ #root {-fx-padding: 20px;}
+ #Info {-fx-padding: 10px; -fx-background-color:#CD5C5C; -fx-alignment:center;-fx-background-radius: 6; }

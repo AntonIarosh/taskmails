@@ -1,0 +1,13 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/* .present {-fx-text-fill:> no rule for -fx-text-fill found!  }*/
+#login {-fx-text-fill: #800080; -fx-font-weight: bold; }
+#pass {-fx-text-fill: #800080; -fx-font-weight: bold; }
+ #win{-fx-background-color: #FFF8DC; -fx-font-family: fantasy; -fx-stroke: red;}
+ /* #win {-fx-background-image: url(/application/3.jpg); -fx-backgrond-size: 60% 60%; -fx-backgrounf-repeat: no-repeat;}*/
+#needs {-fx-font-weight: bold;}
+
+#LogPas {-fx-background-color:/*  #C71585*/#e26c1b;-fx-padding: 10px; -fx-background-radius: 6;}
+.Enter{
+	-fx-background-color: #e8ac49;-fx-padding: 10px; -fx-background-radius: 6;
+}
+ #Gritings {-fx-background-color: #FFA07A;-fx-padding: 5px; -fx-background-radius: 6;}

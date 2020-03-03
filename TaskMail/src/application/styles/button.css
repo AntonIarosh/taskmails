@@ -1,0 +1,8 @@
+#button{-fx-base: indigo; -fx-wrap-text: true; -fx-text-alignment: center}
+#button:hover {-fx-background-color: purple; 
+}
+/*button:armed {-fx-background-color: black; -fx-border-style: solid; -fx-border-color: yellow;
+	 -fx-border-insets: 1px;
+}*/
+#button:armed {-fx-background-color: black; }
+
