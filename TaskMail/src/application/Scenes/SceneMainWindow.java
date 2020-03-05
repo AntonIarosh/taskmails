@@ -271,6 +271,7 @@ public class SceneMainWindow implements mainWindowUser {
 	    bottom.setMaxWidth(200);
 	  
 	    Label quick = new Label("Быстрое электронное письмо ");
+	    quick.setWrapText(true);
 		TextField emailThem = new TextField();
 		//emailThem.setMinSize(250, 80);
 		emailThem.setPromptText("Введите тему сообщения");
@@ -282,11 +283,34 @@ public class SceneMainWindow implements mainWindowUser {
 		//email.setMinSize(250, 100);
 		Button adress = new Button("Выберете адресат");
 		Button push = new Button("Отправить");
+		Button quickMail = new Button("Быстрое сообщение");
+		Button quickMailClose = new Button("Закрыть быстрое сообщение");
 		push.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		push.setId("button");
 		adress.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		adress.setId("button");
-		bottom.getChildren().setAll(quick,emailThem, email,adress,push );
+		quickMail.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		quickMail.setId("button");
+		quickMailClose.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		quickMailClose.setId("button");
+		quickMailClose.setWrapText(true);
+		bottom.getChildren().setAll(quick,quickMail);
+		quickMail.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				if ( (!bottom.getChildren().contains(emailThem)) && (!bottom.getChildren().contains(email))) {
+					bottom.getChildren().addAll(emailThem, email,adress,push,quickMailClose );
+				}
+			}
+		});
+		quickMailClose.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				bottom.getChildren().removeAll(emailThem, email,adress,push,quickMailClose);
+			}
+		});
+		bottom.getChildren().setAll(quickMail/*,quick,emailThem, email,adress,push */);
+		//bottom.getChildren().
 		push.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -313,6 +337,67 @@ public class SceneMainWindow implements mainWindowUser {
 	    tabWork.setClosable(false);
 	    Group rootWork = new Group();
 	    tabWork.setContent(rootWork);
+	    
+	    // --- Бокс для задачи ---/
+	    HBox task = new HBox();
+	    task.setSpacing(10);
+	    task.setAlignment(Pos.CENTER_LEFT);
+	    task.setId("Task");
+	    
+	    VBox themeTask = new VBox(50);
+		Label themeTaskLabel = new Label("Введите тему задачи");
+		TextField textTheme = new TextField();
+		textTheme.setPromptText("Тема");
+		themeTask.getChildren().addAll(themeTaskLabel, textTheme);
+		themeTask.setAlignment(Pos.CENTER);
+		themeTask.setSpacing(5);
+		themeTask.getStyleClass().add("EnterTask");
+		
+		VBox body = new VBox(50);
+		Label bodyLabel = new Label("Задание");
+		TextArea bodyMail = new TextArea();
+		bodyMail.setPromptText("Суть задачи");
+		bodyMail.setPrefRowCount(25); 
+		body.getChildren().addAll(bodyLabel, bodyMail);
+		body.setAlignment(Pos.CENTER);
+		body.setSpacing(5);
+		body.getStyleClass().add("EnterTask");
+		
+		VBox dateStart = new VBox(50);
+		Label dateStartLabel = new Label("Дата начала задачи");
+		DatePicker datePickerStart = new DatePicker();
+		dateStart.getChildren().addAll(dateStartLabel, datePickerStart);
+		dateStart.setAlignment(Pos.CENTER);
+		dateStart.setSpacing(5);
+		dateStart.getStyleClass().add("EnterTask");
+		
+		VBox dateEnd = new VBox(50);
+		Label dateEndLabel = new Label("Дата конца задачи");
+		DatePicker datePickerEnd = new DatePicker();
+		dateEnd.getChildren().addAll(dateEndLabel, datePickerEnd);
+		dateEnd.setAlignment(Pos.CENTER);
+		dateEnd.setSpacing(5);
+		dateEnd.getStyleClass().add("EnterTask");
+		
+	
+	/*	VBox enterLogin = new VBox(50);
+		Label enterLoginLabel = new Label("Введите логин - эмейл");
+		TextField textLogin = new TextField();
+		textLogin.setPromptText("email");
+		enterLogin.getChildren().addAll(enterLoginLabel, textLogin);
+		enterLogin.setAlignment(Pos.CENTER);
+		enterLogin.setSpacing(5);
+		enterLogin.getStyleClass().add("EnterUserData");
+		//enternFatherName.setMargin(child, value);*/
+		
+		HBox TASK = new HBox(50);
+		TASK .getChildren().addAll(themeTask,body,dateStart,dateEnd);
+		TASK .setId("Task");
+		TASK .setSpacing(10);
+		TASK .setAlignment(Pos.CENTER);
+		//task
+		tabWork.setContent(TASK);
+	    // --- Конец бокса для новой задачи ---/
 	    // Конец Новая задача
 	    tabpane.getTabs().addAll(tabSh,tabWork);
 	    
