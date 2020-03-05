@@ -2,7 +2,11 @@ package application.Scenes;
 
 import java.time.LocalDate;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import application.DB.GetInfoLogin;
+import application.Mails.QuickLetterSend;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;
@@ -20,6 +24,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.skin.DatePickerSkin;
@@ -176,7 +182,7 @@ public class SceneMainWindow implements mainWindowUser {
 				}
 			});
 		 Button help = new Button("Помощь");
-		 Button about = new Button("О прогрмме");
+		 Button about = new Button("О программе");
 		 help.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 help.setMaxWidth(160);
 		 help.setId("button");
@@ -214,10 +220,14 @@ public class SceneMainWindow implements mainWindowUser {
 	/*	 if(!Joblabel.getText().isEmpty()) {
 			 personalAccounts.getChildren().add(Joblabel);
 		 }*/
-		 personalAccounts.getChildren().addAll(/*mail,*/changMyInfo/*,workGroup,LookWorkGroup*/);
-		 personalAccounts.setId("pp");
 		 VboxStyle intr = new VboxStyle ();
 		 VBox instr = intr.getStyleVbox();
+		 personalAccounts.getChildren().addAll(/*mail,*/changMyInfo/*,workGroup,LookWorkGroup*/);
+		 personalAccounts.setId("pp");
+		 personalAccounts.setMinWidth(250);
+		 
+		 
+		
 		 instr.getChildren().setAll(popupContent);
 		 VboxStyle ex = new VboxStyle ();
 		 VBox exits = ex.getStyleVbox();
@@ -231,7 +241,7 @@ public class SceneMainWindow implements mainWindowUser {
 	        accordion.setMinSize(250, 200);
 	        accordion.setPrefSize(250, 200);
 	    // Аккордион меню ----/
-	        
+	        //read doc
 	    /// Тулбар ---/
 	     ToolBar toolbar = new ToolBar();
 	     toolbar.getItems().add(changMyInfo);
@@ -253,12 +263,54 @@ public class SceneMainWindow implements mainWindowUser {
 	    toolbar.setStyle("-fx-base: dodgerblue;");
 	    top.getChildren().addAll(personalAccounts,toolbar);
 	    // конец бокса для верха ---/
+	    // Бокс для низа --/
+	    VBox bottom = new VBox();
+	    bottom .setSpacing(10);
+	    bottom .setAlignment(Pos.CENTER_LEFT);
+	    bottom .setId("bottom");
+	    bottom.setMaxWidth(200);
+	  
+	    Label quick = new Label("Быстрое электронное письмо ");
+		TextField emailThem = new TextField();
+		//emailThem.setMinSize(250, 80);
+		emailThem.setPromptText("Введите тему сообщения");
+		//TextField email = new TextField();
+		TextArea email = new TextArea();
+		email.setPrefRowCount(6);            
+		
+		email.setPromptText("Введите сообщение");
+		//email.setMinSize(250, 100);
+		Button adress = new Button("Выберете адресат");
+		Button push = new Button("Отправить");
+		push.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		push.setId("button");
+		adress.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		adress.setId("button");
+		bottom.getChildren().setAll(quick,emailThem, email,adress,push );
+		push.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				QuickLetterSend sender = new QuickLetterSend();
+				try {
+					sender.senMail(emailThem.getText(), email.getText() );
+				} catch (AddressException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (MessagingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	    // Конец бокса для низа 
 	    TabPane tabpane=new TabPane();
 	    Tab tabSh = new Tab("Текущее расписание");
+	    tabSh.setClosable(false);
 	    Group rootSh = new Group();
 	    tabSh.setContent(rootSh);
 	    // Новая задача --/
 	    Tab tabWork = new Tab("Создать задачу");
+	    tabWork.setClosable(false);
 	    Group rootWork = new Group();
 	    tabWork.setContent(rootWork);
 	    // Конец Новая задача
@@ -285,6 +337,7 @@ public class SceneMainWindow implements mainWindowUser {
 	    border.setCenter(tabpane);
 	    border.setLeft(accordion);
 	    border.setId("win");
+	    border.setRight(bottom );
 		
 		scene.getStylesheets().add(getClass().getResource("/application/styles/mainWindow.css").toExternalForm());
 		return scene;
