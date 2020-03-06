@@ -98,7 +98,7 @@ public class Login implements loginScene {
 	     ImageView work = new ImageView(ICON_3);
 	     
 	     String URL = "/application/pictures/yes.png";
-	     Image ICON_4 = new Image(getClass().getResourceAsStream(URLwork));
+	     Image ICON_4 = new Image(getClass().getResourceAsStream(URL));
 	     ImageView yes = new ImageView(ICON_4);
 		 //Label Joblabel = new Label("",work);
 		Label alarm = new Label("");

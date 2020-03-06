@@ -1,6 +1,8 @@
 package application.Scenes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -10,6 +12,10 @@ import application.Mails.QuickLetterSend;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -19,6 +25,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -39,6 +47,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class SceneMainWindow implements mainWindowUser {
 	//protected static final int SceneMainWindow getIdUser() = 0;
@@ -132,6 +141,14 @@ public class SceneMainWindow implements mainWindowUser {
         DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
         Node popupContent = datePickerSkin.getPopupContent();
 		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        final Label uiTimer = new Label();
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> uiTimer.setText(LocalDateTime.now().format(formatter)))
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+        
 		info.setID(this.id);
 		info.wantKnown();
 		 Accordion accordion = new Accordion();
@@ -281,7 +298,7 @@ public class SceneMainWindow implements mainWindowUser {
 		
 		email.setPromptText("Введите сообщение");
 		//email.setMinSize(250, 100);
-		Button adress = new Button("Выберете адресат");
+		Button adress = new Button("Выберите адресата");
 		Button push = new Button("Отправить");
 		Button quickMail = new Button("Быстрое сообщение");
 		Button quickMailClose = new Button("Закрыть быстрое сообщение");
@@ -357,7 +374,7 @@ public class SceneMainWindow implements mainWindowUser {
 		Label bodyLabel = new Label("Задание");
 		TextArea bodyMail = new TextArea();
 		bodyMail.setPromptText("Суть задачи");
-		bodyMail.setPrefRowCount(25); 
+		bodyMail.setPrefRowCount(10); 
 		body.getChildren().addAll(bodyLabel, bodyMail);
 		body.setAlignment(Pos.CENTER);
 		body.setSpacing(5);
@@ -371,6 +388,85 @@ public class SceneMainWindow implements mainWindowUser {
 		dateStart.setSpacing(5);
 		dateStart.getStyleClass().add("EnterTask");
 		
+		VBox timeStart = new VBox(50);
+		Label timeStartLabel = new Label("Время начала задания");
+		HBox timeS = new HBox(50);
+		timeS.setAlignment(Pos.CENTER);
+		timeS.setSpacing(5);
+		timeS.getStyleClass().add("EnterTask");
+		Label doter = new Label(" : ");
+		TextField startHour = new TextField();
+
+		startHour.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+	        @Override
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	            if (!newValue.matches("\\d*")) {
+	            	startHour.setText(newValue.replaceAll("[^\\d]", ""));
+	            }
+	        }
+	    });
+		TextField startMinute = new TextField();
+
+		startMinute.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+	        @Override
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	            if (!newValue.matches("\\d*")) {
+	            	startMinute.setText(newValue.replaceAll("[^\\d]", ""));
+	            }
+	        }
+	    });
+            
+		timeS.getChildren().addAll(startHour,doter,startMinute);
+		timeStart.getChildren().addAll(timeStartLabel,timeS);
+		timeStart.setAlignment(Pos.CENTER);
+		timeStart.setSpacing(5);
+		timeStart.getStyleClass().add("EnterTask");
+		
+		VBox timeEnd = new VBox(50);
+		Label timeEndLabel = new Label("Время окончания задания");
+		Label doter_ = new Label(" : ");
+		HBox timeE = new HBox(50);
+		timeE.setAlignment(Pos.CENTER);
+		timeE.setSpacing(5);
+		timeE.getStyleClass().add("EnterTask");
+		TextField endHour = new TextField();
+		endHour.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+		        @Override
+		        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		            if (!newValue.matches("\\d*")) {
+		            	endHour.setText(newValue.replaceAll("[^\\d]", ""));
+		            	if (newValue.matches("[0-9]+$")) {
+	                        int number = Integer.parseInt(newValue);
+	                        if (number > 24) {
+	                            return;
+	                        }
+	                        endHour.setText(oldValue);
+	                    }
+		            }
+		        }
+		    });
+		TextField endMinute = new TextField();
+		endMinute.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+	        @Override
+	        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	            if (!newValue.matches("\\d*")) {
+	            	endMinute.setText(newValue.replaceAll("[^\\d]", ""));
+	            	if (newValue.matches("[0-9]+$")) {
+                        int number = Integer.parseInt(newValue);
+                        if (number > 60) {
+                            return;
+                        }
+                        endMinute.setText(oldValue);
+                    }
+	            }
+	        }
+	    });
+		timeE.getChildren().addAll(endHour,doter_,endMinute);
+		timeEnd.getChildren().addAll(timeEndLabel,timeE);
+		timeEnd.setAlignment(Pos.CENTER);
+		timeEnd.setSpacing(5);
+		timeEnd.getStyleClass().add("EnterTask");
+		
 		VBox dateEnd = new VBox(50);
 		Label dateEndLabel = new Label("Дата конца задачи");
 		DatePicker datePickerEnd = new DatePicker();
@@ -379,7 +475,66 @@ public class SceneMainWindow implements mainWindowUser {
 		dateEnd.setSpacing(5);
 		dateEnd.getStyleClass().add("EnterTask");
 		
-	
+		VBox BoxDone = new VBox(50);
+		Label isDoneLabel = new Label("Отметка о выполнении задачи");
+		CheckBox isDone = new CheckBox();
+		BoxDone.getChildren().addAll(isDoneLabel,  isDone);
+		BoxDone.setAlignment(Pos.CENTER);
+		BoxDone.setSpacing(5);
+		BoxDone.getStyleClass().add("EnterTask");
+		
+	    VBox supervisor = new VBox(50);
+		Label supervisorLabel = new Label("Введите Ф.И.О. руководителя задачи");
+		supervisorLabel.setWrapText(true);
+		TextField textSupervisor = new TextField();
+		textSupervisor.setPromptText("Ф.И.О.");
+		supervisor.getChildren().addAll(supervisorLabel, textSupervisor);
+		supervisor.setAlignment(Pos.CENTER);
+		supervisor.setSpacing(5);
+		supervisor.getStyleClass().add("EnterTask");
+		
+		VBox urgencyBox = new VBox(50);
+		Label urgencyLabel = new Label("Срочность задачи");
+		ChoiceBox urgency = new ChoiceBox();
+		urgency.getItems().addAll("Планово", "Важно", "Срочно");
+		urgency.getSelectionModel().selectFirst();
+		urgencyBox.getChildren().addAll(urgencyLabel,urgency);
+		urgencyBox.setAlignment(Pos.CENTER);
+		urgencyBox.setSpacing(5);
+		urgencyBox.getStyleClass().add("EnterTask");
+		
+		VBox mainPart = new VBox(50);
+		mainPart.getChildren().addAll(themeTask, supervisor,urgencyBox,BoxDone);
+		mainPart.setAlignment(Pos.CENTER);
+		mainPart.setSpacing(5);
+		mainPart.getStyleClass().add("UP3");
+		
+		HBox Start = new HBox(50);
+		HBox End = new HBox(50);
+		Start .getChildren().addAll(dateStart,timeStart);
+		Start .setAlignment(Pos.CENTER);
+		Start .setSpacing(5);
+		Start .getStyleClass().add("UP1");
+		End.getChildren().addAll(dateEnd,timeEnd);
+		End.setAlignment(Pos.CENTER);
+		End.setSpacing(5);
+		End.getStyleClass().add("UP1");
+		
+		
+		VBox DatePart = new VBox(50);
+		DatePart.getChildren().addAll(Start,End);
+		DatePart.setAlignment(Pos.CENTER);
+		DatePart.setSpacing(5);
+		DatePart.getStyleClass().add("UP2");
+		
+		
+		VBox SecondPart = new VBox(50);
+		SecondPart.getChildren().addAll(body,DatePart);
+		SecondPart.setAlignment(Pos.CENTER);
+		SecondPart.setSpacing(5);
+		SecondPart.getStyleClass().add("UP3");
+		
+		
 	/*	VBox enterLogin = new VBox(50);
 		Label enterLoginLabel = new Label("Введите логин - эмейл");
 		TextField textLogin = new TextField();
@@ -391,7 +546,7 @@ public class SceneMainWindow implements mainWindowUser {
 		//enternFatherName.setMargin(child, value);*/
 		
 		HBox TASK = new HBox(50);
-		TASK .getChildren().addAll(themeTask,body,dateStart,dateEnd);
+		TASK .getChildren().addAll(mainPart,SecondPart);
 		TASK .setId("Task");
 		TASK .setSpacing(10);
 		TASK .setAlignment(Pos.CENTER);
@@ -404,7 +559,7 @@ public class SceneMainWindow implements mainWindowUser {
 	    Label alarm = new Label(" Добрый день ");
 	    HBox alarmBox= new HBox();
 	    alarmBox.setId("BoxForAlarm");
-	    alarmBox.getChildren().setAll(alarm);
+	    alarmBox.getChildren().setAll(alarm,uiTimer);
 	    
 	    Scene scene = new Scene(border, 850, 650);
 	    //double widthWindow = accordion.getWidth() + tabpane.getWidth();
