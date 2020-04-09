@@ -7,26 +7,28 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import application.Entities.EntityEmail;
+import application.Entities.EntityOneUser;
 import application.Entities.EntityUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ChanngeUserInfos {
+public class ChoseUser {
 	private Connection con;
 	private DBConnection conect;
 	static Statement answer;
 	private int idUser;
-	private ObservableList<EntityEmail> data;
+	private ObservableList<EntityOneUser> data;
+	private String searcQquery;
 	
 	
-	public ChanngeUserInfos() {
+	public ChoseUser() {
 		this.conect = new DBConnection("taskmail");
 		this.con = conect.connect();
 		answer = null;
 		this.idUser = 0;
 		this.data = FXCollections.observableArrayList();
 	}
-	public ChanngeUserInfos(int id) {
+	public ChoseUser(int id) {
 		this.conect = new DBConnection("taskmail");
 		this.con = conect.connect();
 		answer = null;
@@ -35,21 +37,30 @@ public class ChanngeUserInfos {
 		this.data = FXCollections.observableArrayList();
 	}
 	
-	public ObservableList<EntityEmail> getData(){
+	public ObservableList<EntityOneUser> getData(){
 		return this.data;
 	}
 
 	public void setId(int _id) {
 		this.idUser = _id;
 	}
+	public void setSearchQuery(String _query) {
+		this.searcQquery = _query;
+	}
+	
+	public String getSearchQuery() {
+		return this.searcQquery;
+	}
+	
 	public int getId() {
 		return this.idUser;
 	}
 	
-	public HashMap <Integer, String>  whatMailsIs() {
+	public HashMap <Integer, String>  whatIs() {
 		HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
-		String query = "SELECT * FROM (`taskmail`.`email` JOIN `taskmail`.`user_email` ON `email`.`id_email`= `user_email`.`id_email`) JOIN `taskmail`.`users` ON `user_email`.`id_user` = `users`.`id_user` WHERE `users`.`id_user` = '" + idUser +"'";
+		//String query = "SELECT * FROM (`taskmail`.`email` JOIN `taskmail`.`user_email` ON `email`.`id_email`= `user_email`.`id_email`) JOIN `taskmail`.`users` ON `user_email`.`id_user` = `users`.`id_user` WHERE `users`.`id_user` = '" + idUser +"'";
 		ResultSet res = null;
+		String query = this.getSearchQuery();
 		System.out.println(query);
 		
 		try {
@@ -64,11 +75,12 @@ public class ChanngeUserInfos {
 			e1.printStackTrace();
 		}
 		try {
+			this.data.clear();
 			while (res.next()) {
-				EntityEmail email = new EntityEmail(res.getInt(1),res.getString(2), res.getString(3),res.getString(7) ,res.getInt(8) ,res.getString(4),res.getInt(5));
-				this.data.add(email);
+				EntityOneUser user = new EntityOneUser(res.getInt(1),res.getString(2), res.getString(3),res.getString(4) ,res.getString(6), res.getString(7),res.getInt(5));
+				this.data.add(user);
 			//	String tablePass = res.getString(7);
-				System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
+				System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7));
 				resultItems.put(res.getInt(1), res.getString(2));
 				
 			}

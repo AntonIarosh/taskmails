@@ -1,8 +1,22 @@
 .EnterUserData {
-	-fx-alignment: center; -fx-padding: 15px; -fx-background-color: #FFA07A; -fx-background-radius: 6;
+	-fx-alignment: center; -fx-padding: 10px; -fx-background-color: #AFEEEE; -fx-background-radius: 6;
+	-fx-wrap-text: true; -fx-text-alignment: center
 }
-#Data {-fx-alignment: center; -fx-padding: 20px; -fx-background-color:#8B008B; -fx-background-radius: 6;}
-#email { -fx-padding: 15px; -fx-background-color:#CD5C5C; -fx-background-radius: 6; -fx-alignment: center;}
- #flowPane {-fx-padding: 20px; -fx-background-color: #7B68EE; -fx-alignment: center;}
- #root {-fx-padding: 20px;}
- #Info {-fx-padding: 10px; -fx-background-color:#CD5C5C; -fx-alignment:center;-fx-background-radius: 6; }
+#Data {-fx-alignment: center; -fx-padding: 15px; -fx-background-color:#00008B; -fx-background-radius: 6;
+	-fx-wrap-text: true; -fx-text-alignment: center
+}
+#email { -fx-padding: 15px; -fx-background-color:#00008B; -fx-background-radius: 6; -fx-alignment: center;}
+ #flowPane {-fx-padding: 15px; -fx-background-color: #7B68EE; -fx-alignment: center;}
+ #root {-fx-padding: 15px;}
+ #Info {-fx-padding: 10px; -fx-background-color:#4682B4; -fx-alignment:center;-fx-background-radius: 6;
+ 	-fx-wrap-text: true; -fx-text-alignment: center
+ }
+ .String {
+ 	-fx-background-color:white;-fx-wrap-text: true;-fx-background-radius: 6;
+ }
+ #C {
+ 	-fx-background-color:#DAA520;-fx-wrap-text: true;-fx-background-radius: 15; -fx-text-fill:#000080;
+ }
+ #PULL {
+ 	-fx-font-weight: bold;
+ }

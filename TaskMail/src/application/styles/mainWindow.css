@@ -20,11 +20,31 @@
      	-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #AFEEEE; -fx-background-radius: 6;
      }
      .UP1 {
-     	-fx-alignment: center;-fx-padding: 5px; -fx-background-color: #7B68EE;  -fx-background-radius: 6;
+     	-fx-alignment: center;-fx-padding: 5px; -fx-background-color: #00ced1;  -fx-background-radius: 6;
      }
      .UP2 {
      	-fx-alignment: center;-fx-padding: 5px; -fx-background-color: #AFEEEE;  -fx-background-radius: 6;
      }
      .UP3 {
-     	-fx-alignment: center;-fx-padding: 5px; -fx-background-color: #4682B4; -fx-background-radius: 6;
+     	-fx-alignment: center;-fx-padding: 5px; -fx-background-color: #7B68EE; -fx-background-radius: 6;
      }
+     
+     .OneString {
+     	-fx-alignment: center;-fx-padding: 5px; -fx-background-color: #4682B4;  -fx-background-radius: 12;
+     }
+     .OneStringBaze{
+     	-fx-alignment: center;-fx-padding: 2px; -fx-background-color: white;  -fx-background-radius: 12;
+     	-fx-border-style: dashed centered; -fx-border-width: 1.1px;
+     }
+      #OneTask{ -fx-background-color: #FFA500;-fx-alignment: center;-fx-padding: 2px; -fx-background-radius: 12;}
+       
+ #C {
+ 	-fx-background-color:#00BFFF;-fx-wrap-text: true;-fx-background-radius: 15; -fx-text-fill:#000080; -fx-padding: 2px;
+ }
+ #PULL {
+ 	-fx-font-weight: bold; -fx-padding: 2px;
+ }
+ #urgency { -fx-font-weight: bold; -fx-background-color:#DC143C; -fx-text-fill:#E0FFFF; -fx-padding: 2px; }
+ #S {
+ 	 -fx-background-color:#4682B4; -fx-padding: 2px; 
+ }

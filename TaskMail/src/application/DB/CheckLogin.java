@@ -33,7 +33,7 @@ public class CheckLogin implements loginCheck {
 	@Override
 	public boolean check(String pass, String login) {
 		ResultSet res = null;
-		String query = "Select * from `users` where email = '"+login+"';";
+		String query = "Select * from `users` where login = '"+login+"';";
 		boolean conjunction = false;
 		//Передача запроса
 		try {

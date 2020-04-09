@@ -11,7 +11,7 @@ public class DBConnection {
 	public Connection connect() {
 		String url = "jdbc:mysql://localhost:3380/" +this.nameDB + "?verifyServerCertificate=false" +
 				 "&useSSL=false" + "&requireSSL = false" + "&useLegacyDatetimeCode=false" +
-				"&amp"+"&serverTimezone = UTC";
+				"&amp"+"&serverTimezone = Europe/Moscow";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url/* "jdbc:mysql://localhost:3306/" + db + "?characterEncoding=utf8" */,

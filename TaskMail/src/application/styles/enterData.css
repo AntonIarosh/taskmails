@@ -9,10 +9,14 @@
  #alarm {-fx-text-fill: ff0000; -fx-font-size: 14pt; -fx-font-weight: bold;}
  #Data {
 	 -fx-border-insets: 1px;-fx-background-color: #7B68EE; -fx-background-radius: 6;-fx-padding: 10px;}
- .EnterUserData {-fx-background-color: #66CDAA;-fx-padding: 10px; -fx-background-radius: 6;}
+ .EnterUserData {-fx-background-color: #66CDAA;-fx-padding: 10px; -fx-background-radius: 6;
+ 	-fx-wrap-text: true; -fx-text-alignment: center
+ }
  /*-fx-border-style: solid; -fx-border-color: #800080;*/
  .EnterInfo {-fx-background-color: #66CDAA;-fx-padding: 10px; -fx-background-radius: 6;
- 	
+ 	-fx-wrap-text: true; -fx-text-alignment: center
  }
- #Info {-fx-background-color: #FFA500;-fx-padding: 10px; -fx-background-radius: 6;}
+ #Info {-fx-background-color: #FFA500;-fx-padding: 10px; -fx-background-radius: 6;
+ 	-fx-wrap-text: true; -fx-text-alignment: center
+ }
  #inner {-fx-background-color:#FFFFF0;-fx-padding: 20px; -fx-background-radius: 6;}

@@ -97,9 +97,9 @@ public class SceneUserData implements enterDataUsers{
 		enternFatherName.getStyleClass().add("EnterUserData");
 		
 		VBox enterLogin = new VBox(50);
-		Label enterLoginLabel = new Label("Введите логин - эмейл");
+		Label enterLoginLabel = new Label("Введите логин");
 		TextField textLogin = new TextField();
-		textLogin.setPromptText("email");
+		textLogin.setPromptText("логин");
 		enterLogin.getChildren().addAll(enterLoginLabel, textLogin);
 		enterLogin.setAlignment(Pos.CENTER);
 		enterLogin.setSpacing(5);
@@ -242,7 +242,7 @@ public class SceneUserData implements enterDataUsers{
 						
 						String login = textLogin.getText();
 						//alarm.setText("ВНиМАНИЕ! Вы не ввели Ваше Ф.И.О. и пароль!");
-						String ins = "INSERT INTO `users` (`firstname`,`secondname`,`lastname`,`id_post`,`email`,`password`) VALUES ('"+ textName.getText() 
+						String ins = "INSERT INTO `users` (`firstname`,`secondname`,`lastname`,`id_post`,`login`,`password`) VALUES ('"+ textName.getText() 
 						+ "', '" +textSeconName.getText() + "','" + textFatherName.getText() + "','" +  idpost + "','" + textLogin.getText() + "','" + pass.getText()+"');";
 						System.out.println(login);
 						System.out.println(ins);
@@ -251,12 +251,12 @@ public class SceneUserData implements enterDataUsers{
 
 						boolean execTrue = add.execeteQuery();
 						if(execTrue) {
-							String found = "SELECT * FROM `users` WHERE (`email` = '"+ textLogin.getText()+"' AND `password` = '"+pass.getText()+"') ";
+							String found = "SELECT * FROM `users` WHERE (`login` = '"+ textLogin.getText()+"' AND `password` = '"+pass.getText()+"') ";
 							String insertMail = "INSERT INTO `taskmail`.`email`(`email`) VALUES ('"+textLogin.getText() +"');";
-							add.setQuery(insertMail);
-							add.setMail(textLogin.getText());
-							String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
-							add.addUserEmail(insertUserMAil);
+							//add.setQuery(insertMail);
+							//add.setMail(textLogin.getText());
+							//String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
+							//add.addUserEmail(insertUserMAil);
 							Alert alert = new Alert(AlertType.INFORMATION,"Регистрация прошла успешно! Теперь Вы можете войти в систему");
 							alert.setTitle("Регистрация");
 							alert.setHeaderText("Вы зарегистрированы");

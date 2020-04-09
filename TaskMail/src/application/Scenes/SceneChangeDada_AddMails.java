@@ -131,6 +131,23 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		enterPass.setSpacing(5);
 		enterPass.getStyleClass().add("EnterUserData");
 		
+		HBox enterLogin = new HBox(50);
+		Label enterLoginLogin = new Label("Введите логин");
+		enterLoginLogin.setWrapText(true);
+		TextField login = new TextField();
+		login.setPromptText("Введите логин");
+		enterLogin.getChildren().addAll(enterLoginLogin, login );
+		enterLogin.setAlignment(Pos.CENTER);
+		enterLogin.setSpacing(5);
+		enterLogin.getStyleClass().add("EnterUserData");
+		
+		HBox enterLogPas = new HBox(50);
+		enterLogPas.getChildren().addAll(enterLogin);
+		enterLogPas.setId("Data");
+		enterLogPas.setSpacing(10);
+		//enterName.setAlignment(Pos.CENTER);
+		enterLogPas.getStyleClass().add("EnterUserData");
+		
 		HBox enterName = new HBox(50);
 		enterName.getChildren().addAll(enternName,enternSecondName,enternFatherName);
 		enterName.setId("Data");
@@ -170,7 +187,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		buttonUpdate.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		buttonUpdate.setId("button");
 		
-		userInfo.getChildren().setAll(enterName,enterData,enterJob);
+		userInfo.getChildren().setAll(enterName,enterData,enterLogPas,enterJob);
 		userInfo.setId("Info");
 		userInfo.setSpacing(8);
 		
@@ -207,9 +224,37 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		 ColPass.setCellFactory(TextFieldTableCell.forTableColumn());
 		 ColPass.setCellValueFactory(new PropertyValueFactory<EntityEmail, String>("Password"));
 		 
+			// Четвёртая колонка SMTP сервер
+			TableColumn<EntityEmail, String> ColSMTP = new TableColumn<EntityEmail, String>();
+			ColSMTP.setText("SMPT сервер");
+			ColSMTP.setCellFactory(TextFieldTableCell.forTableColumn());
+			ColSMTP.setCellValueFactory(new PropertyValueFactory<EntityEmail, String>("SMPTserver"));
+		 
+		    //Пятая Колонка SMTP код
+			TableColumn<EntityEmail, Integer> ColCodeSMTP = new TableColumn<EntityEmail, Integer>();
+			ColCodeSMTP.setText("Код SMTP");
+			//StringConverter<Integer> converter = new IntegerStringConverter();
+			ColCodeSMTP.setCellFactory(TextFieldTableCell.forTableColumn(converter));
+			ColCodeSMTP.setCellValueFactory(new PropertyValueFactory<EntityEmail, Integer>("codeSMTP"));
+			
+		    //Шестая Колонка IMAP код
+			TableColumn<EntityEmail, Integer> ColCodeIMAP = new TableColumn<EntityEmail, Integer>();
+			 ColCodeIMAP.setText("Код IMAP");
+			//StringConverter<Integer> converter = new IntegerStringConverter();
+			 ColCodeIMAP.setCellFactory(TextFieldTableCell.forTableColumn(converter));
+			 ColCodeIMAP.setCellValueFactory(new PropertyValueFactory<EntityEmail, Integer>("codeIMAP"));
+			
+			// Седьмая колонка IMAP сервер
+			TableColumn<EntityEmail, String> ColIMAP = new TableColumn<EntityEmail, String>();
+			ColIMAP.setText("IMAP сервер");
+			ColIMAP.setCellFactory(TextFieldTableCell.forTableColumn());
+			ColIMAP.setCellValueFactory(new PropertyValueFactory<EntityEmail, String>("IMAPserver"));
+			 
 		TableView<EntityEmail> tableView = new TableView<EntityEmail>();
 	    tableView.setItems(data);
-	    tableView.getColumns().addAll( firstColId , secondColEmail,ColPass);
+	    tableView.getColumns().addAll( firstColId , secondColEmail,ColPass,ColSMTP,ColCodeSMTP,ColIMAP,ColCodeIMAP);
+	    
+
 		// --- Конец таблички с эмейлами --- /
 		
 		
@@ -232,7 +277,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		Label enterRuleMail = new Label("Пароль от электронноый почты");
 		enterRuleMail.setMaxWidth(250);
 		enterRuleMail.setWrapText(true);
-		enterRuleMail.setMinHeight(85);
+		enterRuleMail.setMinHeight(25);
 		TextField passMail = new TextField();
 		passMail.setPromptText("Введите пароль");
 		enterPassMail.getChildren().addAll(enterLoginPassMail, passMail,enterRuleMail);
@@ -240,16 +285,141 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		enterPassMail.setSpacing(5);
 		enterPassMail.getStyleClass().add("EnterUserData");
 		
-		Button buttonSelect = new Button("Выбрать почтовый адрес в качестве логина");
+		
+		VBox enterInServer = new VBox(50);
+		Label InServerLabel = new Label("Введите Сервер входящей почты");
+		InServerLabel.setMaxWidth(300);
+		InServerLabel.setMinWidth(200);
+		InServerLabel.setWrapText(true);
+		InServerLabel.setMinHeight(25);
+		TextField InServerField = new TextField();
+		InServerField.setPromptText("IMAP Сервер");
+		enterInServer.getChildren().addAll(InServerLabel , InServerField);
+		enterInServer.setAlignment(Pos.CENTER);
+		enterInServer.setSpacing(5);
+		enterInServer.getStyleClass().add("EnterUserData");
+		
+		VBox enterInServerPort = new VBox(50);
+		Label InServerLabelPort = new Label("Введите номер порта почты");
+		InServerLabelPort.setMaxWidth(300);
+		InServerLabelPort.setMinWidth(200);
+		//InServerLabelPort.setWrapText(true);
+		InServerLabelPort.setMinHeight(25);
+		TextField InServerFieldPort = new TextField();
+		InServerFieldPort.setPromptText("Порт IMAP Сервера");
+		enterInServerPort.getChildren().addAll(InServerLabelPort , InServerFieldPort);
+		//enterInServerPort.setAlignment(Pos.CENTER);
+		enterInServerPort.setSpacing(5);
+		enterInServerPort.getStyleClass().add("EnterUserData");
+		
+		VBox enterInAuth = new VBox(50);
+		Label enterInAuthLabel = new Label("Нужна ли аутентификация?");
+		enterInAuthLabel.setMinWidth(200);
+		ChoiceBox InAuth = new ChoiceBox();
+		InAuth.getItems().addAll("Да", "Нет");
+		InAuth.getSelectionModel().selectFirst();
+		enterInAuth.getChildren().addAll(enterInAuthLabel , InAuth);
+		//enterInAuth.setAlignment(Pos.CENTER);
+		enterInAuth.setSpacing(5);
+		enterInAuth.getStyleClass().add("EnterUserData");
+		
+		HBox InInfo = new HBox(50);
+		InInfo.getChildren().addAll(enterInServer, enterInServerPort, enterInAuth);
+		InInfo.setAlignment(Pos.CENTER);
+		InInfo.setSpacing(5);
+		InInfo.setId("Info");
+		//enterInAuth.getStyleClass().add("EnterUserData");
+		
+		VBox  enterOutServer = new VBox();
+		Label OutServerLabel = new Label("Введите Сервер исходящей почты");
+		OutServerLabel.setMaxWidth(300);
+		OutServerLabel.setWrapText(true);
+		OutServerLabel.setMinHeight(25);
+		OutServerLabel.setMinWidth(200);
+		TextField OutServerField = new TextField();
+		OutServerField.setPromptText("SMTP Сервер");
+		enterOutServer.getChildren().addAll(OutServerLabel, OutServerField);
+		enterOutServer.setAlignment(Pos.CENTER);
+		enterOutServer.setSpacing(5);
+		enterOutServer.getStyleClass().add("EnterUserData");
+		
+		VBox enterOutServerPort = new VBox();
+		Label OutServerLabelPort = new Label("Введите номер порта почты");
+		OutServerLabelPort.setMaxWidth(300);
+		OutServerLabelPort.setMinWidth(200);
+		OutServerLabelPort.setWrapText(true);
+		OutServerLabelPort.setMinHeight(25);
+		TextField OutServerFieldPort = new TextField();
+		OutServerFieldPort.setPromptText("Порт SMTP Сервера");
+		enterOutServerPort.getChildren().addAll(OutServerLabelPort, OutServerFieldPort);
+		enterOutServerPort.setAlignment(Pos.CENTER);
+		enterOutServerPort.setSpacing(5);
+		enterOutServerPort.getStyleClass().add("EnterUserData");
+		
+		VBox enterOutAuth = new VBox(50);
+		Label enterOutAuthLabel = new Label("Нужна ли аутентификация?");
+		enterOutAuthLabel.setMinWidth(200);
+		ChoiceBox OutAuth = new ChoiceBox();
+		OutAuth.getItems().addAll("Да", "Нет");
+		OutAuth.getSelectionModel().selectFirst();
+		enterOutAuth.getChildren().addAll(enterOutAuthLabel,  OutAuth);
+		enterOutAuth.setAlignment(Pos.CENTER);
+		enterOutAuth.setSpacing(5);
+		enterOutAuth.getStyleClass().add("EnterUserData");
+		
+		HBox OutInfo = new HBox(50);
+		OutInfo.getChildren().addAll(enterOutServer, enterOutServerPort, enterOutAuth );
+		OutInfo.setAlignment(Pos.CENTER);
+		OutInfo.setSpacing(5);
+		OutInfo.setId("Info");
+		
+		
+		/*Button buttonSelect = new Button("Выбрать почтовый адрес в качестве логина");
 		buttonSelect.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-		buttonSelect.setId("button");
+		buttonSelect.setId("button");*/
 		Button buttonAdd = new Button("Добавить почту");
 		buttonAdd.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		buttonAdd.setId("button");
+		buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				//Login firstScene = new Login(primaryStage);
+				int idpost;
+				String inServerA;
+				String outServerA;
+				idpost = InAuth.getSelectionModel().getSelectedIndex();
+				if (idpost == 0) {
+					inServerA = "true";
+				} else {
+					inServerA = "false";
+				}
+				idpost = OutAuth.getSelectionModel().getSelectedIndex();
+				if (idpost == 0) {
+					outServerA = "true";
+				} else {
+					outServerA = "false";
+				}
+				String query = "INSERT INTO `taskmail`.`email`(`email`,`password`,`inServer`,`portInServer`,`needInAuth`,`outServer`,`portOutServer`,"
+						+ "`needOutAuth`) VALUES ('" + textEnterMail.getText()+ "','" + passMail.getText() + "','" +InServerField.getText() + "','" + 
+						InServerFieldPort.getText()+"','"+ inServerA + "','" + OutServerField.getText()+"','" + OutServerFieldPort.getText()
+						+"','" + outServerA +"');";
+				System.out.print(query);
+				add = new AddUser(query);
+				String found = "SELECT * FROM `users` WHERE (`id_user` = '"+ Id +"'); ";
+				add.setMail(textEnterMail.getText());
+				//String insertMail = "INSERT INTO `taskmail`.`email`(`email`) VALUES ('"+textLogin.getText() +"');";
+				//add.setQuery(insertMail);
+				//add.setMail(textLogin.getText());
+				String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
+				add.addUserEmail(insertUserMAil);
+			}
+
+		});
 		
-		emails.getChildren().setAll(tableView,buttonSelect, enterMail,enterPassMail,buttonAdd);
+		emails.getChildren().setAll(tableView/*,buttonSelect*/, enterMail,enterPassMail,InInfo,OutInfo,buttonAdd);
 		emails.setSpacing(10);
-		
+
+
 		// --- конец панели для эмэйл пользователя---/
 		// --- Задание первоначальных значений полей ---/
 		EntityUser user = infos.whoIsThis();
@@ -258,6 +428,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		textFatherName.setText(user.getLastName());
 		pass.setText(user.getPassword());
 		job.setText(user.getNamePost());
+		login.setText(user.getEmail());
 		// --- Конец задания значений первоначальныч ---/
 		// -- Кнопка назад ---/
 		Button buttonExit = new Button("Назад");
@@ -297,9 +468,11 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					idposts = posts.addPost("INSERT INTO `post` (`name_post`) VALUES ('" + job.getText() +"'); ");
 					System.out.println("код выбора - " + idposts);
 				}
+				
+				
 				String query = "UPDATE `taskmail`.`users` SET `firstname` = '" +  textName.getText()
 			+"', `secondname` = '"+textSeconName.getText() +"', `lastname` = '" + textFatherName.getText()+ "', `id_post` = '" + idposts
-			+ "', `email` = '" + user.getEmail()+ "', `password` = '" + pass.getText()+ "' WHERE (`id_user` = '" + Id
+			+ "', `login` = '" + login.getText()+ "', `password` = '" + pass.getText()+ "' WHERE (`id_user` = '" + Id
 			+ "');\r\n" + 
 						"";
 				infos.updateData(query);
