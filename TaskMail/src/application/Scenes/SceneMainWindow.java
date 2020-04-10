@@ -1818,16 +1818,16 @@ public class SceneMainWindow implements mainWindowUser {
 		String currentTime = sdf.format(thisDate);
 		//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//String currentTime = sdf.format(dt);
-
+		java.sql.Date sqlDate = new java.sql.Date(thisDate.getTime());
 		GregorianCalendar dateStarts = new GregorianCalendar();
 		dateStarts.setTime(thisDate);
 		int Month = dateStarts.get(Calendar.MONTH) + 1;
-		String DateSAllT = dateStarts.get(Calendar.YEAR) + "-_"+ Month +"-_" + dateStarts.get(Calendar.DAY_OF_MONTH);
+		String DateSAllT = dateStarts.get(Calendar.YEAR) + "-_"+ Month +"-" + dateStarts.get(Calendar.DAY_OF_MONTH);
 		//String queryForThisDay ="SELECT * FROM `taskmail`.`task` WHERE `task`.`start_date_time` LIKE '" + DateSAllT + "%' AND ='" + this.id + "'; ";
 		String queryForThisDay ="SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"
 				+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
 				+ "`user_task`.`id_user` = `users`.`id_user` "
-				+ "WHERE `task`.`start_date_time` LIKE '" + DateSAllT + "%' AND `users`.`id_user` ='" + this.id + "'; ";
+				+ "WHERE `task`.`start_date_time` LIKE '" + sqlDate + "%' AND `users`.`id_user` ='" + this.id + "'; ";
 		System.out.println("Дата для выбора - " + queryForThisDay);
 		ReadOunTasks thisDayTasks = new ReadOunTasks();
 		thisDayTasks.setSearchQuery(queryForThisDay);
@@ -1842,8 +1842,8 @@ public class SceneMainWindow implements mainWindowUser {
 		String queryForThisDayAnd = "SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"
 				+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
 				+ "`user_task`.`id_user` = `users`.`id_user` "
-				+ "WHERE `task`.`end_date_time` LIKE '" + DateSAllT + 
-				"%' AND `start_date_time` NOT LIKE '" + DateSAllT + "' AND `users`.`id_user` ='" + this.id + "'; ";
+				+ "WHERE `task`.`end_date_time` LIKE '" + sqlDate + 
+				"%' AND `start_date_time` NOT LIKE '" + sqlDate + "' AND `users`.`id_user` ='" + this.id + "'; ";
 		System.out.println("Дата для выбора - " + queryForThisDayAnd);
 	/*	thisDayTasks.setSearchQuery(queryForThisDayAnd);
 		thisDayTasks.whatIs();
@@ -1855,7 +1855,7 @@ public class SceneMainWindow implements mainWindowUser {
 		dataEnd = thisDayTasksAnd.getData();
 		
 		
-		java.sql.Date sqlDate = new java.sql.Date(thisDate.getTime());
+		
 		System.out.println("sql data - " + sqlDate);
 		
 		String queryForBetweenDate = "SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"

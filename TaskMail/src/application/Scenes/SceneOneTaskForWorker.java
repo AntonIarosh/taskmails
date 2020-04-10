@@ -38,6 +38,8 @@ public class SceneOneTaskForWorker {
 			private AddUser add;
 			private int Id;
 			private int idposts;
+			private LinkedList<EntityLink> _dataLinks;
+			private LinkedList<EntityComment> _dataComments;
 			public SceneOneTaskForWorker (Stage primaryStage, int _id, EntityTask _oneTask) {
 				this.setOneTask(new EntityTask());
 				this.setOneTask(_oneTask);
@@ -139,7 +141,7 @@ public class SceneOneTaskForWorker {
 				supervisor.getStyleClass().add("EnterUserData"); 
 				
 				VBox taskcol = new VBox(50); // периодичность
-				Label taskcolLabel = new Label("Руководитель: ");
+				Label taskcolLabel = new Label("Периодичность: ");
 				taskcolLabel.setId("PULL");
 				Label taskcol_Label = new Label();
 				taskcol_Label.setText(_oneTask.getTaskCol());
@@ -256,6 +258,7 @@ public class SceneOneTaskForWorker {
 				dates.setAlignment(Pos.CENTER);
 				dates.setSpacing(5);
 				dates.getStyleClass().add("Data");
+				dates.setId("Data");
 				
 				///-
 				// кооменты и ссылки -- /
@@ -267,6 +270,8 @@ public class SceneOneTaskForWorker {
 				search.whatIs();
 				dataLinks = search.getDataLinks();
 				dataComments = search.getDataComments();
+				this.set_dataComments(dataComments);
+				this.set_dataLinks(dataLinks);
 				
 				VBox givenComments = new VBox(50);
 				givenComments.setId("C");
@@ -482,15 +487,22 @@ public class SceneOneTaskForWorker {
 				done.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
+						// дата  задачи -- /
+						Date dt = new Date();
+						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						String currentTime = sdf.format(dt);
+						// конец задачи -- /
 						AddTaskCommentLinkDone madeAddChange = new AddTaskCommentLinkDone();
 						String queryUpdateTask = "UPDATE `taskmail`.`task` SET `task`.`is_done` = '1' WHERE `task`.`id_task` = '" +_oneTask.getIdTask() + "'";
 						madeAddChange.setQuery(queryUpdateTask);
 						madeAddChange.execeteQuery();
+						bodyaddOnenComment.setText("Задание выполнено в: " + currentTime);
 						// Сообщение об успехе -- /
 						Alert alert = new Alert(AlertType.INFORMATION,"Задание было обновлено, а также сохранено в Вашей базе данных");
 						alert.setTitle("Задание выполнено");
 						alert.setHeaderText("Отметка о выполнении!");
 						alert.show();
+						addComment.arm();
 						// Коенец сообщение об успехе -- /
 					}
 				});
@@ -500,7 +512,7 @@ public class SceneOneTaskForWorker {
 				report.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
-						
+						SceneReport send = new SceneReport (primaryStage, Id , _oneTask, _dataLinks, _dataComments);
 		
 					}
 				});
@@ -508,9 +520,9 @@ public class SceneOneTaskForWorker {
 				HBox buttons = new HBox(50);
 				buttons.getChildren().addAll(addComment,addLink ,done,report);
 				//mean.setAlignment(Pos.CENTER);
-				buttons.setId("Data");
+				//buttons.setId("Data");
 				buttons.setSpacing(10);
-				//enterName.setAlignment(Pos.CENTER);
+				buttons.setAlignment(Pos.CENTER);
 				buttons.getStyleClass().add("Data");
 				// -- Конец кнопки обновить данные пользователя --- /
 			
@@ -544,6 +556,22 @@ public class SceneOneTaskForWorker {
 
 			public void setOneTask(EntityTask oneTask) {
 				this.oneTask = oneTask;
+			}
+
+			public LinkedList<EntityLink> get_dataLinks() {
+				return _dataLinks;
+			}
+
+			public void set_dataLinks(LinkedList<EntityLink> _dataLinks) {
+				this._dataLinks = _dataLinks;
+			}
+
+			public LinkedList<EntityComment> get_dataComments() {
+				return _dataComments;
+			}
+
+			public void set_dataComments(LinkedList<EntityComment> _dataComments) {
+				this._dataComments = _dataComments;
 			}
 
 	
