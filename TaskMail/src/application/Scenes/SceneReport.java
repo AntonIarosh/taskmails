@@ -38,6 +38,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -100,21 +101,84 @@ public class SceneReport {
 					VBox TaskInfo = new VBox();
 					
 					Label supervisorLabel = new Label("Отчет по проделанной работе ");
+					supervisorLabel.setTextFill(Color.web("#E0FFFF"));
 					VBox addOnenComment = new VBox(50);
 					Label addOnenCommentLabel = new Label("Отчет");
 					addOnenCommentLabel.setId("PULL");
 					TextArea bodyaddOnenComment = new TextArea();
-					bodyaddOnenComment.setPromptText("Введите новый комментарий");
-					bodyaddOnenComment.setPrefRowCount(19); 
+					bodyaddOnenComment.setOnKeyPressed(event-> {
+						int num = 680 - bodyaddOnenComment.getText().length();
+						addOnenCommentLabel.setText("Отчет. Осталось символов: " + num);
+						if(bodyaddOnenComment.getText().length() > 680) {
+							
+							bodyaddOnenComment.setEditable(false);
+						}
+						if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+							
+							bodyaddOnenComment.setEditable(true);
+						}
+					});
+					bodyaddOnenComment.setPromptText("Введите содержимое отчёта ");
+					bodyaddOnenComment.setPrefRowCount(10); 
 					bodyaddOnenComment.setWrapText(true);
 					addOnenComment.getChildren().addAll(addOnenCommentLabel, bodyaddOnenComment);
 					addOnenComment.setAlignment(Pos.CENTER);
 					addOnenComment.setSpacing(5);
 					addOnenComment.getStyleClass().add("EnterUserData");
 					
+
+					VBox doneWork = new VBox(50);
+					Label ItogLabel = new Label("Итог проделанной работы");
+					ItogLabel.setId("PULL");
+					TextArea contentDoneWork = new TextArea();
+					contentDoneWork.setOnKeyPressed(event-> {
+						int num = 680 - contentDoneWork.getText().length();
+						ItogLabel.setText("Итог проделанной работы. Осталось символов: " + num);
+						if(contentDoneWork.getText().length() > 680) {
+							
+							contentDoneWork.setEditable(false);
+						}
+						if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+							
+							contentDoneWork.setEditable(true);
+						}
+					});
+					contentDoneWork.setPromptText("Введите итог выполнения");
+					contentDoneWork.setPrefRowCount(5); 
+					contentDoneWork.setWrapText(true);
+					doneWork.getChildren().addAll(ItogLabel, contentDoneWork);
+					doneWork.setAlignment(Pos.CENTER);
+					doneWork.setSpacing(5);
+					doneWork.getStyleClass().add("EnterUserData");
+					
+			
+					VBox problems = new VBox(50);
+					Label problemsLabel = new Label("Проблемы возникшие при выполнении работы");
+					problemsLabel.setId("PULL");
+					TextArea contentProblems = new TextArea();
+					contentProblems.setOnKeyPressed(event-> {
+						int num = 680 - contentProblems.getText().length();
+						problemsLabel.setText("Проблемы возникшие при выполнении работы. Осталось символов: " + num);
+						if(contentProblems.getText().length() > 680) {
+							
+							contentProblems.setEditable(false);
+						}
+						if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+							
+							contentProblems.setEditable(true);
+						}
+					});
+					contentProblems.setPromptText("Введите перечень проблем");
+					contentProblems.setPrefRowCount(5); 
+					contentProblems.setWrapText(true);
+					problems.getChildren().addAll(problemsLabel, contentProblems);
+					problems.setAlignment(Pos.CENTER);
+					problems.setSpacing(5);
+					problems.getStyleClass().add("EnterUserData");
+					
 				
 					VBox adding = new VBox(50);
-					adding.getChildren().addAll(supervisorLabel,addOnenComment);
+					adding.getChildren().addAll(supervisorLabel,addOnenComment,doneWork ,problems );
 					//mean.setAlignment(Pos.CENTER);
 					adding.setId("Data");
 					adding.setSpacing(10);
@@ -202,7 +266,8 @@ public class SceneReport {
 							supervisor = _oneTask.getSupervisor();
 							taskCol = _oneTask.getTaskCol();
 							
-							report = bodyaddOnenComment.getText();
+							report = bodyaddOnenComment.getText() + " Итог выполнения: " + contentDoneWork.getText() + " Возникшие проблемы: "+
+									contentProblems.getText();
 							//String linkForDb = null;
 							// Код срочности задачи. -- /
 							int idurgency;
@@ -217,27 +282,35 @@ public class SceneReport {
 							// Выполнение задачи -- /
 							int itsDoneToDB = 0;
 							// конец выполнения задачи -- /
+							StringBuilder sbComment = new StringBuilder();
+							StringBuilder sbLink = new StringBuilder();
+							
 							for (int i =0; i < _dataComments.size(); i++) {
 								System.out.println("Начался вывод комментариев  - " + _dataComments.size());
 								//EntityComment thisComment = dataComments.get(i);
 								//String name = Integer.toString(i);
-								comments = ""+_dataComments.get(i).getComment() + "\n";
-						
-								System.out.println (" Комментарий -  " + _dataComments.get(i).getComment());
+								//comments = ""+_dataComments.get(i).getComment() + "\n";
+								sbComment.append(" ");
+								sbComment.append(_dataComments.get(i).getComment());
+								sbComment.append("\n");
+								//System.out.println (" Комментарий -  " + _dataComments.get(i).getComment());
 								
 							}
-							
+							comments = sbComment.toString();
+							System.out.println (" Комментарий -  " + comments);
 							for (int i =0; i < _dataLinks.size(); i++) {
 								System.out.println("Начался вывод ссылок - " + _dataLinks.size());
 								//EntityComment thisComment = dataComments.get(i);
 								//String name = Integer.toString(i);
-								
-								links = ""+_dataLinks.get(i).getLink()+"\n";
+								sbLink.append(" ");
+								sbLink.append( _dataLinks.get(i).getLink());
+								sbLink.append("\n");
+								//links = ""+_dataLinks.get(i).getLink()+"\n";
 								System.out.println (" ссылка -  " + _dataLinks.get(i).getLink() );
 							
 							}
-							
-		
+							links = sbLink.toString();
+							System.out.println (" ссылка -  " + links);
 							
 							urgencyMail = _oneTask.getUrgency();
 							dateStart = _oneTask.getDateStrart().toString();
@@ -296,11 +369,22 @@ public class SceneReport {
 										String itsDone, String comments, String links, String report)
 								*/
 								// Сообщение об успехе -- /
-								Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
+								/*Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
 								alert.setTitle("Создание задания");
 								alert.setHeaderText("Задание сформировано и отправлено!");
-								alert.show();
+								alert.show();*/
 								// Коенец сообщение об успехе -- /
+								String rep = bodyaddOnenComment.getText() + " " + comments + " " + links;
+								String queryAddReport = "INSERT INTO `taskmail`.`report`(`report`.`id_task`,`report`.`report`,"
+										+ "`report`.`result`,`report`.`troubles`) VALUES('" + _oneTask.getIdTask() + "','" + 
+										rep + "','" + contentDoneWork.getText() + "','" +
+										contentProblems.getText() + "')";
+								
+								AddTaskCommentLinkDone madeAddChange = new AddTaskCommentLinkDone();
+								
+								System.out.print(queryAddReport);
+								madeAddChange.setQuery(queryAddReport);
+								madeAddChange.execeteQuery();
 							} catch (AddressException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -339,7 +423,7 @@ public class SceneReport {
 					flowPane.setAlignment(Pos.CENTER);
 					flowPane.setId("flowPane");
 
-					scene.getStylesheets().add(getClass().getResource("/application/styles/changeDataemails.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("/application/styles/report.css").toExternalForm());
 					return scene;
 				}
 

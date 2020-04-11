@@ -17,6 +17,8 @@ import javax.mail.internet.MimeMultipart;
 
 import application.DB.ChoseEmailToUser;
 import application.Entities.EntityEmailAll;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ReportLetterSend {
 
@@ -172,6 +174,12 @@ public class ReportLetterSend {
 	            message.setContent(multipart);
 	            
 	            Transport.send(message);
+				// Сообщение об успехе -- /
+				Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
+				alert.setTitle("Создание задания");
+				alert.setHeaderText("Задание сформировано и отправлено!");
+				alert.show();
+				// Коенец сообщение об успехе -- /
 	            }
 	            catch (MessagingException mex) {
 	                // Печать информации об исключении в случае его возникновения

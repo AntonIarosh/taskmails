@@ -359,9 +359,9 @@ public class SceneOneTaskForWorker {
 				addOnenCommentLabel.setId("PULL");
 				TextArea bodyaddOnenComment = new TextArea();
 				bodyaddOnenComment.setOnKeyPressed(event-> {
-					int num = 395 - bodyaddOnenComment.getText().length();
+					int num = 357 - bodyaddOnenComment.getText().length();
 					addOnenCommentLabel.setText("Комментарий. Осталось символов: " + num);
-					if(bodyaddOnenComment.getText().length() > 395) {
+					if(bodyaddOnenComment.getText().length() > 357) {
 						
 						bodyaddOnenComment.setEditable(false);
 					}
@@ -389,9 +389,9 @@ public class SceneOneTaskForWorker {
 				bodyMailaddOneLink.setPrefRowCount(10); 
 				bodyMailaddOneLink.setWrapText(true);
 				bodyMailaddOneLink.setOnKeyPressed(event-> {
-					int num = 590 - bodyMailaddOneLink.getText().length();
+					int num = 552 - bodyMailaddOneLink.getText().length();
 					addOneLinkLabel.setText("Ссылка. Осталось символов: " + num);
-					if(bodyMailaddOneLink.getText().length() > 590) {
+					if(bodyMailaddOneLink.getText().length() > 552) {
 						
 						bodyMailaddOneLink.setEditable(false);
 					}
@@ -446,9 +446,15 @@ public class SceneOneTaskForWorker {
 				addComment.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
+						// дата создания задачи -- /
+						Date dt = new Date();
+						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+						String currentTime = sdf.format(dt);
+						// конец даты создания задачи -- /
+						String commentText = "Дата добавления: " + currentTime +", " +bodyaddOnenComment.getText();
 						AddTaskCommentLinkDone madeAddChange = new AddTaskCommentLinkDone();
 						String queryAddComment = "INSERT INTO `taskmail`.`task_comment` (`task_comment`.`id_task`, `task_comment`.`comment`) VALUES ('" + 
-								_oneTask.getIdTask() + "','" + bodyaddOnenComment.getText()  +"')";
+								_oneTask.getIdTask() + "','" + /*bodyaddOnenComment.getText()*/commentText  +"')";
 						System.out.print(queryAddComment);
 						madeAddChange.setQuery(queryAddComment);
 						madeAddChange.execeteQuery();
@@ -459,6 +465,7 @@ public class SceneOneTaskForWorker {
 						alert.show();
 						// Коенец сообщение об успехе -- /
 						
+						updateCommit (givenComments,_dataComments);
 					}
 				});
 				Button addLink = new Button("Добавить ссылку");
@@ -467,9 +474,15 @@ public class SceneOneTaskForWorker {
 				addLink.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
+						// дата создания задачи -- /
+						Date dt = new Date();
+						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+						String currentTime = sdf.format(dt);
+						// конец даты создания задачи -- /
+						String linkText = "Дата добавления: " + currentTime +", " +bodyMailaddOneLink.getText();
 						AddTaskCommentLinkDone madeAddChange = new AddTaskCommentLinkDone();
 						String queryAddLink = "INSERT INTO `taskmail`.`task_link` (`task_link`.`link`, `task_link`.`id_task`) VALUES ('" +
-								bodyMailaddOneLink.getText() + "','" + _oneTask.getIdTask() +"')";
+								/*bodyMailaddOneLink.getText()*/linkText  + "','" + _oneTask.getIdTask() +"')";
 						System.out.print(queryAddLink);
 						madeAddChange.setQuery(queryAddLink);
 						madeAddChange.execeteQuery();
@@ -479,6 +492,8 @@ public class SceneOneTaskForWorker {
 						alert.setHeaderText("Ссылка добавлена!");
 						alert.show();
 						// Коенец сообщение об успехе -- /
+						
+						 updateLink (givenLinks, _dataLinks);
 					}
 				});
 				Button done = new Button("Отметить выполнение");
@@ -518,7 +533,7 @@ public class SceneOneTaskForWorker {
 				});
 				
 				HBox buttons = new HBox(50);
-				buttons.getChildren().addAll(addComment,addLink ,done,report);
+				buttons.getChildren().addAll(addComment,done,report,addLink );
 				//mean.setAlignment(Pos.CENTER);
 				//buttons.setId("Data");
 				buttons.setSpacing(10);
@@ -573,6 +588,81 @@ public class SceneOneTaskForWorker {
 			public void set_dataComments(LinkedList<EntityComment> _dataComments) {
 				this._dataComments = _dataComments;
 			}
+			public VBox updateCommit (VBox _commit, LinkedList<EntityComment> dataComments) {
+				
+				_commit.getChildren().clear();
+				Label _Label = new Label(" Комментарии: ");
+				_commit.getChildren().add(_Label);
+				
+				SearchCommemtsAndLinksTask search = new SearchCommemtsAndLinksTask();
+				search.setIdTask(this.oneTask.getIdTask());
+				search.whatIs();
 
+				
+				dataComments = search.getDataComments();
+				this.set_dataComments(dataComments);
+
+				
+				for (int i =0; i < dataComments.size(); i++) {
+					System.out.println("Начался вывод комментариев  - " + dataComments.size());
+					//EntityComment thisComment = dataComments.get(i);
+					//String name = Integer.toString(i);
+					
+					VBox comment = new VBox(50);
+					comment.setMaxWidth(400);
+					Label comment_Label = new Label();
+					comment_Label.setWrapText(true);
+					Label commentLabel = new Label("Комментарий: ");
+					comment_Label.setText(dataComments.get(i).getComment());
+					System.out.println (" Комментарий -  " + dataComments.get(i).getComment() + " | " + comment_Label.getText());
+					comment.getChildren().addAll(commentLabel, comment_Label);
+					comment.setAlignment(Pos.CENTER);
+					comment.setSpacing(5);
+					comment.getStyleClass().add("String");
+					comment.setMinHeight(100);
+					comment.setMaxWidth(200);
+					
+					_commit.getChildren().add(comment);
+				}
+				
+				return _commit;
+			}
+
+			public VBox updateLink (VBox _link, LinkedList<EntityLink> dataLinks) {
+				
+				_link.getChildren().clear();
+				Label _LabelL = new Label(" Ссылки: ");
+				_link.getChildren().add(_LabelL);
+				
+				SearchCommemtsAndLinksTask search = new SearchCommemtsAndLinksTask();
+				search.setIdTask(this.oneTask.getIdTask());
+				search.whatIs();
+				dataLinks = search.getDataLinks();
+
+				this.set_dataLinks(dataLinks);
+				
+				for (int i =0; i < dataLinks.size(); i++) {
+					System.out.println("Начался вывод ссылок - " + dataLinks.size());
+					//EntityComment thisComment = dataComments.get(i);
+					//String name = Integer.toString(i);
+					
+					VBox link = new VBox(50);
+					link.setMaxWidth(400);
+					Label link_Label = new Label();
+					Label linkLabel = new Label("Ссылка: ");
+					link_Label.setText(dataLinks.get(i).getLink());
+					link_Label.setWrapText(true);
+					System.out.println (" ссылка -  " + dataLinks.get(i).getLink() );
+					link.getChildren().addAll(linkLabel, link_Label);
+					link.setAlignment(Pos.CENTER);
+					link.setSpacing(5);
+					link.getStyleClass().add("String");
+					link.setMinHeight(100);
+					link.setMaxWidth(200);
+					_link.getChildren().add(link);
+				}
+				
+				return _link;
+			}
 	
 }
