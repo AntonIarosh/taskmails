@@ -3,8 +3,10 @@ package application.Scenes;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -424,6 +426,11 @@ public class SceneMainWindow implements mainWindowUser {
 	    tabTask.setClosable(false);
 	    Group rootTask = new Group();
 	    tabTask.setContent(rootTask);
+	    // месяц --/
+	    Tab tabMonth = new Tab("Месяц");
+	    tabWork.setClosable(false);
+	    Group rootMonth = new Group();
+	    tabMonth.setContent(rootMonth);
 	    
 	    // --- Бокс для задачи ---/
 	    HBox task = new HBox();
@@ -1128,9 +1135,9 @@ public class SceneMainWindow implements mainWindowUser {
 				public void handle(ActionEvent e) {
 					_tasksAllDay.getChildren().clear();
 					_tasksAllDay.getChildren().addAll(_allLabel);
-					all.setContent(getTaskOnThisDay(_tasksAllDay));
+					all.setContent(getTasksOnThisDays (_tasksAllDay));
 					//getTaskOnThisDay(_tasksAllDay);
-					getTasksOnThisDays (_tasksAllDay);
+					//getTasksOnThisDays (_tasksAllDay);
 				}
 			});
 		
@@ -1346,9 +1353,44 @@ public class SceneMainWindow implements mainWindowUser {
 		all.setContent(_tasksAllDay);
 		
 		*/
+			VBox month = new VBox(50);
+		
+			Label month_Label = new Label("Распиание на месяц: ");
+			month_Label.setWrapText(true);
+			//dateEn_Label.setText(data.get(i).getDateEnd().toString());
+			
+			Date dt = new Date();
+			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM");
+			String currentTime = sdf.format(dt);
+			GregorianCalendar c = new GregorianCalendar();
+			c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
+		
+			month.getChildren().addAll(month_Label);
+			month.setAlignment(Pos.CENTER);
+			month.setSpacing(5);
+			month.getStyleClass().add("OneStringBaze");
+			
+			GregorianCalendar cs = new GregorianCalendar();
+			cs.set(Calendar.DAY_OF_MONTH, 1);
+			
+			GregorianCalendar ce = new GregorianCalendar();
+			
+			
+			Calendar myCalendar = (Calendar) Calendar.getInstance().clone();
+			myCalendar.setTime(dt);// set(your_year, your_month, 1);
+			int max_date = myCalendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
+			
+		
+			
+			String n = "" + max_date;
+			
+			month.getChildren().add(new Label(n));
+			
+			
+		 tabMonth.setContent(month);
 		 tabSh.setContent(_44);
 		// Конец текущей задачи -- /
-	    tabpane.getTabs().addAll(tabSh,tabWork,tabTask);
+	    tabpane.getTabs().addAll(tabSh,tabWork,tabTask,tabMonth);
 	    
 	    Label alarm = new Label(" Приветствую  ");
 	    HBox alarmBox= new HBox();
@@ -2392,6 +2434,23 @@ public class SceneMainWindow implements mainWindowUser {
 		// Конец задач проходящих через этот день -- /
 		_tasksAllDay.getChildren().add(TaskBetween);
 		return _tasksAllDay;
+	}
+	
+	public static Date getWeekStartDate() {
+	    Calendar calendar = Calendar.getInstance();
+	    while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+	        calendar.add(Calendar.DATE, -1);
+	    }
+	    return calendar.getTime();
+	}
+
+	public static Date getWeekEndDate() {
+	    Calendar calendar = Calendar.getInstance();
+	    while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+	        calendar.add(Calendar.DATE, 1);
+	    }
+	    calendar.add(Calendar.DATE, -1);
+	    return calendar.getTime();
 	}
 
 }

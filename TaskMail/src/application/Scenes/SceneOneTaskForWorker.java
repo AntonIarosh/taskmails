@@ -517,7 +517,7 @@ public class SceneOneTaskForWorker {
 						alert.setTitle("Задание выполнено");
 						alert.setHeaderText("Отметка о выполнении!");
 						alert.show();
-						addComment.arm();
+						addComment.fire();
 						// Коенец сообщение об успехе -- /
 					}
 				});
