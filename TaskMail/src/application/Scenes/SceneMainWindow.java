@@ -232,12 +232,22 @@ public class SceneMainWindow implements mainWindowUser {
 			});
 		 Button help = new Button("Помощь");
 		 Button about = new Button("О программе");
+		 Button more = new Button("Полное расписание");
 		 help.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 help.setMaxWidth(160);
 		 help.setId("button");
 		 about.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 about.setMaxWidth(160);
 		 about.setId("button");
+		 more.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		 more.setMaxWidth(160);
+		 more.setId("button");
+		 more.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					SceneOneWeekAndMonth moreTasks = new SceneOneWeekAndMonth(primaryStage,id);
+				}
+			});
 		// Button mail = new Button("Электронная почта");
 		 
 		 changMyInfo.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
@@ -296,6 +306,7 @@ public class SceneMainWindow implements mainWindowUser {
 	     toolbar.getItems().add(changMyInfo);
 	     toolbar.getItems().add(help);
 	     toolbar.getItems().add(about);
+	     toolbar.getItems().add(more);
 	        
 
 	        /// конец тулбара ---/

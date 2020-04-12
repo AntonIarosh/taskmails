@@ -42,9 +42,14 @@
  	-fx-background-color:#00BFFF;-fx-wrap-text: true;-fx-background-radius: 15; -fx-text-fill:#000080; -fx-padding: 2px;
  }
  #PULL {
+ 	-fx-background-color:#FFFF00;
+ 	-fx-background-radius: 5;
  	-fx-font-weight: bold; -fx-padding: 2px;
  }
  #urgency { -fx-font-weight: bold; -fx-background-color:#DC143C; -fx-text-fill:#E0FFFF; -fx-padding: 2px; }
  #S {
  	 -fx-background-color:#4682B4; -fx-padding: 2px; 
+ }
+ #sc {
+ 	-fx-background-color: #7B68EE;
  }
