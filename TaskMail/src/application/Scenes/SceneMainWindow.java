@@ -30,6 +30,7 @@ import application.DB.WriteTaskInDBCreated;
 import application.Entities.EntityTask;
 import application.Mails.QuickLetterSend;
 import application.Mails.TaskLetterSend;
+import application.Mails.LetterRecive;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;
@@ -165,6 +166,32 @@ public class SceneMainWindow implements mainWindowUser {
 			}
 		});
 		
+		Label LetterRecive = new Label();
+		LetterRecive.setWrapText(true);
+		LetterRecive.setId("time");
+		ScrollPane al =new ScrollPane();
+		al.setLayoutX(10);
+		al.setLayoutY(10);
+		//spComment.setHmin(400);
+		al.setCursor(Cursor.CLOSED_HAND);
+		al.setContent(LetterRecive);
+		al.setMinWidth(250);
+		
+		 Button mes = new Button("Письмецо");
+			//int idChoseUser = 0;
+			Label textM = new Label();
+			textM.setWrapText(true);
+			mes.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent e) {
+						application.Mails.LetterRecive letter = new application.Mails.LetterRecive();
+						LetterRecive.setText(letter.getEmail());
+					}
+				});
+			mes.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+			mes.setId("button");
+			
+		
 		// Выход ----/
 		// Аккордион меню ----
 		GetInfoLogin info = new GetInfoLogin();
@@ -290,7 +317,7 @@ public class SceneMainWindow implements mainWindowUser {
 		 instr.getChildren().setAll(popupContent,bottom);
 		 VboxStyle ex = new VboxStyle ();
 		 VBox exits = ex.getStyleVbox();
-		 exits.getChildren().addAll(exitFromProgram,exitFromLogin);
+		 exits.getChildren().addAll(exitFromProgram,exitFromLogin,     mes,         al);
 		 exits.setId("exit");
 		 //TitledPane personalAccount= new TitledPane("Личный кабинет",personalAccounts);
 		 TitledPane  instrument = new TitledPane("Инструменты",instr);
