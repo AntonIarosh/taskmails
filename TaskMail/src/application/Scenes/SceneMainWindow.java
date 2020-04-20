@@ -1,6 +1,7 @@
 package application.Scenes;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -20,6 +22,7 @@ import javax.mail.internet.AddressException;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
+import addManyItems.addFilesToLeterTask;
 //import application.DateTimePicker;
 import application.DB.AddUser;
 import application.DB.GetInfoLogin;
@@ -64,6 +67,8 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.skin.DatePickerSkin;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -74,6 +79,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -83,8 +89,14 @@ public class SceneMainWindow implements mainWindowUser {
 	private Scene ounScene;
 	private Scene oldScene;
 	private int id;
+	private LinkedList<Integer> allIds;
+	private SceneChoseUser change;
+	private LinkedList <String> paths;
 	
 	public SceneMainWindow(Stage primaryStage, int UserId) {
+		this.setPaths(new LinkedList<String>());
+		this.allIds = new LinkedList<Integer>();
+		change = null;
 		/*
 		this.primaryStage = primaryStage;
 		this.oldScene = primaryStage.getScene();
@@ -374,8 +386,16 @@ public class SceneMainWindow implements mainWindowUser {
 		adress.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					SceneChoseUser change = new SceneChoseUser(primaryStage,  id_user, idChosenUser);
+					LinkedList<Integer> all = getAllIds();
+					all.clear();
+					change = new SceneChoseUser(primaryStage,  id_user, idChosenUser);
+					
 					change.setId(id_user);
+					all.addAll(change.getAllIds());
+					System.out.println (" Количество есть - " + change.getAllIds());
+					System.out.println (" Количество записано- " + all.size());
+					setAllIds(all);
+					System.out.println (" Количество в класса- " + getAllIds());
 				}
 			});
 		Button push = new Button("Отправить");
@@ -412,6 +432,16 @@ public class SceneMainWindow implements mainWindowUser {
 		push.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				LinkedList<Integer> all = getAllIds();
+				all.clear();
+				change.setId(id_user);
+				all.addAll(change.getAllIds());
+				System.out.println (" Количество есть - " + change.getAllIds());
+				System.out.println (" Количество записано- " + all.size());
+				setAllIds(all);
+				System.out.println (" Количество в класса- " + getAllIds());
+				
+				
 				int idch = 0;
 				Scanner scanner = null;
 				try {
@@ -435,9 +465,11 @@ public class SceneMainWindow implements mainWindowUser {
 					scanner.close();
 				}
 				
+				
 				QuickLetterSend sender = new QuickLetterSend();
 				try {
-					sender.senMail(emailThem.getText(), email.getText(),idch,id );
+					System.out.println (" Количество в классе - " + getAllIds().size());
+					sender.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
 				} catch (AddressException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -465,12 +497,87 @@ public class SceneMainWindow implements mainWindowUser {
 	    Group rootTask = new Group();
 	    tabTask.setContent(rootTask);
 	    // месяц --/
-	    Tab tabMonth = new Tab("Месяц");
+	   /* Tab tabMonth = new Tab("Месяц");
 	    tabWork.setClosable(false);
 	    Group rootMonth = new Group();
-	    tabMonth.setContent(rootMonth);
+	    tabMonth.setContent(rootMonth);*/
 	    
-	    // --- Бокс для задачи ---/
+	    // --- Бокс для задачи ---/ --------------------------------------------
+	    //----------------------------------------------------прикрепление файлов----------------------------/
+	   // LinkedList <String> paths = new LinkedList();
+		Button getFile = new Button("Прикрепить файл");
+		getFile.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		getFile.setId("button");
+		
+		Button clearAll = new Button("Очистить список");
+		clearAll.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		clearAll.setId("button");
+		
+		InnerShadow ih = new InnerShadow();
+		InnerShadow is = new InnerShadow(30.0, Color.MEDIUMPURPLE);
+		VBox Allfiles = new VBox(50);
+		Allfiles.setEffect(ih);
+		Allfiles.setAlignment(Pos.CENTER);
+		Allfiles.setSpacing(5);
+		Allfiles.getStyleClass().add("EnterTask");
+		Allfiles.setMaxWidth(140);
+		VBox files = new VBox(50);
+		files.setEffect(is);
+		Label filesLabel = new Label("Прикрепление файлов");
+		filesLabel.setStyle("-fx-font-weight: bold;"); 
+		files.getChildren().addAll(filesLabel,getFile,Allfiles,clearAll);
+		files.setAlignment(Pos.CENTER);
+		files.setSpacing(5);
+		files.getStyleClass().add("EnterTask");
+		files.setMaxWidth(155);
+		
+		addFilesToLeterTask adder = new addFilesToLeterTask();
+
+		getFile.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					
+					adder.setVisibleMenuFiles(Allfiles,primaryStage);
+					LinkedList <String> paths_ = new LinkedList <String>();
+					paths_.addAll(getPaths());
+					paths_.addAll(adder.getPaths());
+					System.out.println(" Файлы - для прикрепления: " + paths_.size());
+					setPaths(paths_);
+					
+					//paths.addAll(adder.getPaths());
+					
+					for (int i=0; i <paths_.size(); i++) {
+						System.out.println(" Файлы - для прикрепления: " + paths_.get(i));
+						
+					}
+				}
+			});
+		clearAll.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Allfiles.getChildren().clear();
+				LinkedList <String> paths_ = new LinkedList <String>();
+				paths_.addAll(getPaths());
+				paths_.clear();
+				setPaths(paths_);
+			}
+		});
+		
+		
+		
+		ScrollPane ScFiles =new ScrollPane();
+		ScFiles.setLayoutX(10);
+		ScFiles.setLayoutY(10);
+		//spComment.setHmin(400);
+		ScFiles .setCursor(Cursor.CLOSED_HAND);
+		ScFiles.setContent(files );
+		ScFiles.setMaxWidth(165);
+		ScFiles.setMinWidth(165);
+		ScFiles.setStyle("-fx-alignment: center;");
+
+	// --------------------------------- Конец прикрепления файлов -----------------------------------------/
+	    
+	    
 	    HBox task = new HBox();
 	    task.setSpacing(10);
 	    task.setAlignment(Pos.CENTER_LEFT);
@@ -484,7 +591,18 @@ public class SceneMainWindow implements mainWindowUser {
 		themeTask.setAlignment(Pos.CENTER);
 		themeTask.setSpacing(5);
 		themeTask.getStyleClass().add("EnterTask");
-		
+		textTheme.setOnKeyPressed(event-> {
+			int num = 95- textTheme.getText().length();
+			themeTaskLabel.setText("Введите тему задачи. Осталось символов: " + num);
+			if(textTheme.getText().length() > 95) {
+				
+				textTheme.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				textTheme.setEditable(true);
+			}
+		});
 	    VBox colTask = new VBox(50);
 		Label colTaskLabel = new Label("Введите периодичность задачи");
 		TextField textTaskCol = new TextField();
@@ -493,6 +611,18 @@ public class SceneMainWindow implements mainWindowUser {
 		colTask.setAlignment(Pos.CENTER);
 		colTask.setSpacing(5);
 		colTask.getStyleClass().add("EnterTask");
+		textTaskCol.setOnKeyPressed(event-> {
+			int num = 42- textTheme.getText().length();
+			colTaskLabel.setText("Введите периодичность задачи. Осталось символов: " + num);
+			if(textTaskCol.getText().length() > 42) {
+				
+				textTaskCol.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				textTaskCol.setEditable(true);
+			}
+		});
 		
 		Button adressTask = new Button("Выберите адресата");
 		adressTask .getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
@@ -501,8 +631,17 @@ public class SceneMainWindow implements mainWindowUser {
 		adressTask .setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					SceneChoseUser change = new SceneChoseUser(primaryStage,  id_user, idChosenUser);
+					LinkedList<Integer> all = getAllIds();
+					all.clear();
+					change = new SceneChoseUser(primaryStage,  id_user, idChosenUser);
 					change.setId(id_user);
+					
+					change.setId(id_user);
+					all.addAll(change.getAllIds());
+					System.out.println (" Количество есть - " + change.getAllIds());
+					System.out.println (" Количество записано- " + all.size());
+					setAllIds(all);
+					System.out.println (" Количество в класса- " + getAllIds());
 				}
 			});
 		
@@ -517,6 +656,18 @@ public class SceneMainWindow implements mainWindowUser {
 		body.setAlignment(Pos.CENTER);
 		body.setSpacing(5);
 		body.getStyleClass().add("EnterTask");
+		bodyMail.setOnKeyPressed(event-> {
+			int num = 960- bodyMail.getText().length();
+			bodyLabel.setText("Задание. Осталось символов: " + num);
+			if(bodyMail.getText().length() > 960) {
+				
+				bodyMail.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				bodyMail.setEditable(true);
+			}
+		});
 		
 		VBox description = new VBox(50);
 		Label descriptionLabel = new Label("Дополнительное описание");
@@ -527,6 +678,18 @@ public class SceneMainWindow implements mainWindowUser {
 		description.setAlignment(Pos.CENTER);
 		description.setSpacing(5);
 		description.getStyleClass().add("EnterTask");
+		descriptionMail.setOnKeyPressed(event-> {
+			int num = 960- descriptionMail.getText().length();
+			descriptionLabel.setText("Дополнительное описание. Осталось символов: " + num);
+			if(descriptionMail.getText().length() > 960) {
+				
+				descriptionMail.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				descriptionMail.setEditable(true);
+			}
+		});
 		
 		VBox link = new VBox(50);
 		Label linkLabel = new Label("Ссылка");
@@ -582,6 +745,18 @@ public class SceneMainWindow implements mainWindowUser {
 	            }
 	        }
 	    });
+		startHour.setOnKeyPressed(event-> {
+			int num = 2 - startHour.getText().length();
+			//linkLabel.setText("Ссылка. Осталось символов: " + num);
+			if(startHour.getText().length() > 2) {
+				
+				startHour.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				startHour.setEditable(true);
+			}
+		});
 		TextField startMinute = new TextField();
 		startMinute.setMaxWidth(50);
 		startMinute.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
@@ -592,6 +767,18 @@ public class SceneMainWindow implements mainWindowUser {
 	            }
 	        }
 	    });
+		startMinute.setOnKeyPressed(event-> {
+			int num = 2 - startMinute.getText().length();
+			//linkLabel.setText("Ссылка. Осталось символов: " + num);
+			if(startMinute.getText().length() > 2) {
+				
+				startMinute.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				startMinute.setEditable(true);
+			}
+		});
             
 		timeS.getChildren().addAll(startHour,doter,startMinute);
 		timeStart.getChildren().addAll(timeStartLabel,timeS);
@@ -623,6 +810,18 @@ public class SceneMainWindow implements mainWindowUser {
 		            }
 		        }
 		    });
+		endHour.setOnKeyPressed(event-> {
+			int num = 2 - endHour.getText().length();
+			//linkLabel.setText("Ссылка. Осталось символов: " + num);
+			if(endHour.getText().length() > 2) {
+				
+				endHour.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				endHour.setEditable(true);
+			}
+		});
 		TextField endMinute = new TextField();
 		endMinute.setMaxWidth(50);
 		endMinute.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
@@ -640,6 +839,18 @@ public class SceneMainWindow implements mainWindowUser {
 	            }
 	        }
 	    });
+		endMinute.setOnKeyPressed(event-> {
+			int num = 2 - endMinute.getText().length();
+			//linkLabel.setText("Ссылка. Осталось символов: " + num);
+			if(endMinute.getText().length() > 2) {
+				
+				endMinute.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				endMinute.setEditable(true);
+			}
+		});
 		timeE.getChildren().addAll(endHour,doter_,endMinute);
 		timeEnd.getChildren().addAll(timeEndLabel,timeE);
 		timeEnd.setAlignment(Pos.CENTER);
@@ -671,6 +882,18 @@ public class SceneMainWindow implements mainWindowUser {
 		supervisor.setAlignment(Pos.CENTER);
 		supervisor.setSpacing(5);
 		supervisor.getStyleClass().add("EnterTask");
+		textSupervisor.setOnKeyPressed(event-> {
+			int num = 195 - textSupervisor.getText().length();
+			supervisorLabel.setText("Введите Ф.И.О. руководителя задачи. Осталось символов: " + num);
+			if(textSupervisor.getText().length() > 195) {
+				
+				textSupervisor.setEditable(false);
+			}
+			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
+				
+				textSupervisor.setEditable(true);
+			}
+		});
 		
 		VBox urgencyBox = new VBox(50);
 		Label urgencyLabel = new Label("Срочность задачи");
@@ -784,11 +1007,20 @@ public class SceneMainWindow implements mainWindowUser {
 		pushTask.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				
+				LinkedList<Integer> all = getAllIds();
+				all.clear();
+				change.setId(id_user);
+				all.addAll(change.getAllIds());
+				System.out.println (" Количество есть - " + change.getAllIds());
+				System.out.println (" Количество записано- " + all.size());
+				setAllIds(all);
+				System.out.println (" Количество в класса- " + getAllIds());
+				
+				
 				int idch = 0;
 				String Theme = null;
 				String Text = null;
-				
-				
 				String comment = null;
 				String body = null;
 				String supervisor = null;
@@ -846,8 +1078,8 @@ public class SceneMainWindow implements mainWindowUser {
 				// конец добавления задачи в бд -- /
 				
 				// Узнать какой айди у новой добавленной задачи -- /
-				//String idNew = "SELECT `task`.`id_task` FROM `taskmail`.`task` WHERE `task`.`title` = '" + textTheme.getText()+ "' AND `task`.`body` = '" + body +"';";
-				String idNew = "SELECT `task`.`id_task` FROM `taskmail`.`task` WHERE `task`.`id_task` = LAST_INSERT_ID();";
+				String idNew = "SELECT `task`.`id_task` FROM `taskmail`.`task` WHERE `task`.`title` = '" + textTheme.getText()+ "' AND `task`.`body` = '" + body +"';";
+				//String idNew = "SELECT `task`.`id_task` FROM `taskmail`.`task` WHERE `task`.`id_task` = LAST_INSERT_ID();";
 				
 				int idNewTask = add.WhoAdd(idNew);
 				// конец узнавайния айди новой задачи -- /
@@ -856,9 +1088,7 @@ public class SceneMainWindow implements mainWindowUser {
 				String addUserTask = "INSERT INTO `taskmail`.`user_task` (`id_user`, `id_task`) VALUES ('" + id + "', '" + idNewTask + "');";
 				add.addUserTask(addUserTask);
 				// конец добавление записи в таблицу задача пользователя -- /
-				
-
-				
+		
 				// проверка и заполнение ссылки -- /
 				if (!linkMail.getText().isEmpty() ) {
 					linkForDb = linkMail.getText(); 
@@ -913,7 +1143,9 @@ public class SceneMainWindow implements mainWindowUser {
 				
 				TaskLetterSend sender = new TaskLetterSend();
 				try {
-					sender.senMail(Theme, Text,idch,id,body,supervisor,link,description,dateStart,dataEnd, dataCreate,urgencyMail,taskCol,itsDone,idNewTask );
+					System.out.println (" Количество в классе - " + getAllIds().size());
+					//sender.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
+					sender.senMail(Theme, Text,idch,id,body,supervisor,link,description,dateStart,dataEnd, dataCreate,urgencyMail,taskCol,itsDone,idNewTask,getAllIds(),getPaths());
 					// Сообщение об успехе -- /
 					Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
 					alert.setTitle("Создание задания");
@@ -979,7 +1211,7 @@ public class SceneMainWindow implements mainWindowUser {
 		//enternFatherName.setMargin(child, value);*/
 		
 		HBox TASK = new HBox(50);
-		TASK .getChildren().addAll(mainPart,SecondPart);
+		TASK .getChildren().addAll(mainPart,SecondPart,ScFiles);
 		TASK .setId("Task");
 		TASK .setSpacing(10);
 		TASK .setAlignment(Pos.CENTER);
@@ -1425,10 +1657,10 @@ public class SceneMainWindow implements mainWindowUser {
 			month.getChildren().add(new Label(n));
 			
 			
-		 tabMonth.setContent(month);
+		// tabMonth.setContent(month);
 		 tabSh.setContent(_44);
 		// Конец текущей задачи -- /
-	    tabpane.getTabs().addAll(tabSh,tabWork,tabTask,tabMonth);
+	    tabpane.getTabs().addAll(tabSh,tabWork,tabTask/*,tabMonth*/);
 	    
 	    Label alarm = new Label(" Приветствую  ");
 	    HBox alarmBox= new HBox();
@@ -2489,6 +2721,29 @@ public class SceneMainWindow implements mainWindowUser {
 	    }
 	    calendar.add(Calendar.DATE, -1);
 	    return calendar.getTime();
+	}
+	public VBox setVisibleMenuFiles(VBox vBox, LinkedList <String> somePaths) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Выбор файлов");
+		List <File> files = fileChooser.showOpenMultipleDialog(primaryStage);
+		//for
+		return vBox;
+	}
+
+	public LinkedList<Integer> getAllIds() {
+		return allIds;
+	}
+
+	public void setAllIds(LinkedList<Integer> allIds) {
+		this.allIds = allIds;
+	}
+
+	public LinkedList <String> getPaths() {
+		return paths;
+	}
+
+	public void setPaths(LinkedList <String> paths) {
+		this.paths = paths;
 	}
 
 }

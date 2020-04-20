@@ -58,6 +58,7 @@ public class WriteTaskInDBCreated {
 	
 	public int WhoAdd(String query) {
 		//this.conect = new DBConnection("taskmail");
+		System.out.println("ѕроверка последней добавленнной задачи (айди) - " + query);
 		this.con = conect.connect();
 		int idTask =0;
 		ResultSet res = null;
@@ -71,6 +72,7 @@ public class WriteTaskInDBCreated {
 			System.out.println("WhoAdd");
 			System.out.println(query);
 			res = answer.executeQuery(query);
+		
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();

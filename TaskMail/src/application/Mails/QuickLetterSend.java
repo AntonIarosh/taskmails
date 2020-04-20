@@ -12,32 +12,28 @@ import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Properties;
-
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
 
 
 public class QuickLetterSend {
 	
-	public void senMail(String theme, String text,int idChosenUser, int idUser) throws AddressException, MessagingException {
+	public void senMail(String theme, String text,int idChosenUser, int idUser,LinkedList<Integer> allIdCh) throws AddressException, MessagingException {
 		EntityEmailAll mailFrom = new EntityEmailAll();
-		EntityEmailAll mailTo = new EntityEmailAll();
+		
 		ChoseEmailToUser who = new ChoseEmailToUser(idUser);
 		who.whatMailsIs();
 		mailFrom = who.getDataEmail();
-		who.setId(idChosenUser);
-		who.whatMailsIs();
-		mailTo = who.getDataEmail();
+		
+		
+		System.out.println (" Количество адресатов - " + allIdCh.size());
+
 		
 		String hostSMTPServerMailFrom = mailFrom.getSMPTserver();
 		String needAuthorMailFrom = mailFrom.getSMTPneed();
 		int codeSMTPFrom = mailFrom.getCodeSMTP();
 		
-		String emailTo = mailTo.getEmail();
+		//String emailTo = mailTo.getEmail();
 		String emailFrom = mailFrom.getEmail();
 		String passFrom = mailFrom.getPassword();
 		
@@ -75,10 +71,10 @@ public class QuickLetterSend {
             properties.put("mail.smtp.ssl.enable", "true");
             
             //prop.put("mail.smtp.port", "465");
+            Address[] cc = new Address[allIdCh.size()];
             
             
-            
-            System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+           
             Session session = Session.getDefaultInstance(properties,
                     new Authenticator() {
                         @Override
@@ -95,7 +91,30 @@ public class QuickLetterSend {
             message.setFrom(new InternetAddress(emailFrom));
             //Кому
            // message.setRecipient(Message.RecipientType.TO, new InternetAddress("telandev@gmail.com"));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+    		if(!allIdCh.isEmpty()) {
+    			for(int i=0; i<allIdCh.size(); i++) {
+    				EntityEmailAll mailTo = new EntityEmailAll();
+    				who.setId(allIdCh.get(i));
+    				who.whatMailsIs();
+    				mailTo = who.getDataEmail();
+    				String emailTo = mailTo.getEmail();
+    				cc[i] = new InternetAddress(emailTo);
+    				//message.setRecipient(Message.RecipientType.CC, new InternetAddress(emailTo));
+    				//message.setRecipients(Message.RecipientType.CC,InternetAddress.parse(emailTo, true));
+    				System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+    			}
+    			message.addRecipients(Message.RecipientType.CC, cc);
+    			
+    		} else {
+    			EntityEmailAll mailTo = new EntityEmailAll();
+    			who.setId(idChosenUser);
+    			who.whatMailsIs();
+    			mailTo = who.getDataEmail();
+    			String emailTo = mailTo.getEmail();
+    			message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+    			 System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+    		}
+          
             //Тема письма
             message.setSubject(theme);
             //Текст письма

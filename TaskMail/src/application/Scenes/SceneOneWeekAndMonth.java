@@ -251,7 +251,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 			});
 			bottom.getChildren().setAll(quickMail/*,quick,emailThem, email,adress,push */);
 			//bottom.getChildren().
-			push.setOnAction(new EventHandler<ActionEvent>() {
+			/*push.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
 					int idch = 0;
@@ -288,7 +288,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						e1.printStackTrace();
 					}
 				}
-			});
+			});*/
 		    // Конец бокса для низа 
 		    TabPane tabpane=new TabPane();
 		    

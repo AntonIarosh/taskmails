@@ -1,11 +1,15 @@
 package application.Scenes;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
+import addManyItems.addFilesToLeterTask;
 import application.DB.AddUser;
 import application.DB.ChanngeUserInfos;
 import application.DB.ChoseUser;
@@ -19,19 +23,25 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -45,7 +55,9 @@ public class SceneChoseUser {
 		private ObservableList<EntityOneUser> data;
 		private int idposts;
 		private int selectedIdUser;
+		private LinkedList<Integer> allIds;
 		public SceneChoseUser(Stage primaryStage, int _id,int _idChosen) {
+			this.allIds = new LinkedList<Integer>();
 			add = null;
 			this.Id = _id;
 			this.selectedIdUser=_idChosen;
@@ -55,8 +67,9 @@ public class SceneChoseUser {
 			data = FXCollections.observableArrayList();
 			this.ounScene = createNewScene();
 			this.oldScene = primaryStage.getScene();
+		
 			setNewScene(this.primaryStage,this.ounScene); 
-			
+		
 
 		}
 		public void setNewScene(Stage primaryStage, Scene newScene) {
@@ -68,8 +81,20 @@ public class SceneChoseUser {
 		public void setSelectedIdUser(int _id) {
 			this.selectedIdUser = _id;
 		}
+		public void setData (ObservableList<EntityOneUser> datas) {
+			this.data.clear();
+			this.data.setAll(datas);
+		}
+		public void addData (EntityOneUser datase) {
+			this.data.add(datase);
+	
+		}
+		
 		public int getSelectedIdUser() {
 			return this.selectedIdUser;
+		}
+		public ObservableList<EntityOneUser> getData() {
+			return this.data;
 		}
 		public Scene createNewScene() {
 			//FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
@@ -204,7 +229,9 @@ public class SceneChoseUser {
 					infos.setSearchQuery(tailFirstPart);
 					infos.whatIs();
 					data.clear();
-					data = infos.getData();
+					ObservableList<EntityOneUser> dataf = FXCollections.observableArrayList();
+					//data = infos.getData();
+					dataf= infos.getData();
 					if (!data.isEmpty()) {
 						for (int i =0; i < data.size(); i++) {
 							EntityOneUser h = data.get(i);
@@ -213,7 +240,7 @@ public class SceneChoseUser {
 
 					}
 					
-					tableView.getItems().setAll(data);
+					tableView.getItems().setAll(dataf);
 					//EntityOneUser chosenUser = (EntityOneUser)tableView.getSelectionModel().getSelectedItem();
 					//System.out.println(" пароль - " + chosenUser.getPassword() );
 					tableView.refresh();
@@ -227,6 +254,55 @@ public class SceneChoseUser {
 			userInfo.setSpacing(8);
 			
 			// --- конец панели для данных пользователя ---/
+			 //----------------------------------------------------прикрепление файлов----------------------------/
+		    LinkedList <String> usersId = new LinkedList();
+			
+			InnerShadow ih = new InnerShadow();
+			InnerShadow is = new InnerShadow(30.0, Color.MEDIUMPURPLE);
+			HBox Allfusers = new HBox(50);
+			Allfusers.setEffect(ih);
+			Allfusers.setAlignment(Pos.CENTER);
+			Allfusers.setSpacing(5);
+			Allfusers.setStyle("-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #FF6347; -fx-background-radius: 6;");
+			//Allfusers.setMaxWidth(140);
+			HBox users = new HBox(50);
+			users.setEffect(is);
+
+			users.getChildren().addAll(Allfusers);
+			users.setAlignment(Pos.CENTER);
+			users.setSpacing(5);
+			users.setStyle("-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #DC143C; -fx-background-radius: 6;");
+			//users.setMaxWidth(500);
+			users.setMinWidth(300);
+			
+			//addFilesToLeterTask adder = new addFilesToLeterTask();
+
+		/*	getFile.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent e) {
+						
+					
+					}
+				});*/
+			
+			
+			
+			ScrollPane ScUsers =new ScrollPane();
+			ScUsers.setLayoutX(10);
+			ScUsers.setLayoutY(10);
+			//spComment.setHmin(400);
+			ScUsers .setCursor(Cursor.CLOSED_HAND);
+			ScUsers.setContent(users);
+			ScUsers.setMaxWidth(600);
+			ScUsers.setMinWidth(300);
+			ScUsers.setMinHeight(160);
+			ScUsers.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
+			ScUsers.setEffect(is);
+
+		// --------------------------------- Конец прикрепления файлов -----------------------------------------/
+			Label filesLabel = new Label("Адресаты");
+			filesLabel.setStyle("-fx-font-weight: bold;"); 
+			userInfo.getChildren().addAll(search,filesLabel,ScUsers);
 			// Панель для имен пользователей ---/
 		
 			
@@ -242,7 +318,7 @@ public class SceneChoseUser {
 			enterMail.getStyleClass().add("EnterUserData");
 			//enternFatherName.setMargin(child, value);
 			
-			
+			LinkedList <Integer> ch = new LinkedList();
 			/*Button buttonSelect = new Button("Выбрать почтовый адрес в качестве логина");
 			buttonSelect.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 			buttonSelect.setId("button");*/
@@ -252,7 +328,24 @@ public class SceneChoseUser {
 			buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					text.setText(Integer.toString(tableView.getSelectionModel().getSelectedItem().getId()));
+					//if (tableView.getSelectionModel().getSelectedItem().getId() != 0) {
+						text.setText(Integer.toString(tableView.getSelectionModel().getSelectedItem().getId()));
+				//	} else {
+						text.setText("0");
+					//}
+					//getAllIds().add(tableView.getSelectionModel().getSelectedItem().getId())
+					ch.add(tableView.getSelectionModel().getSelectedItem().getId());
+					int id = 0;
+					String name=null;
+					String secondName = null;
+					String lastName = null;
+					name = tableView.getSelectionModel().getSelectedItem().getFirstName();
+					secondName = tableView.getSelectionModel().getSelectedItem().getSecondName();
+					lastName = tableView.getSelectionModel().getSelectedItem().getLastName();
+					id = tableView.getSelectionModel().getSelectedItem().getId();
+					setVisibleMenuFiles(Allfusers, id, name, secondName, lastName);
+					
+					addAllIds(tableView.getSelectionModel().getSelectedItem().getId());
 					
 					System.out.println( " Айди - " + text.getText());
 					String filePath = "idChosenUser.txt";
@@ -272,6 +365,19 @@ public class SceneChoseUser {
 						alert.setHeaderText("Получатель");
 						alert.show();
 						// Коенец сообщение об успехе -- /
+						System.out.println(" Размер 1 - "+ ch.size());
+						for (int i=0; i < ch.size(); i++) {
+							System.out.println(" коды - "+ ch.get(i));
+						}
+						
+						
+						LinkedList<Integer> allIdsdd = new LinkedList<Integer>();
+						allIdsdd.addAll(getAllIds());
+						Integer iteratro = null;
+						iteratro = allIdsdd.size();
+						for (int i=0; i <  iteratro; i++) {
+							System.out.println(" кодыs - "+ allIdsdd.get(i));
+						}
 					} catch (Exception e2) {
 					System.out.println("Ошибка");
 					}
@@ -281,8 +387,18 @@ public class SceneChoseUser {
 			
 			emails.getChildren().setAll(tableView/*,buttonSelect, enterMail,*/,buttonAdd);
 			emails.setSpacing(10);
-
-
+			System.out.println(" Размер 1 - "+ ch.size());
+			for (int i=0; i < ch.size(); i++) {
+				System.out.println(" коды - "+ ch.get(i));
+			}
+			
+			LinkedList<Integer> allIdsdd = new LinkedList<Integer>();
+			allIdsdd.addAll(this.getAllIds());
+			Integer iteratro = null;
+			iteratro = allIdsdd.size();
+			for (int i=0; i <  iteratro; i++) {
+				System.out.println(" кодыs - "+ allIdsdd.get(i));
+			}
 			// --- конец панели для эмэйл пользователя---/
 			// --- Задание первоначальных значений полей ---/
 			//EntityUser user = infos.whoIsThis();
@@ -310,7 +426,7 @@ public class SceneChoseUser {
 			
 
 			// -- Конец кнопки обновить данные пользователя --- /
-			userInfo.getChildren().add(search);
+			//userInfo.getChildren().add(search);
 			HBox root = new HBox(50);
 			root.getChildren().setAll(userInfo,emails);
 			root.setAlignment(Pos.CENTER);
@@ -330,5 +446,87 @@ public class SceneChoseUser {
 		}
 		public void setId(int _id) {
 			this.Id = _id;
+		}
+		public HBox setVisibleMenuFiles(HBox vBox, int _id, String _name, String _secondName, String _lastName) {
+				System.out.println("код - " + _id + " имя - " + _name + " фам " + _secondName);
+				
+				Bloom effect = new Bloom();
+				Bloom effect_ = new Bloom(0.9);
+				Glow ef = new Glow(0.7);
+				
+				//LinkedList <Integer> allUsers = this.getAllIds();
+				///Integer IDS =null;
+				//IDS=_id;
+				
+				//allUsers.add(IDS);
+			//	this.setAllIds(allUsers);	
+				
+				VBox user = new VBox(50);
+				Label fileLabel = new Label("Получатель: ");
+				fileLabel.setEffect(ef);
+				
+				Label userName = new Label();
+				Label  userSecName = new Label();
+				Label userLName = new Label();
+				
+				userName.setText(_name);
+				userName.setWrapText(true);
+				userName.setEffect(effect_);
+				
+				userSecName.setText(_secondName);
+				userSecName.setWrapText(true);
+				userSecName.setEffect(effect_);
+				
+				userLName.setText(_lastName);
+				userLName.setWrapText(true);
+				userLName.setEffect(effect_);
+				
+				user.getChildren().addAll(fileLabel,userName,userSecName,userLName);
+				user.setAlignment(Pos.CENTER);
+				user.setSpacing(5);
+				
+				user.getStyleClass().add("EnterTask");
+				
+				fileLabel.setStyle("-fx-text-fill: white;");
+				userName.setStyle("-fx-text-fill: white;");
+				userSecName.setStyle("-fx-text-fill: white;");
+				userLName.setStyle("-fx-text-fill: white;");
+			
+				
+				user.setStyle("-fx-border-style: dashed centered; -fx-border-width: 1.5px;-fx-background-color: #7B68EE; -fx-alignment: center;"
+						+ "-fx-padding: 5px;");
+				//file.setEffect(effect);
+				Button delete = new Button("Удалить");
+				delete.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+				 //inf.setMaxWidth(160);
+				delete.setId("button");
+				user.getChildren().add(delete);
+				//file.getChildren().add(delete);
+				vBox.getChildren().add(user);
+				delete.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent e) {
+							deleteThis (vBox, user,_id);
+						}
+					});
+			
+
+			
+			
+			return vBox;
+		}
+		public LinkedList<Integer> getAllIds() {
+			return this.allIds;
+		}
+		public void setAllIds(LinkedList<Integer> allIds) {
+			this.allIds = allIds;
+		}
+		public void addAllIds(int o) {
+			this.allIds.add(o);
+		}
+		public HBox deleteThis (HBox vBox, VBox c, int ID) {
+			vBox.getChildren().remove(c);
+			this.getAllIds(). remove(new Integer(ID));
+			return vBox;
 		}
 }
