@@ -1,8 +1,11 @@
 package application.Mails;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -27,24 +30,28 @@ public class ReportLetterSend {
 				String description,String dateStart,String dataEnd,
 				String dataCreate,String urgencyMail,String taskCol, 
 				String itsDone, String comments, String links,
-				String report) 
+				String report,LinkedList<Integer> allIdCh, LinkedList <String> paths) 
 						throws AddressException, MessagingException {
 			
 			EntityEmailAll mailFrom = new EntityEmailAll();
-			EntityEmailAll mailTo = new EntityEmailAll();
+			//EntityEmailAll mailTo = new EntityEmailAll();
 			
+			// Данные источкника сообщения -- /
 			ChoseEmailToUser who = new ChoseEmailToUser(idUser);
 			who.whatMailsIs();
 			mailFrom = who.getDataEmail();
-			who.setId(idChosenUser);
+			// Конец данных источника сообщения --/
+			/*who.setId(idChosenUser);
 			who.whatMailsIs();
-			mailTo = who.getDataEmail();
+			mailTo = who.getDataEmail();*/
+			System.out.println (" Количество адресатов - " + allIdCh.size());
+			Address[] cc = new Address[allIdCh.size()];
 			
 			String hostSMTPServerMailFrom = mailFrom.getSMPTserver();
 			String needAuthorMailFrom = mailFrom.getSMTPneed();
 			int codeSMTPFrom = mailFrom.getCodeSMTP();
 			
-			String emailTo = mailTo.getEmail();
+			//String emailTo = mailTo.getEmail();
 			String emailFrom = mailFrom.getEmail();
 			String passFrom = mailFrom.getPassword();
 			
@@ -85,7 +92,7 @@ public class ReportLetterSend {
 	            
 	            
 	            
-	            System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+	           // System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
 	            Session session = Session.getDefaultInstance(properties,
 	                    new Authenticator() {
 	                        @Override
@@ -102,7 +109,30 @@ public class ReportLetterSend {
 	            message.setFrom(new InternetAddress(emailFrom));
 	            //Кому
 	           // message.setRecipient(Message.RecipientType.TO, new InternetAddress("telandev@gmail.com"));
-	            message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+	           // message.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+	            if(!allIdCh.isEmpty()) {
+	    			for(int i=0; i<allIdCh.size(); i++) {
+	    				EntityEmailAll mailTo = new EntityEmailAll();
+	    				who.setId(allIdCh.get(i));
+	    				who.whatMailsIs();
+	    				mailTo = who.getDataEmail();
+	    				String emailTo = mailTo.getEmail();
+	    				cc[i] = new InternetAddress(emailTo);
+	    				//message.setRecipient(Message.RecipientType.CC, new InternetAddress(emailTo));
+	    				//message.setRecipients(Message.RecipientType.CC,InternetAddress.parse(emailTo, true));
+	    				System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+	    			}
+	    			message.addRecipients(Message.RecipientType.CC, cc);
+	    			
+	    		} else {
+	    			EntityEmailAll mailTo = new EntityEmailAll();
+	    			who.setId(idChosenUser);
+	    			who.whatMailsIs();
+	    			mailTo = who.getDataEmail();
+	    			String emailTo = mailTo.getEmail();
+	    			message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+	    			 System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+	    		}
 	            //Тема письма
 	            message.setSubject(theme);
 	            //Текст письма
@@ -127,17 +157,7 @@ public class ReportLetterSend {
 	            part1.addHeader("Content-Type", "text/html; charset=UTF-8");
 	            part1.setDataHandler(
 	                    new DataHandler(
-	                            "<html><body> " + /*" <h3 style=\"background-color: #ADD8E6; alignment: center; padding: 10px; font-weight: bold; border-radius: 10px;\">"  + text + "</h3>"+*/
-	                   /* "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Задание: " + body +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Дополниельное описание: " +description +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Ссылка на дополнительные материалы: " + link +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Руководитель: " +supervisor +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Периодичность выполения: " + taskCol+";" + "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Срочность задачи: " + urgencyMail +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Дата и время начала выполнения: " + dateStart +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Дата и время окончания выполенения: " + dataEnd +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Дата и время создания задачи:" + dataCreate +";"+ "</h4><br>"+
-	                    "<h4 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Выполнение: " + itsDone  +";"+ "</h4>"*/
+	                            "<html><body> " + 
 	                    
 	                    
 	   "<h3 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Задание: " + body + /*" Номер № " + idTask + */";"+ "</h3><br>"+
@@ -151,33 +171,31 @@ public class ReportLetterSend {
 	   "Дата и время начала выполнения: " + dateStart +";"+ "<br>"+
 	   "Дата и время окончания выполенения: " + dataEnd +";"+ "<br>"+
 	   "Дата и время создания задачи:" + dataCreate +";"+ "<br>"+
-	   "Выполнение: " + itsDone  +";"+ "</p>" 
-
-	                  
-	                  /*  "<h3 style=\"background-color: #ADD8E6; alignment: center; padding: 10px; font-weight: bold; border-radius: 10px;\"> <p>"  + "Задание: " + body +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Дополниельное описание: " +description +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Ссылка на дополнительные материалы: " + link +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Руководитель: " +supervisor +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Периодичность выполения: " + taskCol+";" + "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Срочность задачи: " + urgencyMail +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Дата и время начала выполнения: " + dateStart +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Дата и время окончания выполенения: " + dataEnd +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Дата и время создания задачи:" + dataCreate +";"+ "</p><br>"+
-	                    "<p style=\"background-color: #ADD8E6; alignment: center; padding: 5px; font-weight: bold; border-radius: 5px;> Выполнение: " + itsDone  +";"+ "</p></h3>"*/
-	                            
+	   "Выполнение: " + itsDone  +";"+ "</p>"
 	                            		+ "</body> <br> " +
 	                    " </html>",
 	                            "text/html; charset=\"utf-8\""
 	             )
 	            );
+	            for(int i=0; i< paths.size(); i++) {
+	            	System.out.println(" Путь к файлу - " + paths.get(i));
+	                // Создание второй части
+	                MimeBodyPart p2 = new MimeBodyPart();
+	             // Добавление файла во вторую часть
+	                FileDataSource fds = new FileDataSource(paths.get(i));
+	                p2.setDataHandler(new DataHandler(fds));
+	                p2.setFileName(fds.getName());
+	                
+	            	multipart.addBodyPart(p2);
+	            }
 	            multipart.addBodyPart(part1);
 	            message.setContent(multipart);
 	            
 	            Transport.send(message);
 				// Сообщение об успехе -- /
-				Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
-				alert.setTitle("Создание задания");
-				alert.setHeaderText("Задание сформировано и отправлено!");
+				Alert alert = new Alert(AlertType.INFORMATION,"Отчет был отправлен получателю, а также сохранено в Вашей базе данных");
+				alert.setTitle("Создание отчета");
+				alert.setHeaderText("Отчет сформирован и отправлен!");
 				alert.show();
 				// Коенец сообщение об успехе -- /
 	            }

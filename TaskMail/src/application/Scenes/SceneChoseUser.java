@@ -524,6 +524,7 @@ public class SceneChoseUser {
 		public void addAllIds(int o) {
 			this.allIds.add(o);
 		}
+		
 		public HBox deleteThis (HBox vBox, VBox c, int ID) {
 			vBox.getChildren().remove(c);
 			this.getAllIds(). remove(new Integer(ID));

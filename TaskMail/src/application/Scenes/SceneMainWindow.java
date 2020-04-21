@@ -1146,12 +1146,7 @@ public class SceneMainWindow implements mainWindowUser {
 					System.out.println (" Количество в классе - " + getAllIds().size());
 					//sender.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
 					sender.senMail(Theme, Text,idch,id,body,supervisor,link,description,dateStart,dataEnd, dataCreate,urgencyMail,taskCol,itsDone,idNewTask,getAllIds(),getPaths());
-					// Сообщение об успехе -- /
-					Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
-					alert.setTitle("Создание задания");
-					alert.setHeaderText("Задание сформировано и отправлено!");
-					alert.show();
-					// Коенец сообщение об успехе -- /
+					
 				} catch (AddressException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

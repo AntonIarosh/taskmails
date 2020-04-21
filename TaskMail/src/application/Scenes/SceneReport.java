@@ -1,11 +1,13 @@
 package application.Scenes;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -34,11 +36,15 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -53,11 +59,16 @@ public class SceneReport {
 				private int idposts;
 				private LinkedList<EntityLink> _dataLinks;
 				private LinkedList<EntityComment> _dataComments;
+				private LinkedList <String> paths;
+				private LinkedList<Integer> allIds;
+				private SceneChoseUser change;
 				
 				public SceneReport (Stage primaryStage, int _id, EntityTask _oneTask,LinkedList<EntityLink> _dataLinks,
 				LinkedList<EntityComment> _dataComments ) {
 					this.setOneTask(new EntityTask());
 					this.setOneTask(_oneTask);
+					this.paths = new LinkedList <String>();
+					this.allIds = new LinkedList<Integer>();
 					add = null;
 					this.Id = _id;
 					System.out.println("Конструктор айдиc - " + this.Id);
@@ -188,9 +199,45 @@ public class SceneReport {
 					
 					// --- конец панели для данных пользователя ---/
 					// Панель для эмэйл пользователя ---/
-
+					
 					
 					// --- конец панели для эмэйл пользователя---/
+					 //----------------------------------------------------прикрепление файлов----------------------------/
+					
+					InnerShadow ih = new InnerShadow();
+					InnerShadow is = new InnerShadow(30.0, Color.MEDIUMPURPLE);
+					VBox Allfilles = new VBox(50);
+					Allfilles.setEffect(ih);
+					Allfilles.setAlignment(Pos.CENTER);
+					Allfilles.setSpacing(5);
+					Allfilles.setStyle("-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #FF6347; -fx-background-radius: 6;");
+					//Allfusers.setMaxWidth(140);
+					VBox files = new VBox(50);
+					Label fileLabel = new Label("Прикреплённые файлы");
+					fileLabel.setWrapText(true);
+					fileLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+					files.setEffect(is);
+					files.getChildren().addAll(fileLabel,Allfilles);
+					files.setAlignment(Pos.CENTER);
+					files.setSpacing(5);
+					files.setStyle("-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #DC143C; -fx-background-radius: 6;");
+					//users.setMaxWidth(500);
+					files.setMinWidth(230);
+					
+					
+					ScrollPane ScUsers =new ScrollPane();
+					ScUsers.setLayoutX(10);
+					ScUsers.setLayoutY(10);
+					//spComment.setHmin(400);
+					ScUsers .setCursor(Cursor.CLOSED_HAND);
+					ScUsers.setContent(files);
+					ScUsers.setMaxWidth(230);
+					ScUsers.setMinWidth(230);
+					//ScUsers.setMinHeight(100);
+					//ScUsers.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
+					//ScUsers.setEffect(is);
+
+				// --------------------------------- Конец прикрепления файлов -----------------------------------------/
 
 					// -- Кнопка назад ---/
 					Button buttonExit = new Button("Назад");
@@ -217,8 +264,17 @@ public class SceneReport {
 					adressTask .setOnAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent e) {
-								SceneChoseUser change = new SceneChoseUser(primaryStage,  Id, idChosenUser);
+								LinkedList<Integer> all = getAllIds();
+								all.clear();
+								
+								change = new SceneChoseUser(primaryStage,  Id, idChosenUser);
 								change.setId(Id);
+								
+								all.addAll(change.getAllIds());
+								System.out.println (" Количество есть - " + change.getAllIds());
+								System.out.println (" Количество записано- " + all.size());
+								setAllIds(all);
+								System.out.println (" Количество в класса- " + getAllIds());
 							}
 						});
 
@@ -229,7 +285,7 @@ public class SceneReport {
 					addFile.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent e) {
-	
+							setVisibleMenuFiles(Allfilles);
 						}
 					});
 					
@@ -239,6 +295,15 @@ public class SceneReport {
 					pushTask.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent e) {
+							
+							LinkedList<Integer> all = getAllIds();
+							all.clear();
+							all.addAll(change.getAllIds());
+							System.out.println (" Количество есть - " + change.getAllIds());
+							System.out.println (" Количество записано- " + all.size());
+							setAllIds(all);
+							System.out.println (" Количество в класса- " + getAllIds());
+							
 							int idch = 0;
 							String Theme = null;
 							String Text = null;
@@ -362,7 +427,7 @@ public class SceneReport {
 										description,dateStart,dataEnd, 
 										dataCreate,urgencyMail,taskCol,
 										itsDone,comments,links ,
-										report );
+										report,getAllIds(),getPaths() );
 								/*
 								(String theme, String text,int idChosenUser, int idUser,String body, String supervisor,
 										String description,String dateStart,String dataEnd, String dataCreate,String urgencyMail,String taskCol, 
@@ -408,6 +473,7 @@ public class SceneReport {
 					userInfo.getChildren().setAll(buttons,adding);
 					userInfo.setId("Info");
 					userInfo.setSpacing(8);
+				
 					
 					HBox root = new HBox(50);
 					root.getChildren().setAll(/*userInfo,emails*/buttonExit);
@@ -417,7 +483,7 @@ public class SceneReport {
 					flowPane.getChildren().setAll(root);
 					
 					roots.setCenter(userInfo);
-
+					roots.setRight(ScUsers);
 					roots.setBottom(root);
 					
 					flowPane.setAlignment(Pos.CENTER);
@@ -434,6 +500,105 @@ public class SceneReport {
 				public void setOneTask(EntityTask oneTask) {
 					this.oneTask = oneTask;
 				}
+				
+				public VBox setVisibleMenuFiles(VBox vBox) {
+					LinkedList <String> pa = new LinkedList<String>();
+					
+					FileChooser fileChooser = new FileChooser();
+					List <File> files = null;
+					files = fileChooser.showOpenMultipleDialog(primaryStage);
+					if(!files.isEmpty()) {
+						for (int i=0; i <files.size(); i++) {
+							System.out.println(" Файлы - " + files.get(i).getPath());
+							pa.add(files.get(i).getPath());
+						}
+						
+						for (int i=0; i < pa.size(); i++ ) {
+							String nAme = pa.get(i);
+							addPath(nAme);
+							
+							Bloom effect = new Bloom();
+							Bloom effect_ = new Bloom(0.9);
+							Glow ef = new Glow(0.7);
+							
+							VBox file = new VBox(50);
+							Label fileLabel = new Label("Файл: ");
+							fileLabel.setEffect(ef);
+							
+							Label fileName = new Label();
+							fileName.setText(nAme);
+							fileName.setWrapText(true);
+							fileName.setEffect(effect_);
+							
+							file.getChildren().addAll(fileLabel,fileName);
+							file.setAlignment(Pos.CENTER);
+							file.setSpacing(5);
+							file.setMaxWidth(200);
+							
+							file.getStyleClass().add("EnterTask");
+							
+							fileLabel.setStyle("-fx-text-fill: white;");
+							fileName.setStyle("-fx-text-fill: white;");
+							
+							file.setStyle("-fx-border-style: dashed centered; -fx-border-width: 1.5px;-fx-background-color: #7B68EE; -fx-alignment: center;"
+									+ "-fx-padding: 5px;");
+							
+							ScrollPane Scf =new ScrollPane();
+							Scf.setLayoutX(10);
+							Scf.setLayoutY(10);
+							//spComment.setHmin(400);
+							Scf .setCursor(Cursor.CLOSED_HAND);
+							Scf.setContent(file);
+							Scf.setMaxWidth(600);
+							Scf.setMinWidth(300);
+							Scf.setMinHeight(160);
+							Scf.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
+							Scf.setEffect(ef);
+							
+							//file.setEffect(effect);
+							Button delete = new Button("Удалить");
+							delete.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+							 //inf.setMaxWidth(160);
+							delete.setId("button");
+							file.getChildren().add(delete);
+							//file.getChildren().add(delete);
+							vBox.getChildren().add(file);
+							delete.setOnAction(new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent e) {
+										deleteThis (vBox, file,nAme);
+									}
+								});
+						}
 
+					}
+				
+				return vBox;
+			}
+				public VBox deleteThis (VBox vBox, VBox c, String delPath) {
+					vBox.getChildren().remove(c);
+					this.getPaths().remove(delPath);
+					return vBox;
+				}
+
+				public LinkedList <String> getPaths() {
+					return paths;
+				}
+				public void addPath(String _path) {
+					this.paths.add(_path);
+				}
+				
+
+				public void setPaths(LinkedList <String> paths) {
+					this.paths = paths;
+				}
+
+				public LinkedList<Integer> getAllIds() {
+					return allIds;
+				}
+
+				public void setAllIds(LinkedList<Integer> allIds) {
+					this.allIds = allIds;
+				}
 		
 }

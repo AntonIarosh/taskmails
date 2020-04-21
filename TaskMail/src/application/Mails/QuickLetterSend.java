@@ -10,6 +10,8 @@ import javax.mail.internet.MimeMultipart;
 import application.DB.ChoseEmailToUser;
 import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -137,6 +139,12 @@ public class QuickLetterSend {
             message.setContent(multipart);
             
             Transport.send(message);
+         // Сообщение об успехе -- /
+			Alert alert = new Alert(AlertType.INFORMATION,"Быстрое сообщение было отправлено получателю.");
+			alert.setTitle("Создание сообщения");
+			alert.setHeaderText("Быстрое сообщение сформировано и отправлено!");
+			alert.show();
+			// Коенец сообщение об успехе -- /
             }
             catch (MessagingException mex) {
                 // Печать информации об исключении в случае его возникновения

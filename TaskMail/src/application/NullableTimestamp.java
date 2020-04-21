@@ -22,7 +22,7 @@ public class NullableTimestamp extends Timestamp {
         return this.getTime() > 0L ? super.toString() : "";
     }
 
-    public static NullableTimestamp valueOf(LocalDateTime localDateTime) {
+    /*public static NullableTimestamp valueOf(LocalDateTime localDateTime) {
         return new NullableTimestamp(Timestamp.valueOf(localDateTime).getTime());
-    }
+    }*/
 }

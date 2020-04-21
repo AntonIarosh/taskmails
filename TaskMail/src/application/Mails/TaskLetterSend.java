@@ -21,6 +21,8 @@ import javax.mail.internet.MimeMultipart;
 
 import application.DB.ChoseEmailToUser;
 import application.Entities.EntityEmailAll;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class TaskLetterSend {
 	public void senMail(String theme, String text,int idChosenUser, int idUser,String body, String supervisor, String link,
@@ -195,15 +197,17 @@ public class TaskLetterSend {
             	multipart.addBodyPart(p2);
             }
 
-
-     
-           
             
             multipart.addBodyPart(part1);
-           
             message.setContent(multipart);
             
             Transport.send(message);
+         // Сообщение об успехе -- /
+			Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
+			alert.setTitle("Создание задания");
+			alert.setHeaderText("Задание сформировано и отправлено!");
+			alert.show();
+			// Коенец сообщение об успехе -- /
             }
             catch (MessagingException mex) {
                 // Печать информации об исключении в случае его возникновения
