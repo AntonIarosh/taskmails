@@ -1,8 +1,14 @@
-#button{-fx-base: indigo; -fx-wrap-text: true; -fx-text-alignment: center}
+#button{-fx-base: indigo; -fx-wrap-text: true; -fx-text-alignment: center; -fx-cursor: hand; 
+  -fx-padding: 2px;  -fx-font-weight: bold;
+
+}
 #button:hover {-fx-background-color: purple; 
 }
 /*button:armed {-fx-background-color: black; -fx-border-style: solid; -fx-border-color: yellow;
 	 -fx-border-insets: 1px;
 }*/
-#button:armed {-fx-background-color: black; }
+#button:armed {-fx-background-color: black; 
+	
+	
+}
 

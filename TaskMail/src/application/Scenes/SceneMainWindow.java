@@ -68,7 +68,11 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.effect.Bloom;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
+import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -196,7 +200,7 @@ public class SceneMainWindow implements mainWindowUser {
 			mes.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
-						application.Mails.LetterRecive letter = new application.Mails.LetterRecive();
+						application.Mails.LetterRecive letter = new application.Mails.LetterRecive(primaryStage);
 						LetterRecive.setText(letter.getEmail());
 					}
 				});
@@ -2323,6 +2327,7 @@ public class SceneMainWindow implements mainWindowUser {
 				
 				Label a_Label = new Label("Описание: ");
 				body_Label.setText(data.get(j).getBode());
+				body_Label.setWrapText(true);
 				body_.getChildren().addAll(a_Label, body_Label);
 				body_.setAlignment(Pos.CENTER);
 				body_.setSpacing(5);
@@ -2332,16 +2337,37 @@ public class SceneMainWindow implements mainWindowUser {
 				Label t_Label = new Label("Заголовок: ");
 				Label title_Label = new Label();
 				title_Label.setText(data.get(j).getTitle());
+				title_Label.setWrapText(true);
 				title_.getChildren().addAll(t_Label,title_Label);
 				title_.setAlignment(Pos.CENTER);
 				title_.setSpacing(5);
 				title_.getStyleClass().add("OneStringBaze");
+				
+				
+				ColorAdjust eddd = new ColorAdjust();
+				eddd.setHue(0.5);
+				eddd.setSaturation(1);
+			/*	Light.Distant l = new Light.Distant();
+				eddd.setLight(l);*/
 				
 				HBox mean = new HBox(50);
 				mean.getChildren().addAll(title_,body_);
 				mean.setAlignment(Pos.CENTER);
 				mean.setSpacing(5);
 				mean.getStyleClass().add("OneString");
+			
+				
+				ScrollPane ScMain =new ScrollPane();
+				ScMain.setLayoutX(10);
+				ScMain.setLayoutY(10);
+				//spComment.setHmin(400);
+				ScMain .setCursor(Cursor.CLOSED_HAND);
+				ScMain.setContent(mean);
+				ScMain.setMaxWidth(300);
+				ScMain.setMinWidth(300);
+				ScMain.setMinHeight(160);
+				ScMain.setMaxHeight(300);
+				ScMain.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
 				
 				// Время
 				Date dateE = data.get(j).getDateEnd();
@@ -2375,6 +2401,7 @@ public class SceneMainWindow implements mainWindowUser {
 				dateEn.getStyleClass().add("OneStringBaze");
 				
 				VBox _urgency = new VBox(50);
+				_urgency.setEffect(eddd);
 				Label _urgencyLabel = new Label("Срочность задачи: ");
 				Label _urgency_Label = new Label();
 				_urgency_Label.setText(data.get(j).getUrgency());
@@ -2405,7 +2432,7 @@ public class SceneMainWindow implements mainWindowUser {
 					});
 				 
 				VBox name = new VBox(50);
-				name.getChildren().addAll(numbersTask, mean,dates,inf);
+				name.getChildren().addAll(numbersTask, mean,/*ScMain,*/dates,inf);
 				name.setId("OneTask");
 				name.setSpacing(10);
 				name.setAlignment(Pos.CENTER);
@@ -2426,7 +2453,8 @@ public class SceneMainWindow implements mainWindowUser {
 			for (int f = 0; f < dataEnd.size(); f++ ) {
 				int iterator = f+1;
 				Label numbersTask = new Label(" Задание №" +iterator+" : ");
-				System.out.println("Время - " + i + " Задача - " + dataEnd.get(f).getTitle() + " Время начала" + dataEnd.get(f).getDateStrart());
+				System.out.println(" Задача которая должна быть выполнена к этому время. " + dataEnd.get(f).getDateEnd() + " create " + dataEnd.get(f).getDateCreate() );
+				System.out.println("Время - " + f + " Задача - " + dataEnd.get(f).getTitle() + " Время начала" + dataEnd.get(f).getDateStrart());
 				Locale.setDefault(new Locale("ru","RU"));
 				/*GregorianCalendar dateCreate = new GregorianCalendar();
 				dateCreate.setTime(res.getDate(5));*/
@@ -2454,6 +2482,7 @@ public class SceneMainWindow implements mainWindowUser {
 						
 						Label a_Label = new Label("Описание: ");
 						body_Label.setText(dataEnd.get(f).getBode());
+						body_Label.setWrapText(true);
 						body_.getChildren().addAll(a_Label, body_Label);
 						body_.setAlignment(Pos.CENTER);
 						body_.setSpacing(5);
@@ -2463,6 +2492,7 @@ public class SceneMainWindow implements mainWindowUser {
 						Label t_Label = new Label("Заголовок: ");
 						Label title_Label = new Label();
 						title_Label.setText(dataEnd.get(f).getTitle());
+						title_Label.setWrapText(true);
 						title_.getChildren().addAll(t_Label,title_Label);
 						title_.setAlignment(Pos.CENTER);
 						title_.setSpacing(5);
@@ -2571,7 +2601,7 @@ public class SceneMainWindow implements mainWindowUser {
 			if (Done.getChildren().size() > 1) {
 				TaskEndforOneHour.getChildren().add(Done);
 			}
-			if (TaskEndforOneHour.getChildren().size() > 1) {
+			if (TaskEndforOneHour.getChildren().size() > 0) {
 				day.getChildren().addAll(new Label("Задачи, которые нужнов\n выполнить к этому часу."),alland);
 			}
 			
@@ -2598,6 +2628,7 @@ public class SceneMainWindow implements mainWindowUser {
 			
 			Label a_Label = new Label("Описание: ");
 			body_Label.setText(dataThru.get(h).getBode());
+			body_Label.setWrapText(true);
 			body_.getChildren().addAll(a_Label, body_Label);
 			body_.setAlignment(Pos.CENTER);
 			body_.setSpacing(5);
@@ -2607,6 +2638,7 @@ public class SceneMainWindow implements mainWindowUser {
 			Label t_Label = new Label("Заголовок: ");
 			Label title_Label = new Label();
 			title_Label.setText(dataThru.get(h).getTitle());
+			title_Label.setWrapText(true);
 			title_.getChildren().addAll(t_Label,title_Label);
 			title_.setAlignment(Pos.CENTER);
 			title_.setSpacing(5);

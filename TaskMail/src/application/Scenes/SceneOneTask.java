@@ -72,12 +72,23 @@ public class SceneOneTask {
 			// Панель для данных пользователя ---/
 			VBox TaskInfo = new VBox();
 			
+			ScrollPane ScUsers =new ScrollPane();
+			ScUsers.setLayoutX(10);
+			ScUsers.setLayoutY(10);
+			//spComment.setHmin(400);
+			ScUsers .setCursor(Cursor.CLOSED_HAND);
+			ScUsers.setMaxHeight(400);
+			ScUsers.setMinWidth(300);
+			ScUsers.setMinHeight(160);
+			ScUsers.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
 			
 			VBox title = new VBox(50);
 			Label titleLabel = new Label("Заголовок задачи: ");
+			titleLabel.setWrapText(true);
 			titleLabel.setId("PULL");
 			Label title_Label = new Label();
 			title_Label.setText(_oneTask.getTitle());
+			title_Label.setWrapText(true);
 			title.getChildren().addAll(titleLabel, title_Label);
 			//enternName.setAlignment(Pos.CENTER);
 			title.setSpacing(5);
@@ -86,8 +97,10 @@ public class SceneOneTask {
 			VBox body_ = new VBox(50);
 			Label body_Label = new Label();
 			Label a_Label = new Label("Описание задачи: ");
+			a_Label.setWrapText(true);
 			a_Label.setId("PULL");
 			body_Label.setText(_oneTask.getBode());
+			body_Label.setWrapText(true);
 			body_.getChildren().addAll(a_Label, body_Label);
 			body_.setAlignment(Pos.CENTER);
 			body_.setSpacing(5);
@@ -95,10 +108,11 @@ public class SceneOneTask {
 			
 			VBox description = new VBox(50);
 			Label descriptionLabel = new Label("Дополнительное описание: ");
-			
+			descriptionLabel.setWrapText(true);
 			descriptionLabel.setId("PULL");
 			Label description_Label = new Label();
 			description_Label.setText(_oneTask.getDescription());
+			description_Label.setWrapText(true);
 			description.getChildren().addAll(descriptionLabel, description_Label);
 			//enternFatherName.setAlignment(Pos.CENTER);
 			description.setSpacing(5);
@@ -106,9 +120,11 @@ public class SceneOneTask {
 			
 			VBox urgency = new VBox(50);
 			Label urgencyLabel = new Label("Срочность выполнения: ");
+			urgencyLabel.setWrapText(true);
 			urgencyLabel.setId("PULL");
 			Label urgency_Label = new Label();
 			urgency_Label.setText(_oneTask.getUrgency());
+			urgency_Label .setWrapText(true);
 			urgency.getChildren().addAll(urgencyLabel, urgency_Label);
 			//enternFatherName.setAlignment(Pos.CENTER);
 			urgency.setSpacing(5);
@@ -121,6 +137,7 @@ public class SceneOneTask {
 			mean.setSpacing(10);
 			//enterName.setAlignment(Pos.CENTER);
 			mean.getStyleClass().add("Data");
+			ScUsers.setContent(mean);
 			
 			VBox supervisor = new VBox(50);
 			Label supervisorLabel = new Label("Руководитель: ");
@@ -342,7 +359,7 @@ public class SceneOneTask {
 			
 
 			VBox userInfo = new VBox();
-			userInfo.getChildren().setAll(mean,about,dates/*,spComment,spLink*/);
+			userInfo.getChildren().setAll(ScUsers,about,dates/*,spComment,spLink*/);
 			userInfo.setId("Info");
 			userInfo.setSpacing(8);
 			

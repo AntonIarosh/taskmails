@@ -13,6 +13,8 @@ import javax.mail.search.FlagTerm;
 import application.DB.ChoseEmailToUser;
 import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,9 +33,11 @@ public class LetterRecive {
     String   IMAP_Server     = "imap.yandex.ru";
     String   IMAP_Port       = "993"           ;
     private String email;
+    private static Stage primaryStage;
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public LetterRecive()
+    public LetterRecive(Stage _primaryStage)
     {
+    	this.setPrimaryStage(_primaryStage);
         Properties properties = new Properties();
         properties.put("mail.debug"          , "false"  );
         properties.put("mail.store.protocol" , "imaps"  );
@@ -74,25 +78,47 @@ public class LetterRecive {
                 return;
             
             Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false)); 
-            
-            // Последнее сообщение; первое сообщение под номером 1
-            Message message = inbox.getMessage(inbox.getMessageCount());
+            StringBuilder str = new StringBuilder();
             for(int i=0; i < messages.length; i++) {
             	System.out.println(" номер сообщения   " + i + ". Тема сообщения : '" + 
             			messages[i].getSubject() + "'");
+            	String subject= messages[i].getSubject();
+               	if (subject.startsWith("Живое расписание:")) {
+               		str.append(messages[i].getSubject() + "\n");
+            		
+            		
+                    Multipart mp = (Multipart) messages[i].getContent();
+                    
+                    // Вывод содержимого в консоль
+                    for (int j = 0; j < mp.getCount(); j++){
+                        BodyPart  bp = mp.getBodyPart(j);
+                        if (bp.getFileName() == null) {
+                        	str.append("    " + j + ". сообщение : '" + 
+                                    bp.getContent() + "'");
+                        	//System.out.println("    " + j + ". сообщение : '" + bp.getContent() + "'");
+                        } else {
+                        	
+                        }
+                    }
+                    String body =str.toString();
+                    body.replaceAll("<(.)+?>", "");
+                    System.out.println(" Тело сообщения - " + body);
+            	}
             }
             ArrayList<String> attachments = new ArrayList<String>(); 
             
-            LinkedList<MessageBean> listMessages = getPart(messages, attachments);
-            System.out.println(" Количество новых сообщений:   " + listMessages.size());
-            for (int i=0; i < listMessages.size();i++ ) {
-            	System.out.println(" от кого  - " + listMessages.get(i).getFrom());
+            // Последнее сообщение; первое сообщение под номером 1
+            Message message = inbox.getMessage(inbox.getMessageCount());
+         //   LinkedList<MessageBean> listMessages = getPart(messages, attachments);
+           // System.out.println(" Количество новых сообщений:   " + listMessages.size());
+          /*  for (int i=0; i < listMessages.size();i++ ) {
+            	//System.out.println(" от кого  - " + listMessages.get(i).getFrom());
             	String content = listMessages.get(i).getContent();
             	content.replaceAll("<(.)+?>", "");
             	System.out.println(" Сообщенька начинается: ");
             	System.out.println(content);
             	System.out.println(" Конец Сообщеньки ): ");
-            }
+            }*/
             
             int count = inbox.getMessageCount();
             Message[]  mes= inbox.getMessages();
@@ -101,7 +127,7 @@ public class LetterRecive {
             
             StringBuilder sv = new StringBuilder();
             
-            for(int i=0; i <count; i++) {
+         /*   for(int i=0; i <count; i++) {
             	String subject= mes[i].getSubject();
             	String description = mes[i].getDescription();
             	 System.out.println(" Тело description - " + description);
@@ -141,7 +167,7 @@ public class LetterRecive {
             			mes[i].getSubject() + "'");
             	
             	
-            }
+            }*/
             
 
             this.setEmail(sb.toString());
@@ -185,7 +211,7 @@ public class LetterRecive {
 	                            if (message != null) message.setAttachments(attachments); 
 	                        } 
 	                        System.out.println("  Записал новое сообщение" ); 
-	                        message = new MessageBean(inMessage.getMessageNumber(), inMessage.getSubject(), inMessage.getFrom()[0].toString(), null, f.format(inMessage.getSentDate()), (String) part.getContent(), false, null); 
+	                        //message = new MessageBean(inMessage.getMessageNumber(), inMessage.getSubject(), inMessage.getFrom()[0].toString(), null, f.format(inMessage.getSentDate()), (String) part.getContent(), false, null); 
 	                    } 
 	                } 
 	                listMessages.add(message); 
@@ -194,8 +220,18 @@ public class LetterRecive {
 	        } 
 	        return listMessages; 
 	    } 
-	 private static String saveFile(String filename, InputStream input) { 
-	        String path = "attachments\\"+filename; 
+	 private static String saveFile(String filename, InputStream input) throws IOException { 
+		 String path = null;
+		 DirectoryChooser dialog = new DirectoryChooser();
+		 dialog.setTitle("Выберете папку для сохранения файла");
+		 File result = dialog.showDialog( getPrimaryStage());
+		 if(result != null) {
+			path = result.getPath() + "\\" + filename ;
+		 }
+		 else {
+			 path = new File(".").getPath()+filename; 
+		 }
+		 System.out.println("  путь - " +  path); 
 	        try { 
 	            byte[] attachment = new byte[input.available()]; 
 	            input.read(attachment); 
@@ -209,5 +245,11 @@ public class LetterRecive {
 	            e.printStackTrace(); 
 	        } 
 	        return path; 
-	    } 
+	    }
+	public static Stage getPrimaryStage() {
+		return primaryStage;
+	}
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	} 
 }

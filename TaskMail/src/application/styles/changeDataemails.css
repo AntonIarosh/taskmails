@@ -1,6 +1,6 @@
 .EnterUserData {
 	-fx-alignment: center; -fx-padding: 10px; -fx-background-color: #AFEEEE; -fx-background-radius: 6;
-	-fx-wrap-text: true; -fx-text-alignment: center
+	-fx-wrap-text: true; -fx-text-alignment: center; -fx-max-width: 300px;
 }
 #Data {-fx-alignment: center; -fx-padding: 15px; -fx-background-color:#00008B; -fx-background-radius: 6;
 	-fx-wrap-text: true; -fx-text-alignment: center
@@ -15,7 +15,7 @@
  	-fx-background-color:white;-fx-wrap-text: true;-fx-background-radius: 6;
  }
  #C {
- 	-fx-background-color:#DAA520;-fx-wrap-text: true;-fx-background-radius: 15; -fx-text-fill:#000080;
+ 	-fx-background-color:#DAA520;-fx-wrap-text: true;-fx-background-radius: 15; -fx-text-fill:#000080;  -fx-max-width: 300px;
  }
  #PULL {
  	-fx-font-weight: bold;

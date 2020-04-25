@@ -148,7 +148,7 @@ public class TaskLetterSend {
             MimeMultipart multipart = new MimeMultipart();
             //Первый кусочек - текст письма
             MimeBodyPart part1 = new MimeBodyPart();
-            part1.setText(   "Задание: " + body + /*" Номер № " + idTask + */";\n"+
+            part1.setText(   "Суть задачи: " + body + /*" Номер № " + idTask + */";\n"+
    "Дополниельное описание: " +description +";\n"+
    "Ссылка на дополнительные материалы: " + link +";\n"+
    "Руководитель: " +supervisor +";\n"+ 

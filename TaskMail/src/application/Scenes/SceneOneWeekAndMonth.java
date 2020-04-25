@@ -182,12 +182,9 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 			 exits.getChildren().addAll(exitFromProgram,exitFromLogin);
 			 exits.setId("exit");
 			 //TitledPane personalAccount= new TitledPane("Личный кабинет",personalAccounts);
-			 TitledPane  instrument = new TitledPane("Инструменты",instr);
+		
 			 TitledPane  exit = new TitledPane("Выход или назад",exits);
-
-			
-		     accordion.getPanes().addAll(/*personalAccount,*/
-		    		 instrument,exit);
+		     accordion.getPanes().addAll(exit);
 		        accordion.setMinSize(250, 200);
 		        accordion.setPrefSize(250, 200);
 		    // Аккордион меню ----
@@ -199,96 +196,6 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 		    bottom .setId("bottom");
 		    bottom.setMaxWidth(200);
 		  
-		    Label quick = new Label("Быстрое электронное письмо ");
-		    quick.setWrapText(true);
-			TextField emailThem = new TextField();
-			//emailThem.setMinSize(250, 80);
-			emailThem.setPromptText("Введите тему сообщения");
-			//TextField email = new TextField();
-			TextArea email = new TextArea();
-			email.setPrefRowCount(6);            
-			
-			email.setPromptText("Введите сообщение");
-			//email.setMinSize(250, 100);
-			Button adress = new Button("Выберите адресата");
-			//int idChoseUser = 0;
-			TextField text = new TextField();
-			adress.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent e) {
-						SceneChoseUser change = new SceneChoseUser(primaryStage,  id_user, idChosenUser);
-						change.setId(id_user);
-					}
-				});
-			Button push = new Button("Отправить");
-			Button quickMail = new Button("Быстрое сообщение");
-			Button quickMailClose = new Button("Закрыть быстрое сообщение");
-			push.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-			push.setId("button");
-			adress.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-			adress.setId("button");
-			quickMail.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-			quickMail.setId("button");
-			quickMailClose.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-			quickMailClose.setId("button");
-			quickMailClose.setWrapText(true);
-			bottom.getChildren().setAll(quick,quickMail);
-			quickMail.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					if ( (!bottom.getChildren().contains(emailThem)) && (!bottom.getChildren().contains(email))) {
-						bottom.getChildren().addAll(emailThem, email,adress,push,quickMailClose );
-						bottom.getChildren().removeAll(quickMail);
-					}
-				}
-			});
-			quickMailClose.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					bottom.getChildren().removeAll(emailThem, email,adress,push,quickMailClose);
-					bottom.getChildren().addAll(quickMail);
-				}
-			});
-			bottom.getChildren().setAll(quickMail/*,quick,emailThem, email,adress,push */);
-			//bottom.getChildren().
-			/*push.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					int idch = 0;
-					Scanner scanner = null;
-					try {
-						BufferedReader reader = new BufferedReader(new FileReader("idChosenUser.txt"));
-						scanner = new Scanner(reader);
-						int numberOfRows = 0;
-						while (scanner.hasNext()) {
-							idch = scanner.nextInt();
-							//text.setText(Integer.toString(scanner.nextInt()));
-							//System.out.println(" Вывод из главного окна - " + text.getText());
-							System.out.println(" Вывод из главного окна - " + idch);
-							scanner.nextLine();
-							numberOfRows++;
-						}
-					} catch (FileNotFoundException e1) {
-						System.out.println("Файл не найден.");
-					} catch (Exception e1) {
-						System.out.println("Ошибка при считывании из файла.");
-						scanner.close();
-					} finally {
-						scanner.close();
-					}
-					
-					QuickLetterSend sender = new QuickLetterSend();
-					try {
-						sender.senMail(emailThem.getText(), email.getText(),idch,id );
-					} catch (AddressException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (MessagingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			});*/
 		    // Конец бокса для низа 
 		    TabPane tabpane=new TabPane();
 		    
@@ -665,6 +572,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						
 						Label a_Label = new Label("Описание: ");
 						body_Label.setText(dataWeek.get(j).getBode());
+						body_Label.setWrapText(true);
 						body_.getChildren().addAll(a_Label, body_Label);
 						body_.setAlignment(Pos.CENTER);
 						body_.setSpacing(5);
@@ -674,6 +582,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						Label t_Label = new Label("Заголовок: ");
 						Label title_Label = new Label();
 						title_Label.setText(dataWeek.get(j).getTitle());
+						title_Label.setWrapText(true);
 						title_.getChildren().addAll(t_Label,title_Label);
 						title_.setAlignment(Pos.CENTER);
 						title_.setSpacing(5);
@@ -801,6 +710,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						
 						Label a_Label = new Label("Описание: ");
 						body_Label.setText(dataEndWeek .get(k).getBode());
+						body_Label.setWrapText(true);
 						body_.getChildren().addAll(a_Label, body_Label);
 						body_.setAlignment(Pos.CENTER);
 						body_.setSpacing(5);
@@ -810,6 +720,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						Label t_Label = new Label("Заголовок: ");
 						Label title_Label = new Label();
 						title_Label.setText(dataEndWeek .get(k).getTitle());
+						title_Label.setWrapText(true);
 						title_.getChildren().addAll(t_Label,title_Label);
 						title_.setAlignment(Pos.CENTER);
 						title_.setSpacing(5);
@@ -855,7 +766,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						VBox _urgency = new VBox(50);
 						Label _urgencyLabel = new Label("Срочность задачи: ");
 						Label _urgency_Label = new Label();
-						_urgency_Label.setText(dataEndWeek .get(k).getUrgency());
+						_urgency_Label.setText(dataEndWeek.get(k).getUrgency());
 						_urgency.getChildren().addAll(_urgencyLabel,_urgency_Label);
 						_urgency.setAlignment(Pos.CENTER);
 						_urgency.setSpacing(5);
@@ -869,7 +780,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						dates.setAlignment(Pos.CENTER);
 						dates.setSpacing(5);
 						dates.getStyleClass().add("OneString");
-						Date dayDate = dataWeek.get(k).getDateStrart();
+						Date dayDate = dataEndWeek.get(k).getDateStrart();
 						 Button inf = new Button("Узнать подробнее");
 						 inf.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 						 //inf.setMaxWidth(160);
