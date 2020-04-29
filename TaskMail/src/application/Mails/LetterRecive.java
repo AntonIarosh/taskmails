@@ -13,10 +13,14 @@ import javax.mail.search.FlagTerm;
 import application.DB.ChoseEmailToUser;
 import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+//import sun.security.util.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,20 +32,36 @@ import java.util.Properties;
 
 
 public class LetterRecive {
-	String   IMAP_AUTH_EMAIL = "elandev@yandex.ru" ;
-    String   IMAP_AUTH_PWD   = "jhbjy333"           ;
-    String   IMAP_Server     = "imap.yandex.ru";
-    String   IMAP_Port       = "993"           ;
+	String   IMAP_AUTH_EMAIL = null;
+    String   IMAP_AUTH_PWD   = null           ;
+    String   IMAP_Server     = null;
+    String   IMAP_Port       = null     ;
+    String   IMAP_NEED = null;
     private String email;
     private static Stage primaryStage;
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public LetterRecive(Stage _primaryStage)
+    public LetterRecive(Stage _primaryStage, int idUser)
     {
     	this.setPrimaryStage(_primaryStage);
+    	ParseText parse = new ParseText(idUser);
+    	EntityEmailAll mailTo = new EntityEmailAll();
+		//EntityEmailAll mailTo = new EntityEmailAll();
+		
+		// Данные источкника сообщения -- /
+		ChoseEmailToUser who = new ChoseEmailToUser(idUser);
+		who.whatMailsIs();
+		mailTo = who.getDataEmail();
+		this.IMAP_NEED = mailTo.getIMAPneed();
+		this.IMAP_Port = Integer.toString( mailTo.getCodeIMAP());
+		this.IMAP_Server = mailTo.getIMAPserver();
+		this.IMAP_AUTH_EMAIL = mailTo.getEmail();
+		this.IMAP_AUTH_PWD = mailTo.getPassword();
+    	
         Properties properties = new Properties();
         properties.put("mail.debug"          , "false"  );
         properties.put("mail.store.protocol" , "imaps"  );
-        properties.put("mail.imap.ssl.enable", "true"   );
+        //properties.put("mail.imap.ssl.enable", "true"   );
+        properties.put("mail.imap.ssl.enable", this.IMAP_NEED   );
         properties.put("mail.imap.port"      , IMAP_Port);
 
         Session session = Session.getDefaultInstance(properties,
@@ -65,12 +85,8 @@ public class LetterRecive {
 
             // Папка входящих сообщений
             Folder inbox = store.getFolder("INBOX");
-            
-            
-            
-            
             // Открываем папку в режиме только для чтения
-            inbox.open(Folder.READ_ONLY);
+            inbox.open(Folder.READ_WRITE);
            
             System.out.println("Количество сообщений : " + 
                                 String.valueOf(inbox.getMessageCount()));
@@ -78,37 +94,103 @@ public class LetterRecive {
                 return;
             
             Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false)); 
-            StringBuilder str = new StringBuilder();
+            
+            
+            int iteratorMessages = 0;
+            int size = 0;
+            
             for(int i=0; i < messages.length; i++) {
-            	System.out.println(" номер сообщения   " + i + ". Тема сообщения : '" + 
-            			messages[i].getSubject() + "'");
+            	StringBuilder str = new StringBuilder();
+            	/*System.out.println(" номер сообщения   " + i + ". Тема сообщения : '" + 
+            			messages[i].getSubject() + "'");*/
             	String subject= messages[i].getSubject();
-               	if (subject.startsWith("Живое расписание:")) {
-               		str.append(messages[i].getSubject() + "\n");
-            		
-            		
+               	if (subject.startsWith("Живое расписание: Задание:")) {
+               		size++;
+               		//messages[i].setFlags(new Flags(Flags.Flag.SEEN), true);
+               		
+               		//str.append(messages[i].getSubject() + "\n");
+               		parse.setSubject(messages[i].getSubject());
                     Multipart mp = (Multipart) messages[i].getContent();
                     
                     // Вывод содержимого в консоль
                     for (int j = 0; j < mp.getCount(); j++){
                         BodyPart  bp = mp.getBodyPart(j);
                         if (bp.getFileName() == null) {
-                        	str.append("    " + j + ". сообщение : '" + 
-                                    bp.getContent() + "'");
+                        	str.append(bp.getContent());
                         	//System.out.println("    " + j + ". сообщение : '" + bp.getContent() + "'");
                         } else {
-                        	
+                        	String path = null;
+                        	String filename = MimeUtility.decodeText(bp.getFileName());
+                        	InputStream in = null;
+                        	FileOutputStream out = null;
+	                   		 DirectoryChooser dialog = new DirectoryChooser();
+	                   		 dialog.setTitle("Выберете папку для сохранения файла");
+	                   		 File result = dialog.showDialog( getPrimaryStage());
+	                   		 if(result != null) {
+	                   			path = result.getAbsolutePath() + File.separator + filename ;
+	                   		 }
+	                   		 else {
+	                   			 path = new File("").getPath()+filename; 
+	                   		 }
+	                   		 System.out.println("  путь - " +  path); 
+	                   		if ((bp.getDisposition() != null) && (bp.getDisposition().equals(Part.ATTACHMENT))) {  
+	             	        try { 
+	             	        	//IOUtils.toByteArray(in);
+	             	        	in = bp.getInputStream();
+	             	        	 File file = new File(path);
+	             	        	out = new FileOutputStream(file); 
+	             	        	
+	             	        	int c;
+	             	        	int count =0;
+	             	        	while((c = in.read()) != -1) {
+	             	        		count ++;
+	             	        		out.write(c); 
+	             	        		System.out.print((char)c + " ");
+	             	        	}
+	             	     
+	             	        	System.out.println(" Файл занимает -" + in.available() + " or - " + count);
+	            	            in.close(); 
+	            	            out.close(); 
+	       
+	            	        } catch (IOException e) { 
+	            	            e.printStackTrace(); 
+	            	        } 
+	                   		}
+	             	      
                         }
                     }
                     String body =str.toString();
                     body.replaceAll("<(.)+?>", "");
-                    System.out.println(" Тело сообщения - " + body);
+                    parse.setText(body);
+                   // System.out.println(" Тело сообщения - " + body);
+                    System.out.println(" Вызов -парсинга " );
+                    parse.makeParse();
+                    System.out.println(" ПАРСИНГ УСЁ" );
             	}
             }
+            Message[] Inmessages = new Message[size];
+            for(int i=0; i < messages.length; i++) {
+            	String subject= messages[i].getSubject();
+               	if (subject.startsWith("Живое расписание:")) {
+               		//messages[i].setFlags(new Flags(Flags.Flag.SEEN), true);
+               		Inmessages[iteratorMessages] = messages[i];
+               				iteratorMessages++;
+               	}
+            }
+            if (size == 0) {
+				// Сообщение об успехе -- /
+				Alert alert = new Alert(AlertType.INFORMATION,"Проверка в электронной почте новых задач");
+				alert.setTitle("Расписание");
+				alert.setHeaderText("Новых заданий нет!");
+				alert.show();
+				// Коенец сообщение об успехе -- /
+            }
+            iteratorMessages = 0;
+            inbox.setFlags(Inmessages, new Flags(Flags.Flag.SEEN), true);
             ArrayList<String> attachments = new ArrayList<String>(); 
-            
+            inbox.close(true);
             // Последнее сообщение; первое сообщение под номером 1
-            Message message = inbox.getMessage(inbox.getMessageCount());
+           // Message message = inbox.getMessage(inbox.getMessageCount());
          //   LinkedList<MessageBean> listMessages = getPart(messages, attachments);
            // System.out.println(" Количество новых сообщений:   " + listMessages.size());
           /*  for (int i=0; i < listMessages.size();i++ ) {
@@ -121,7 +203,7 @@ public class LetterRecive {
             }*/
             
             int count = inbox.getMessageCount();
-            Message[]  mes= inbox.getMessages();
+            //Message[]  mes= inbox.getMessages();
             
             StringBuilder sb = new StringBuilder();
             
@@ -184,68 +266,8 @@ public class LetterRecive {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	 private static LinkedList<MessageBean> getPart(Message[] messages, ArrayList<String> attachments) throws MessagingException, IOException { 
-	        LinkedList<MessageBean> listMessages = new LinkedList<MessageBean>(); 
-	        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"); 
-	        for (Message inMessage : messages) { 
-	        	if(inMessage.getSubject().startsWith("Живое расписание:")) {
-	        		System.out.println("  Нашел сообщение новое от приложения" ); 
-	            attachments.clear(); 
-	            if (inMessage.isMimeType("text/plain")) { 
-	            	System.out.println("  Записал" ); 
-	                MessageBean message = new MessageBean(inMessage.getMessageNumber(), MimeUtility.decodeText(inMessage.getSubject()), inMessage.getFrom()[0].toString(), null, f.format(inMessage.getSentDate()), (String) inMessage.getContent(), false, null); 
-	                listMessages.add(message); 
-	            } else if (inMessage.isMimeType("multipart/*")) { 
-	                Multipart mp = (Multipart) inMessage.getContent(); 
-	                MessageBean message = null; 
-	                for (int i = 0; i < mp.getCount(); i++) { 
-	                    Part part = mp.getBodyPart(i); 
-	                    if ((part.getFileName() == null || part.getFileName() == "") && part.isMimeType("text/plain")) { 
-	                    	System.out.println("  Записал новое сообщение" ); 
-	                        message = new MessageBean(inMessage.getMessageNumber(), inMessage.getSubject(), inMessage.getFrom()[0].toString(), null, f.format(inMessage.getSentDate()), (String) part.getContent(), false, null); 
-	                    } else if (part.getFileName() != null || part.getFileName() != ""){ 
-	                        if ((part.getDisposition() != null) && (part.getDisposition().equals(Part.ATTACHMENT))) { 
-	                            attachments.add(saveFile(MimeUtility.decodeText(part.getFileName()), part.getInputStream())); 
-	                            if (message != null) message.setAttachments(attachments); 
-	                        } 
-	                        System.out.println("  Записал новое сообщение" ); 
-	                        //message = new MessageBean(inMessage.getMessageNumber(), inMessage.getSubject(), inMessage.getFrom()[0].toString(), null, f.format(inMessage.getSentDate()), (String) part.getContent(), false, null); 
-	                    } 
-	                } 
-	                listMessages.add(message); 
-	            }
-	        }
-	        } 
-	        return listMessages; 
-	    } 
-	 private static String saveFile(String filename, InputStream input) throws IOException { 
-		 String path = null;
-		 DirectoryChooser dialog = new DirectoryChooser();
-		 dialog.setTitle("Выберете папку для сохранения файла");
-		 File result = dialog.showDialog( getPrimaryStage());
-		 if(result != null) {
-			path = result.getPath() + "\\" + filename ;
-		 }
-		 else {
-			 path = new File(".").getPath()+filename; 
-		 }
-		 System.out.println("  путь - " +  path); 
-	        try { 
-	            byte[] attachment = new byte[input.available()]; 
-	            input.read(attachment); 
-	            File file = new File(path); 
-	            FileOutputStream out = new FileOutputStream(file); 
-	            out.write(attachment); 
-	            input.close(); 
-	            out.close(); 
-	            return path; 
-	        } catch (IOException e) { 
-	            e.printStackTrace(); 
-	        } 
-	        return path; 
-	    }
+	} 
+
 	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}

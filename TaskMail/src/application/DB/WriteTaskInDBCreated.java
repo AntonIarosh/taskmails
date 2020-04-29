@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class WriteTaskInDBCreated {
 	private boolean executed;
 	private Connection con;
@@ -41,6 +44,12 @@ public class WriteTaskInDBCreated {
 			System.out.println("Добавление новой задачи в бд - ");
 			System.out.println(query);
 			answer.executeUpdate(query);
+			// Сообщение об успехе -- /
+			Alert alert = new Alert(AlertType.INFORMATION,"Задание было добавлено в расписание, а также сохранено в Вашей базе данных");
+			alert.setTitle("Создание задания");
+			alert.setHeaderText("Задание сформировано и добавлено!");
+			alert.show();
+			// Коенец сообщение об успехе -- /
 			this.executed = true;
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -142,6 +151,12 @@ public class WriteTaskInDBCreated {
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;
+			// Сообщение об успехе -- /
+			Alert alert = new Alert(AlertType.INFORMATION,"Добавление ссылки к заданию");
+			alert.setTitle("Создание задания");
+			alert.setHeaderText("Ссылка к заданию добавлена!");
+			alert.show();
+			// Коенец сообщение об успехе -- /
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} 

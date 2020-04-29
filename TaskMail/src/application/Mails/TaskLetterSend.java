@@ -143,7 +143,14 @@ public class TaskLetterSend {
 			"Дата и время окончания выполенения: " + dataEnd +";\n"+
 			"Дата и время создания задачи:" + dataCreate + ";\n" +
 			"Выполнение: " + itsDone ; */
-            
+            body = body.replaceAll("[\n]", "");
+            description = description.replaceAll("[\n]", "");
+            link = link.replaceAll("[\n]", "");
+            supervisor = supervisor.replaceAll("[\n]", "");
+            taskCol = taskCol.replaceAll("[\n]", "");
+            urgencyMail = urgencyMail.replaceAll("[\n]", "");
+            dateStart = dateStart.replaceAll("[\n]", "");
+            dataEnd  = dataEnd.replaceAll("[\n]", "");
             //Собираем содержимое письма из кусочков
             MimeMultipart multipart = new MimeMultipart();
             //Первый кусочек - текст письма

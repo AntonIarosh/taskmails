@@ -193,7 +193,7 @@ public class SceneMainWindow implements mainWindowUser {
 		al.setContent(LetterRecive);
 		al.setMinWidth(250);
 		
-		 Button mes = new Button("Письмецо");
+	/*	 Button mes = new Button("Письмецо");
 			//int idChoseUser = 0;
 			Label textM = new Label();
 			textM.setWrapText(true);
@@ -205,7 +205,7 @@ public class SceneMainWindow implements mainWindowUser {
 					}
 				});
 			mes.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-			mes.setId("button");
+			mes.setId("button");*/
 			
 		
 		// Выход ----/
@@ -296,6 +296,20 @@ public class SceneMainWindow implements mainWindowUser {
 		 changMyInfo.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 changMyInfo.setMaxWidth(160);
 		 changMyInfo.setId("button");
+
+		 Button Update = new Button(" Запросить новые задачи ");
+		 Update.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		 //inf.setMaxWidth(160);
+		 Update.setId("button");
+		 Update.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					application.Mails.LetterRecive letter = new LetterRecive(primaryStage,id);
+					LetterRecive.setText(letter.getEmail());
+					//getTaskOnThisDay(_tasksAllDay);
+					//getTasksOnThisDays (_tasksAllDay);
+				}
+			});
 		 
 		/* workGroup.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 workGroup.setMaxWidth(160);
@@ -333,7 +347,7 @@ public class SceneMainWindow implements mainWindowUser {
 		 instr.getChildren().setAll(popupContent,bottom);
 		 VboxStyle ex = new VboxStyle ();
 		 VBox exits = ex.getStyleVbox();
-		 exits.getChildren().addAll(exitFromProgram,exitFromLogin,     mes,         al);
+		 exits.getChildren().addAll(exitFromProgram,exitFromLogin/*,mes,al*/);
 		 exits.setId("exit");
 		 //TitledPane personalAccount= new TitledPane("Личный кабинет",personalAccounts);
 		 TitledPane  instrument = new TitledPane("Инструменты",instr);
@@ -350,6 +364,7 @@ public class SceneMainWindow implements mainWindowUser {
 	     toolbar.getItems().add(help);
 	     toolbar.getItems().add(about);
 	     toolbar.getItems().add(more);
+	     toolbar.getItems().add(Update);
 	        
 
 	        /// конец тулбара ---/
@@ -995,12 +1010,7 @@ public class SceneMainWindow implements mainWindowUser {
 					// конец Дабавление записи в таблицу ссылка к задаче -- /
 				}
 				// конец обработки ссылки -- /
-				// Сообщение об успехе -- /
-				Alert alert = new Alert(AlertType.INFORMATION,"Задание было добавлено в расписание, а также сохранено в Вашей базе данных");
-				alert.setTitle("Создание задания");
-				alert.setHeaderText("Задание сформировано и добавлено!");
-				alert.show();
-				// Коенец сообщение об успехе -- /
+
 			}
 		});
 		
