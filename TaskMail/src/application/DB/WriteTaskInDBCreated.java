@@ -151,12 +151,6 @@ public class WriteTaskInDBCreated {
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;
-			// Сообщение об успехе -- /
-			Alert alert = new Alert(AlertType.INFORMATION,"Добавление ссылки к заданию");
-			alert.setTitle("Создание задания");
-			alert.setHeaderText("Ссылка к заданию добавлена!");
-			alert.show();
-			// Коенец сообщение об успехе -- /
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} 

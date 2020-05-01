@@ -132,7 +132,7 @@ public class LetterRecive {
 	                   		 else {
 	                   			 path = new File("").getPath()+filename; 
 	                   		 }
-	                   		 System.out.println("  путь - " +  path); 
+	                   		 ////System.out.println("  путь - " +  path); 
 	                   		if ((bp.getDisposition() != null) && (bp.getDisposition().equals(Part.ATTACHMENT))) {  
 	             	        try { 
 	             	        	//IOUtils.toByteArray(in);
@@ -145,7 +145,7 @@ public class LetterRecive {
 	             	        	while((c = in.read()) != -1) {
 	             	        		count ++;
 	             	        		out.write(c); 
-	             	        		System.out.print((char)c + " ");
+	             	        		//System.out.print((char)c + " ");
 	             	        	}
 	             	     
 	             	        	System.out.println(" Файл занимает -" + in.available() + " or - " + count);
@@ -163,9 +163,9 @@ public class LetterRecive {
                     body.replaceAll("<(.)+?>", "");
                     parse.setText(body);
                    // System.out.println(" Тело сообщения - " + body);
-                    System.out.println(" Вызов -парсинга " );
+                    //System.out.println(" Вызов -парсинга " );
                     parse.makeParse();
-                    System.out.println(" ПАРСИНГ УСЁ" );
+                   // System.out.println(" ПАРСИНГ УСЁ" );
             	}
             }
             Message[] Inmessages = new Message[size];

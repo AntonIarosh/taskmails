@@ -4,12 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Optional;
 
 import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
 import application.Entities.EntityUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceDialog;
 
 public class ChoseEmailToUser {
 		private Connection con;
@@ -59,6 +61,11 @@ public class ChoseEmailToUser {
 			ResultSet res = null;
 			System.out.println(query);
 			
+			ChoiceDialog <String> dia = new ChoiceDialog <String>();
+			dia.setTitle("Выбор электронной почты");
+			dia.setHeaderText("Выберите один из адресов!");
+			
+			
 			try {
 				answer = con.createStatement();
 			} catch (SQLException e1) {
@@ -71,14 +78,38 @@ public class ChoseEmailToUser {
 				e1.printStackTrace();
 			}
 			try {
+				/*int count = 0;
+				Optional<String> resultss = null;
 				while (res.next()) {
+					//EntityEmailAll email = new EntityEmailAll(res.getInt(1),res.getString(2), res.getString(3),res.getString(7) ,res.getInt(8) ,res.getString(4),res.getInt(5),res.getString(9),res.getString(6));
+					dia.getItems().add(res.getString(2));
+					count ++;
+					
+				}
+				if (count > 1) {
+					resultss = dia.showAndWait();
+				}
+				System.out.println("Выбранный адресс- " + resultss.toString());*/
+				while (res.next()) {
+				/*	if ((count > 1) && (res.getString(2).compareTo(resultss.toString()) == 0)) {
 					EntityEmailAll email = new EntityEmailAll(res.getInt(1),res.getString(2), res.getString(3),res.getString(7) ,res.getInt(8) ,res.getString(4),res.getInt(5),res.getString(9),res.getString(6));
+					dia.getItems().add(res.getString(2));
 					this.data.add(email);
 					this.dataEmail = email;
+					
 				//	String tablePass = res.getString(7);
 					System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
 					resultItems.put(res.getInt(1), res.getString(2));
-					
+					} else {*/
+						EntityEmailAll email = new EntityEmailAll(res.getInt(1),res.getString(2), res.getString(3),res.getString(7) ,res.getInt(8) ,res.getString(4),res.getInt(5),res.getString(9),res.getString(6));
+						dia.getItems().add(res.getString(2));
+						this.data.add(email);
+						this.dataEmail = email;
+						
+					//	String tablePass = res.getString(7);
+						System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
+						resultItems.put(res.getInt(1), res.getString(2));
+					//}
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();

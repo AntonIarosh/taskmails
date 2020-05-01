@@ -43,11 +43,11 @@ public class SceneUserData implements enterDataUsers{
 	private Scene oldScene;
 	private AddUser add;
 	public SceneUserData(Stage primaryStage) {
+		add = null;
 		this.primaryStage = primaryStage;
 		this.ounScene = createScene();
 		this.oldScene = primaryStage.getScene();
 		setNewScene(this.primaryStage,this.ounScene); 
-		add = null;
 	}
 	@Override
 	public void setNewScene(Stage primaryStage, Scene newScene) {

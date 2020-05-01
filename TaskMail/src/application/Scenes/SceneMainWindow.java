@@ -296,6 +296,19 @@ public class SceneMainWindow implements mainWindowUser {
 		 changMyInfo.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 changMyInfo.setMaxWidth(160);
 		 changMyInfo.setId("button");
+		 
+		 Button contacts = new Button("Добавить контакты");
+		 contacts.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					SceneAddWorker change = new SceneAddWorker(primaryStage,  id_user);
+					change.setId(id_user);
+				}
+			});
+		 contacts.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		 contacts.setMaxWidth(160);
+		 contacts.setId("button");
+		 
 
 		 Button Update = new Button(" Запросить новые задачи ");
 		 Update.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
@@ -361,10 +374,11 @@ public class SceneMainWindow implements mainWindowUser {
 	    /// Тулбар ---/
 	     ToolBar toolbar = new ToolBar();
 	     toolbar.getItems().add(changMyInfo);
-	     toolbar.getItems().add(help);
-	     toolbar.getItems().add(about);
 	     toolbar.getItems().add(more);
 	     toolbar.getItems().add(Update);
+	     toolbar.getItems().add(contacts);
+	     toolbar.getItems().add(help);
+	     toolbar.getItems().add(about);
 	        
 
 	        /// конец тулбара ---/
@@ -581,8 +595,6 @@ public class SceneMainWindow implements mainWindowUser {
 				setPaths(paths_);
 			}
 		});
-		
-		
 		
 		ScrollPane ScFiles =new ScrollPane();
 		ScFiles.setLayoutX(10);

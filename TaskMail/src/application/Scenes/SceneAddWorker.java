@@ -6,15 +6,12 @@ import application.DB.AddUser;
 import application.DB.ChanngeUserInfos;
 import application.DB.SearchJobs;
 import application.Entities.EntityEmail;
-import application.Entities.EntityOneUser;
 import application.Entities.EntityUser;
 import application.interfaces.ChangeDataEmails;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -29,16 +26,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.PercentageStringConverter;
 
-public class SceneChangeDada_AddMails implements ChangeDataEmails {
+public class SceneAddWorker implements ChangeDataEmails {
 	private Stage primaryStage;
 	private Scene ounScene;
 	private Scene oldScene;
@@ -46,7 +40,8 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 	private int Id;
 	private ObservableList<EntityEmail> data;
 	private int idposts;
-	public SceneChangeDada_AddMails(Stage primaryStage, int _id) {
+	
+	public SceneAddWorker (Stage primaryStage, int _id) {
 		add = null;
 		this.Id = _id;
 		System.out.println("Конструктор айдиc - " + this.Id);
@@ -117,63 +112,12 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		enternFatherName.getStyleClass().add("EnterUserData");
 		enternFatherName.setMinWidth(150);
 		
-		/*VBox enterLogin = new VBox(50);
-		Label enterLoginLabel = new Label("Введите логин - эмейл");
-		TextField textLogin = new TextField();
-		textLogin.setPromptText("email");
-		enterLogin.getChildren().addAll(enterLoginLabel, textLogin);
-		//enterLogin.setAlignment(Pos.CENTER);
-		enterLogin.setSpacing(5);
-		enterLogin.getStyleClass().add("EnterUserData");*/
-		//enternFatherName.setMargin(child, value);
-		
-		
-		HBox enterPass = new HBox(50);
-		Label enterLoginPass = new Label("Введите пароль");
-		enterLoginPass.setWrapText(true);
-		Label enterRule = new Label("Пароль должен содержать буквы латинского алфавита и не меннее одной цифры");
-		enterRule.setWrapText(true);
-		enterRule.setMaxWidth(250);
-		enterRule.setWrapText(true);
-		enterRule.setMinHeight(85);
-		TextField pass = new TextField();
-		pass.setPromptText("Введите пароль");
-		enterPass.getChildren().addAll(enterLoginPass, pass,enterRule);
-		enterPass.setAlignment(Pos.CENTER);
-		enterPass.setSpacing(5);
-		enterPass.getStyleClass().add("EnterUserData");
-		enterPass.setMinWidth(400);
-		
-		HBox enterLogin = new HBox(50);
-		Label enterLoginLogin = new Label("Введите логин");
-		enterLoginLogin.setWrapText(true);
-		TextField login = new TextField();
-		login.setPromptText("Введите логин");
-		enterLogin.getChildren().addAll(enterLoginLogin, login );
-		enterLogin.setAlignment(Pos.CENTER);
-		enterLogin.setSpacing(5);
-		enterLogin.getStyleClass().add("EnterUserData");
-		
-		HBox enterLogPas = new HBox(50);
-		enterLogPas.getChildren().addAll(enterLogin);
-		enterLogPas.setId("Data");
-		enterLogPas.setSpacing(10);
-		//enterName.setAlignment(Pos.CENTER);
-		enterLogPas.getStyleClass().add("EnterUserData");
-		
 		HBox enterName = new HBox(50);
 		enterName.getChildren().addAll(enternName,enternSecondName,enternFatherName);
 		enterName.setId("Data");
 		enterName.setSpacing(10);
 		//enterName.setAlignment(Pos.CENTER);
 		enterName.getStyleClass().add("EnterUserData");
-		
-		HBox enterData = new HBox(50);
-		enterData.getChildren().addAll(/*enterLogin,*/enterPass);
-		enterData.setId("Data");
-		enterData.setSpacing(10);
-		//enterName.setAlignment(Pos.CENTER);
-		enterData.getStyleClass().add("EnterUserData");
 					
 		HBox enterJob = new HBox(50);
 		Label enterJobLabel = new Label("Если её нет, то введите");
@@ -197,11 +141,22 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		enterJob.setSpacing(5);
 		enterJob.getStyleClass().add("EnterUserData");
 		// кнопка обновления данных
-		Button buttonUpdate= new Button("Обновисть данные");
-		buttonUpdate.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-		buttonUpdate.setId("button");
+		Button buttonAddUser= new Button("Добавить контакт");
+		buttonAddUser.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		buttonAddUser.setId("button");
 		
-		userInfo.getChildren().setAll(enterName,enterData,enterLogPas,enterJob);
+		int idUserInner = getIdUser();
+		System.out.println("вызов создание объекта запроса - " + idUserInner);
+		ChanngeUserInfos infos = new ChanngeUserInfos(idUserInner);
+		
+		
+		// Кнопка поиска пользователя --//
+		Button search = new Button("Найти пользователя");
+		search.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		search.setId("button");
+
+		
+		userInfo.getChildren().setAll(enterName,enterJob,search);
 		userInfo.setId("Info");
 		userInfo.setSpacing(8);
 		
@@ -209,14 +164,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		// Панель для эмэйл пользователя ---/
 		
 		// --- Табличка с эмейлами пользователя --- /
-		int idUserInner = this.getIdUser();
-		System.out.println("вызов создание объекта запроса - " + idUserInner);
-		ChanngeUserInfos infos = new ChanngeUserInfos(idUserInner);
-		infos.whatMailsIs();
-		this.data = infos.getData();
-		
-		
-		
 		// Первая колонка
 		TableColumn<EntityEmail, Integer> firstColId = new TableColumn<EntityEmail, Integer>();
 		firstColId.setText("Номер");
@@ -271,21 +218,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 
 		// --- Конец таблички с эмейлами --- /
 		//enternFatherName.setMargin(child, value);
-		
-		HBox enterPassMail = new HBox(50);
-		Label enterLoginPassMail = new Label("Введите пароль");
-		Label enterRuleMail = new Label("Пароль от электронноый почты");
-		enterRuleMail.setMaxWidth(250);
-		enterRuleMail.setWrapText(true);
-		enterRuleMail.setMinHeight(25);
-		TextField passMail = new TextField();
-		passMail.setPromptText("Введите пароль");
-		enterPassMail.getChildren().addAll(enterLoginPassMail, passMail,enterRuleMail);
-		enterPassMail.setAlignment(Pos.CENTER);
-		enterPassMail.setSpacing(5);
-		enterPassMail.getStyleClass().add("EnterUserData");
-		enterPassMail.setMinWidth(450);
-		
 		
 		VBox enterInServer = new VBox(50);
 		Label InServerLabel = new Label("Введите Сервер входящей почты");
@@ -457,6 +389,27 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				String founds = null;
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") != 0)) {
+					founds = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
+					}
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") == 0)) {
+					founds = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"'); ";
+					}
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") == 0)) {
+					founds = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"'); ";
+					}
+				if (( textName.getText().compareTo("") == 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") != 0)) {
+					founds = "SELECT * FROM `users` WHERE (`lastname`='" +textFatherName.getText() + "'); ";
+					}
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") != 0)) {
+					founds = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
+				}
+				if (( textName.getText().compareTo("") == 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") == 0)) {
+					founds = "SELECT * FROM `users` WHERE (`secondname` = '"+textSeconName.getText() +"'); ";
+				}
+				System.out.print("Запрос - " + founds );
+				
 				//Login firstScene = new Login(primaryStage);
 				int idpost;
 				String inServerA;
@@ -474,19 +427,19 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					outServerA = "false";
 				}
 				String query = "INSERT INTO `taskmail`.`email`(`email`,`password`,`inServer`,`portInServer`,`needInAuth`,`outServer`,`portOutServer`,"
-						+ "`needOutAuth`) VALUES ('" + textEnterMail.getText()+ "','" + passMail.getText() + "','" +InServerField.getText() + "','" + 
+						+ "`needOutAuth`) VALUES ('" + textEnterMail.getText()+ "','Нет пароля','" +InServerField.getText() + "','" + 
 						InServerFieldPort.getText()+"','"+ inServerA + "','" + OutServerField.getText()+"','" + OutServerFieldPort.getText()
 						+"','" + outServerA +"');";
 				System.out.print(query);
 				add = new AddUser(query);
-				String found = "SELECT * FROM `users` WHERE (`id_user` = '"+ Id +"'); ";
+				String found = "SELECT * FROM `users` WHERE (`id_user` = '"+ add.WhoAdd(founds) +"'); ";
 				add.setMail(textEnterMail.getText());
 				//String insertMail = "INSERT INTO `taskmail`.`email`(`email`) VALUES ('"+textLogin.getText() +"');";
 				//add.setQuery(insertMail);
 				//add.setMail(textLogin.getText());
 				String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
 				add.addUserEmail(insertUserMAil);
-				
+				infos.setId(add.WhoAdd(founds));
 				infos.whatMailsIs();
 				//data.clear();
 				//setData(infos.getData());
@@ -499,7 +452,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				 tableView.refresh();
 				 
 				 textEnterMail.setText("");
-				 passMail.setText("");
 				 InServerField.setText("");
 				 InServerFieldPort.setText("");
 				 OutServerField.setText("");
@@ -514,6 +466,27 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		delete.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				String found = null;
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") != 0)) {
+					found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
+					}
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") == 0)) {
+					found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"'); ";
+					}
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") == 0)) {
+					found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"'); ";
+					}
+				if (( textName.getText().compareTo("") == 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") != 0)) {
+					found = "SELECT * FROM `users` WHERE (`lastname`='" +textFatherName.getText() + "'); ";
+					}
+				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") != 0)) {
+					found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
+				}
+				if (( textName.getText().compareTo("") == 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") == 0)) {
+					found = "SELECT * FROM `users` WHERE (`secondname` = '"+textSeconName.getText() +"'); ";
+				}
+				System.out.print("Запрос - " + found );
+						
 				/*String deleteUserMAil ="DELETE FROM `taskmail`.`email` LEFT JOIN `taskmail`.`user_email` ON `email`.`id_email` = "
 						+ " `user_email`.`id_email` WHERE  `user_email`.`id_user` = '" +  getIdUser() + "' AND `email`.`email` = '" + textEnterMail.getText()+ "';";*/
 				
@@ -531,7 +504,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					// Коенец сообщение об успехе -- /
 				}
 				
-				
+				infos.setId(add.WhoAdd(found));
 				infos.whatMailsIs();
 				ObservableList<EntityEmail> dataf = infos.whatMailsIs();
 				System.out.print("Email -новый размер - " +dataf.size());
@@ -545,8 +518,21 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 
 		});
 		
-		
-		emails.getChildren().setAll(tableView/*,buttonSelect*/, enterMail,delete,enterPassMail,InInfo,OutInfo,buttonAdd);
+		search.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+			
+				ObservableList<EntityEmail> dataf = infos.whatMailsIsOnWorker(textName.getText(), textSeconName.getText(), textFatherName.getText());
+				System.out.print("Email -новый размер - " +dataf.size());
+				for (int i=0; i<dataf.size(); i++) {
+					System.out.print("Email - new" + dataf.get(i).getEmail());
+				}
+				 tableView.getItems().setAll(dataf);
+				 tableView.refresh();
+				 textEnterMail.setText("");
+			}
+		});
+		emails.getChildren().setAll(tableView/*,buttonSelect*/, enterMail,delete,InInfo,OutInfo,buttonAdd);
 		emails.setSpacing(10);
 
 
@@ -556,9 +542,9 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		textName.setText(user.getFirstName());
 		textSeconName.setText(user.getSecondName());
 		textFatherName.setText(user.getLastName());
-		pass.setText(user.getPassword());
-		job.setText(user.getNamePost());
-		login.setText(user.getEmail());
+
+		//job.setText(user.getNamePost());
+		
 		// --- Конец задания значений первоначальныч ---/
 		// -- Кнопка назад ---/
 		Button buttonExit = new Button("Назад");
@@ -579,33 +565,47 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		
 		// -- Кнопка обновить данные пользователя --- /
 		//int idposts = 0;
-		buttonUpdate.setOnAction(new EventHandler<ActionEvent>() {
+		buttonAddUser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				int changeText = job.getText().compareTo(user.getNamePost());
-				int changeBox = allJobs.getSelectionModel().getSelectedItem().toString().compareTo(user.getNamePost());
-				if ((changeText == 0) && ( changeBox==0 )) {
-					idposts = user.getIdPost();
-					System.out.println("код выбора - " + idposts);
-				} 
-				if (changeBox != 0) {
-					idposts = allJobs.getSelectionModel().getSelectedIndex();
-					idposts +=1;
-					System.out.println("код выбора - " + idposts);
-				}
-				else {
+				int idpost;
+				if (job.getText().isEmpty()) {
+					idpost = allJobs.getSelectionModel().getSelectedIndex();
+					idpost +=1;
+					System.out.println("код выбора - " + idpost);
+				} else {
 					posts.setNamePost(job.getText());
-					idposts = posts.addPost("INSERT INTO `post` (`name_post`) VALUES ('" + job.getText() +"'); ");
-					System.out.println("код выбора - " + idposts);
+					idpost = posts.addPost("INSERT INTO `post` (`name_post`) VALUES ('" + job.getText() +"'); ");
+					System.out.println("код выбора - " + idpost);
+				}
+				
+				String ins = "INSERT INTO `users` (`firstname`,`secondname`,`lastname`,`id_post`,`login`,`password`) VALUES ('"+ textName.getText() 
+				+ "', '" +textSeconName.getText() + "','" + textFatherName.getText() + "','" +  idpost + "','Контакт','Без пароля');";
+			
+				add = new AddUser(ins);
+				boolean execTrue = add.execeteQuery();
+				if(execTrue) {
+					String found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"' AND `lastname`='" +textFatherName.getText() + "') ";
+					setId(add.WhoAdd(found));
+					//String insertMail = "INSERT INTO `taskmail`.`email`(`email`) VALUES ('"+textLogin.getText() +"');";
+					//add.setQuery(insertMail);
+					//add.setMail(textLogin.getText());
+					//String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
+					//add.addUserEmail(insertUserMAil);
+					Alert alert = new Alert(AlertType.INFORMATION,"Регистрация прошла успешно! Теперь Вы можете войти в систему");
+					alert.setTitle("Регистрация");
+					alert.setHeaderText("Вы зарегистрированы");
+					alert.show();
+				
 				}
 				
 				
-				String query = "UPDATE `taskmail`.`users` SET `firstname` = '" +  textName.getText()
+			/*	String query = "UPDATE `taskmail`.`users` SET `firstname` = '" +  textName.getText()
 			+"', `secondname` = '"+textSeconName.getText() +"', `lastname` = '" + textFatherName.getText()+ "', `id_post` = '" + idposts
-			+ "', `login` = '" + login.getText()+ "', `password` = '" + pass.getText()+ "' WHERE (`id_user` = '" + Id
+			+ "' WHERE (`id_user` = '" + Id
 			+ "');\r\n" + 
 						"";
-				infos.updateData(query);
+				infos.updateData(query);*/
 			}
 		});
 		// -- Конец кнопки обновить данные пользователя --- /
@@ -620,7 +620,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		Sc.setMinWidth(165);
 		Sc.setStyle("-fx-alignment: center;");
 		
-		userInfo.getChildren().add(buttonUpdate);
+		userInfo.getChildren().add(buttonAddUser);
 		HBox root = new HBox(50);
 		root.getChildren().setAll(userInfo,emails);
 		root.setAlignment(Pos.CENTER);
@@ -633,5 +633,4 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		scene.getStylesheets().add(getClass().getResource("/application/styles/changeDataemails.css").toExternalForm());
 		return scene;
 	}
-
 }

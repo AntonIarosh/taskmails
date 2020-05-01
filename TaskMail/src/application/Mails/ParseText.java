@@ -74,7 +74,7 @@ public class ParseText {
 		for(String subStr:words) {
 			String resultStr = subStr.substring(0, subStr.indexOf(':'));
 			
-			System.out.println("тема |" + resultStr + "|");  
+			//System.out.println("тема |" + resultStr + "|");  
 			StringBuffer oneStr = new StringBuffer(subStr);
 			oneStr.delete(0,subStr.indexOf(":")+1);
 			subStr = oneStr.toString();
@@ -164,9 +164,6 @@ public class ParseText {
 		String addUserTask = "INSERT INTO `taskmail`.`user_task` (`id_user`, `id_task`) VALUES ('" + getIdUser() + "', '" + idNewTask + "');";
 		add.addUserTask(addUserTask);
 		// конец добавление записи в таблицу задача пользователя -- /
-		
-
-		
 		// проверка и заполнение ссылки -- /
 		if (!link.isEmpty() ) {
 		

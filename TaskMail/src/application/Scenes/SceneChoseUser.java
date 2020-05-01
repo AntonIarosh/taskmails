@@ -222,6 +222,9 @@ public class SceneChoseUser {
 					if ( (!textSeconName.getText().isEmpty()) && (!textFatherName.getText().isEmpty())) {
 						tailFirstPart += " AND ";
 					}
+					if ( (!textName.getText().isEmpty()) &&(textSeconName.getText().isEmpty()) && (!textFatherName.getText().isEmpty())) {
+						tailFirstPart += " AND ";
+					}
 					if (!textFatherName.getText().isEmpty()) {
 						tailFirstPart += "`lastname` ='" +textFatherName.getText()+"'";
 					}

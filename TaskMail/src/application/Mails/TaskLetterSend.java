@@ -34,10 +34,6 @@ public class TaskLetterSend {
 		who.whatMailsIs();
 		mailFrom = who.getDataEmail();
 		
-		/*who.setId(idChosenUser);
-		who.whatMailsIs();
-		mailTo = who.getDataEmail();*/
-		
 		System.out.println (" Количество адресатов - " + allIdCh.size());
 		Address[] cc = new Address[allIdCh.size()];
 		
@@ -51,10 +47,6 @@ public class TaskLetterSend {
 		
 		//Объект properties хранит параметры соединения.
         //Для каждого почтового сервера они разные.
-        //Если не знаете нужные - обратитесь к администратору почтового сервера.
-        //Ну или гуглите;=)
-        //Конкретно для Yandex параметры соединения можно подсмотреть тут: 
-        //https://yandex.ru/support/mail/mail-clients.html (раздел "Исходящая почта")
         /*Properties properties = new Properties();
      	
         Transport.send(message);*/
@@ -83,8 +75,6 @@ public class TaskLetterSend {
             properties.put("mail.smtp.ssl.enable", "true");
             
             //prop.put("mail.smtp.port", "465");
-            
-            
             
           //  System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
             Session session = Session.getDefaultInstance(properties,
@@ -132,17 +122,6 @@ public class TaskLetterSend {
             //Текст письма
             // message.setText(text);
             message.setSentDate(new Date());
-            
-			/*Text  = "Задание: " + body  + ";\n" +
-			"Дополниельное описание: " +description+";\n" + 
-			"Ссылка на дополнительные материалы: " + link + ";\n" +
-			"Руководитель: " +supervisor+";\n" +
-			"Периодичность выполения: " + taskCol + ";\n"+
-			"Срочность задачи: " + urgencyMail +";\n" +
-			"Дата и время начала выполнения: " + dateStart +";\n" +
-			"Дата и время окончания выполенения: " + dataEnd +";\n"+
-			"Дата и время создания задачи:" + dataCreate + ";\n" +
-			"Выполнение: " + itsDone ; */
             body = body.replaceAll("[\n]", "");
             description = description.replaceAll("[\n]", "");
             link = link.replaceAll("[\n]", "");
@@ -165,32 +144,7 @@ public class TaskLetterSend {
    "Дата и время окончания выполенения: " + dataEnd +";\n"+
    "Дата и время создания задачи:" + dataCreate +";\n"+ 
    "Выполнение: " + itsDone  +";\n");
-          /*  part1.addHeader("Content-Type", "text/html; charset=UTF-8");
-            part1.setDataHandler(
-                    new DataHandler(
-                    
 
-   "Ссылка на дополнительные материалы: " + link +";"+ "<br>"+
-   "Руководитель: " +supervisor +";"+ "<br>"+
-   "Периодичность выполения: " + taskCol+";" + "<br>"+
-   "Срочность задачи: " + urgencyMail +";"+ "<br>"+
-   "Дата и время начала выполнения: " + dateStart +";"+ "<br>"+
-   "Дата и время окончания выполенения: " + dataEnd +";"+ "<br>"+
-   "Дата и время создания задачи:" + dataCreate +";"+ "<br>"+
-   "Выполнение: " + itsDone  +";"+ "</p>"*/
- //  "Задание: " + body + /*" Номер № " + idTask + */";\n"+
- /*  "Дополниельное описание: " +description +";\n"+
-   "Ссылка на дополнительные материалы: " + link +";\n"+
-   "Руководитель: " +supervisor +";\n"+ 
-   "Периодичность выполения: " + taskCol+";\n" + 
-   "Срочность задачи: " + urgencyMail +";\n"+
-   "Дата и время начала выполнения: " + dateStart +";\n"+ 
-   "Дата и время окончания выполенения: " + dataEnd +";\n"+
-   "Дата и время создания задачи:" + dataCreate +";\n"+ 
-   "Выполнение: " + itsDone  +";\n",
-                            "text/html; charset=\"utf-8\""
-             )
-            );*/
             
             for(int i=0; i< paths.size(); i++) {
             	System.out.println(" Путь к файлу - " + paths.get(i));
@@ -210,7 +164,7 @@ public class TaskLetterSend {
             
             Transport.send(message);
          // Сообщение об успехе -- /
-			Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю, а также сохранено в Вашей базе данных");
+			Alert alert = new Alert(AlertType.INFORMATION,"Задание было отправлено получателю");
 			alert.setTitle("Создание задания");
 			alert.setHeaderText("Задание сформировано и отправлено!");
 			alert.show();
