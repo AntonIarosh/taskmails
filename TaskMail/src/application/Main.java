@@ -18,7 +18,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			DBConnection conect = new DBConnection("taskmail");
+			/*DBConnection conect = new DBConnection("taskmail");
 			con = conect.connect();
 			System.out.println("| ура подключение");
 			String query = "select * from users";
@@ -45,7 +45,7 @@ public class Main extends Application {
 					con.close();
 			} catch (SQLException e) {
 
-			}
+			}*/
 			
 			Login firstScene = new Login(primaryStage);
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("View.fxml"));

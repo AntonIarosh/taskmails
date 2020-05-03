@@ -6,31 +6,29 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
 import application.DB.ChoseEmailToUser;
 import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Properties;
 
 
 public class QuickLetterSend {
+	//private Message message = null;
+	//private Properties properties = null;
+	//Session session = null;
 	
 	public void senMail(String theme, String text,int idChosenUser, int idUser,LinkedList<Integer> allIdCh) throws AddressException, MessagingException {
-		EntityEmailAll mailFrom = new EntityEmailAll();
 		
+		EntityEmailAll mailFrom = new EntityEmailAll();
 		ChoseEmailToUser who = new ChoseEmailToUser(idUser);
 		who.whatMailsIs();
 		mailFrom = who.getDataEmail();
-		
-		
+		System.out.println ("От кого - " + mailFrom.getEmail()+" c паролем - " +  mailFrom.getPassword() + " SMTP - " +  mailFrom.getSMPTserver() + " code - " +  mailFrom.getCodeSMTP());
 		System.out.println (" Количество адресатов - " + allIdCh.size());
-
-		
 		String hostSMTPServerMailFrom = mailFrom.getSMPTserver();
 		String needAuthorMailFrom = mailFrom.getSMTPneed();
 		int codeSMTPFrom = mailFrom.getCodeSMTP();
@@ -41,24 +39,19 @@ public class QuickLetterSend {
 		
 		//Объект properties хранит параметры соединения.
         //Для каждого почтового сервера они разные.
-        //Если не знаете нужные - обратитесь к администратору почтового сервера.
-        //Ну или гуглите;=)
-        //Конкретно для Yandex параметры соединения можно подсмотреть тут: 
-        //https://yandex.ru/support/mail/mail-clients.html (раздел "Исходящая почта")
         /*Properties properties = new Properties();
      	
         Transport.send(message);*/
 		//Запомним контекстный загрузчик классов
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        
         try {
            // Сделаем контекстным загрузчик, которым загружены классы библиотеки Java Mail
             Thread.currentThread().setContextClassLoader(javax.mail.Session.class.getClassLoader());
          
             Properties properties = new Properties();
-            
+            properties.clear();
             properties.put("mail.smtp.port", codeSMTPFrom);
-            
-            
             //Хост или IP-адрес почтового сервера
             //properties.put("mail.smtp.host", "smtp.yandex.ru");
             properties.put("mail.smtp.host", hostSMTPServerMailFrom);
@@ -74,25 +67,25 @@ public class QuickLetterSend {
             
             //prop.put("mail.smtp.port", "465");
             Address[] cc = new Address[allIdCh.size()];
-            
-            
-           
+            //Authenticator auth = new MyAuthenticator(emailFrom, passFrom); 
             Session session = Session.getDefaultInstance(properties,
                     new Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            //return new PasswordAuthentication("elandev@yandex.ru", "jhbjy333");
+                            
                             return new PasswordAuthentication(emailFrom, passFrom);
                         }
                     });
+          /*  
+            session = Session.getDefaultInstance(properties, auth); */
+           System.out.println( "Сессия, порт - " + session.getProperty("mail.smtp.port")  + " " + session.getProperty("mail.smtp.host"));
+          // session.get
             try {
             //Создаем новое почтовое сообщение
-            Message message = new MimeMessage(session);
+           Message  message = new MimeMessage(session);
             //От кого
-           // message.setFrom(new InternetAddress("elandev@yandex.ru"));
             message.setFrom(new InternetAddress(emailFrom));
             //Кому
-           // message.setRecipient(Message.RecipientType.TO, new InternetAddress("telandev@gmail.com"));
     		if(!allIdCh.isEmpty()) {
     			for(int i=0; i<allIdCh.size(); i++) {
     				EntityEmailAll mailTo = new EntityEmailAll();
@@ -137,8 +130,8 @@ public class QuickLetterSend {
             );
             multipart.addBodyPart(part1);
             message.setContent(multipart);
-            
             Transport.send(message);
+         
          // Сообщение об успехе -- /
 			Alert alert = new Alert(AlertType.INFORMATION,"Быстрое сообщение было отправлено получателю.");
 			alert.setTitle("Создание сообщения");

@@ -420,9 +420,9 @@ public class SceneChoseUser {
 					//Login firstScene = new Login(primaryStage);
 					System.out.print("DВызов назад");
 					//primaryStage.setScene(firstScene.getScene());//,oldScene);
-					
 					primaryStage.setScene(oldScene);
 					primaryStage.centerOnScreen();
+					primaryStage.setMaximized(true);
 				}
 			});
 			// -- Конец кнопки назад --/

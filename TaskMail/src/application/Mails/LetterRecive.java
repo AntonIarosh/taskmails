@@ -49,8 +49,10 @@ public class LetterRecive {
 		
 		// Данные источкника сообщения -- /
 		ChoseEmailToUser who = new ChoseEmailToUser(idUser);
-		who.whatMailsIs();
-		mailTo = who.getDataEmail();
+		//who.whatMailsIs();
+		//mailTo = who.getDataEmail();
+		mailTo = who.whatMailsIs();
+		System.out.println("ВЫполнилос получение настроек пользователя");
 		this.IMAP_NEED = mailTo.getIMAPneed();
 		this.IMAP_Port = Integer.toString( mailTo.getCodeIMAP());
 		this.IMAP_Server = mailTo.getIMAPserver();

@@ -31,8 +31,9 @@ public class TaskLetterSend {
 		EntityEmailAll mailFrom = new EntityEmailAll();
 		//EntityEmailAll mailTo = new EntityEmailAll();
 		ChoseEmailToUser who = new ChoseEmailToUser(idUser);
-		who.whatMailsIs();
-		mailFrom = who.getDataEmail();
+		//who.whatMailsIs();
+		//mailFrom = who.getDataEmail();
+		mailFrom = who.whatMailsIs();
 		
 		System.out.println (" Количество адресатов - " + allIdCh.size());
 		Address[] cc = new Address[allIdCh.size()];
@@ -98,8 +99,9 @@ public class TaskLetterSend {
     			for(int i=0; i<allIdCh.size(); i++) {
     				EntityEmailAll mailTo = new EntityEmailAll();
     				who.setId(allIdCh.get(i));
-    				who.whatMailsIs();
-    				mailTo = who.getDataEmail();
+    				//who.whatMailsIs();
+    				//mailTo = who.getDataEmail();
+    				mailTo = who.whatMailsIs();
     				String emailTo = mailTo.getEmail();
     				cc[i] = new InternetAddress(emailTo);
     				//message.setRecipient(Message.RecipientType.CC, new InternetAddress(emailTo));
@@ -111,8 +113,9 @@ public class TaskLetterSend {
     		} else {
     			EntityEmailAll mailTo = new EntityEmailAll();
     			who.setId(idChosenUser);
-    			who.whatMailsIs();
-    			mailTo = who.getDataEmail();
+				//who.whatMailsIs();
+				//mailTo = who.getDataEmail();
+				mailTo = who.whatMailsIs();
     			String emailTo = mailTo.getEmail();
     			message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
     			 System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);

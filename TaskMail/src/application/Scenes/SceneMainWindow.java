@@ -34,6 +34,7 @@ import application.Entities.EntityTask;
 import application.Mails.QuickLetterSend;
 import application.Mails.TaskLetterSend;
 import application.Mails.LetterRecive;
+import application.Mails.QuickL;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;
@@ -46,6 +47,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -84,6 +86,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -96,10 +99,13 @@ public class SceneMainWindow implements mainWindowUser {
 	private LinkedList<Integer> allIds;
 	private SceneChoseUser change;
 	private LinkedList <String> paths;
+	private QuickLetterSend senderQuich;
+	private TaskLetterSend sender;
 	
 	public SceneMainWindow(Stage primaryStage, int UserId) {
 		this.setPaths(new LinkedList<String>());
 		this.allIds = new LinkedList<Integer>();
+		this.sender = null;
 		change = null;
 		/*
 		this.primaryStage = primaryStage;
@@ -109,6 +115,7 @@ public class SceneMainWindow implements mainWindowUser {
 		
 		this.id = UserId;
 		this.primaryStage = primaryStage;
+		this.primaryStage.setMaximized(true);
 		this.ounScene = createNewScene();
 		this.oldScene = primaryStage.getScene();
 		setNewScene(this.primaryStage,this.ounScene); 
@@ -153,9 +160,13 @@ public class SceneMainWindow implements mainWindowUser {
 	 */
 	@Override
 	public Scene createNewScene() {
+		Screen screen = Screen.getPrimary();
+		Rectangle2D bounds = screen.getBounds();
+		
 		int idChosenUser=0;
 		BorderPane border =new BorderPane();
-		Scene scene = new Scene(border, 850, 650);
+		//Scene scene = new Scene(border, 850, 650);
+		Scene scene = new Scene(border,  bounds.getWidth(),  bounds.getHeight());
 		// Выход ---- 
 		Button exitFromProgram = new Button("Выйти из программы");
 		Button exitFromLogin = new Button("Выйти из учётной записи");
@@ -290,6 +301,11 @@ public class SceneMainWindow implements mainWindowUser {
 				public void handle(ActionEvent e) {
 					SceneOneWeekAndMonth moreTasks = new SceneOneWeekAndMonth(primaryStage,id);
 				}
+			});
+		 about.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					SceneAbout ds = new SceneAbout(primaryStage);				}
 			});
 		// Button mail = new Button("Электронная почта");
 		 
@@ -498,11 +514,14 @@ public class SceneMainWindow implements mainWindowUser {
 					scanner.close();
 				}
 				
+				//QuickL s = new QuickL(emailThem.getText(), email.getText(),idch,id,getAllIds());
+				senderQuich = new QuickLetterSend();
 				
-				QuickLetterSend sender = new QuickLetterSend();
 				try {
 					System.out.println (" Количество в классе - " + getAllIds().size());
-					sender.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
+					//s.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
+					senderQuich.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
+					//senderQuich.;
 				} catch (AddressException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1249,11 +1268,53 @@ public class SceneMainWindow implements mainWindowUser {
 		givenTasks.setSpacing(10);
 		givenTasks.setAlignment(Pos.CENTER);
 		
+		VBox givenTaskdate = new VBox(50);
+		Label givenTaskdateLabel = new Label(" Выданные задачи за этот день: ");
+		DatePicker givenTaskdatePickerStart = new DatePicker();
+		givenTaskdate.getChildren().addAll(givenTaskdateLabel, givenTaskdatePickerStart);
+		givenTaskdate.setAlignment(Pos.CENTER);
+		givenTaskdate.setSpacing(5);
+		givenTaskdate.getStyleClass().add("EnterTask");
+		
+		ScrollPane sp=new ScrollPane();
+		sp.setLayoutX(10);
+		sp.setLayoutY(10);
+		sp.setHmin(400);
+		sp.setCursor(Cursor.CLOSED_HAND);
+		sp.setContent(givenTasks);
+		
+		Button buttonWhatTaskIGive = new Button(" Обновить задачи ");
+		buttonWhatTaskIGive .getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		 //inf.setMaxWidth(160);
+		buttonWhatTaskIGive.setId("button");
+		buttonWhatTaskIGive.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					givenTasks.getChildren().clear();
+					LocalDate starts = givenTaskdatePickerStart.getValue();
+				
+					System.out.println("Дата начала- " + java.sql.Date.valueOf(starts));
+				
+					sp.setContent(getGivaenTasks(givenTasks,info.getName(), info.getSecondName(), info.getLastName() , java.sql.Date.valueOf(starts)));
+				}
+			});
+
+		
+		VBox AllgTaskIn = new VBox(50);
+		AllgTaskIn.setId("C");
+		AllgTaskIn.setSpacing(10);
+		AllgTaskIn.setAlignment(Pos.CENTER);
+		Label AllgTaskInLabel = new Label(" Задаченьки:  ");
+		AllgTaskIn .setAlignment(Pos.CENTER);
+		AllgTaskInLabel.setId("PULL");
+		AllgTaskIn.getChildren().addAll(AllgTaskInLabel, givenTaskdate, buttonWhatTaskIGive,sp);
+		AllgTaskIn.setMinWidth(250);
+		
 		Label _Label = new Label(" Выданные задачи: ");
 		givenTasks.getChildren().add(_Label);
 		//givenTasks.setMinWidth(800);
 		givenTasks.setMinWidth(scene.getWidth());
-	
+	/*
 		LinkedList <EntityTask> data = new LinkedList <EntityTask>();
 		// Запрос
 		String query = "SELECT * FROM `taskmail`.`task` WHERE `task`.`supervisor` = '" + info.getSecondName()+" "+ info.getName()+" "+ info.getLastName()+ "';";
@@ -1299,7 +1360,7 @@ public class SceneMainWindow implements mainWindowUser {
 			/*GregorianCalendar dateCreate = new GregorianCalendar();
 			dateCreate.setTime(res.getDate(5));
 			Date dateC = dateCreate.getTime();*/
-			Date dateS = data.get(i).getDateStrart();
+			/*Date dateS = data.get(i).getDateStrart();
 			GregorianCalendar dateStarts = new GregorianCalendar();
 			dateStarts.setTime(dateS);
 			int Month = dateStarts.get(Calendar.MONTH) + 1;
@@ -1364,18 +1425,14 @@ public class SceneMainWindow implements mainWindowUser {
 			
 			givenTasks.getChildren().add(name);
 			
-		}
-		ScrollPane sp=new ScrollPane();
-		sp.setLayoutX(10);
-		sp.setLayoutY(10);
-		sp.setHmin(400);
-		sp.setCursor(Cursor.CLOSED_HAND);
-		sp.setContent(givenTasks);
+		}*/
+		
+
 		//sp.set
 		//sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		
 		
-		tabTask.setContent(sp);
+		tabTask.setContent(AllgTaskIn);
 
 		// Конец выданная задача -- /
 		
@@ -1714,11 +1771,13 @@ public class SceneMainWindow implements mainWindowUser {
 	@Override
 	public void set() {
 		this.primaryStage.setScene(this.ounScene);
+		this.primaryStage.setMaximized(true);
 		this.primaryStage.show();
 	}
 	public void setNewScene(Stage primaryStage, Scene newScene) {
 		primaryStage.close();
 		primaryStage.setScene(newScene);
+		primaryStage.setMaximized(true);
 		primaryStage.show();
 	}
 	
@@ -2793,6 +2852,125 @@ public class SceneMainWindow implements mainWindowUser {
 
 	public void setPaths(LinkedList <String> paths) {
 		this.paths = paths;
+	}
+	public VBox getGivaenTasks(VBox givenTasks, String _name, String _secondName, String _lastName, Date Start) {
+		LinkedList <EntityTask> data = new LinkedList <EntityTask>();
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		String StartDate = sdf.format(Start);
+		// Запрос
+		String query = "SELECT * FROM `taskmail`.`task` WHERE `task`.`supervisor` = '" + _secondName+" "+ _name+" "+ _lastName+ "' AND `task`.`create_date_time` LIKE '" + StartDate + "%';";
+		System.out.println("Запрос на задачи - " + query);
+		ReadOunTasks ounTasks = new ReadOunTasks(_secondName+" "+ _name+" "+ _lastName);
+		ounTasks.setSearchQuery(query);
+		ounTasks.whatIs();
+		data = ounTasks.getData();
+		Label numberTasks = new Label(" Задано задач: " + data.size() );
+		givenTasks.getChildren().add(numberTasks);
+		
+		for (int i =0; i < data.size(); i++) {
+			System.out.println("Начался вывод задач ");
+			EntityTask thisTask = data.get(i);
+			//String name = Integer.toString(i);
+			VBox body_ = new VBox(50);
+			Label body_Label = new Label();
+			
+			Label a_Label = new Label("Описание: ");
+			body_Label.setText(data.get(i).getBode());
+			body_Label.setWrapText(true);
+			body_.getChildren().addAll(a_Label, body_Label);
+			body_.setAlignment(Pos.CENTER);
+			body_.setSpacing(5);
+			body_.getStyleClass().add("OneStringBaze");
+			
+			VBox title_ = new VBox(50);
+			Label t_Label = new Label("Заголовок: ");
+			Label title_Label = new Label();
+			title_Label.setWrapText(true);
+			title_Label.setText(data.get(i).getTitle());
+			title_.getChildren().addAll(t_Label,title_Label);
+			title_.setAlignment(Pos.CENTER);
+			title_.setSpacing(5);
+			title_.getStyleClass().add("OneStringBaze");
+			
+			HBox mean = new HBox(50);
+			mean.getChildren().addAll(title_,body_);
+			mean.setAlignment(Pos.CENTER);
+			mean.setSpacing(5);
+			mean.getStyleClass().add("OneString");
+			
+			// Время
+			Locale.setDefault(new Locale("ru","RU"));
+			/*GregorianCalendar dateCreate = new GregorianCalendar();
+			dateCreate.setTime(res.getDate(5));
+			Date dateC = dateCreate.getTime();*/
+			Date dateS = data.get(i).getDateStrart();
+			GregorianCalendar dateStarts = new GregorianCalendar();
+			dateStarts.setTime(dateS);
+			int Month = dateStarts.get(Calendar.MONTH) + 1;
+			String DateSAllT = " " + dateStarts.get(Calendar.DAY_OF_MONTH) + "." + Month +"."+ dateStarts.get(Calendar.YEAR) + " " +
+					dateStarts.get(Calendar.HOUR_OF_DAY) + ":" + dateStarts.get(Calendar.MINUTE);
+			
+			
+			Date dateE = data.get(i).getDateEnd();
+			GregorianCalendar dateEnds = new GregorianCalendar();
+			dateEnds.setTime(dateE);
+			Month = dateEnds.get(Calendar.MONTH) + 1;
+			String DateEAllT = dateEnds.get(Calendar.DAY_OF_MONTH) +"."+ Month + "."+ dateEnds.get(Calendar.YEAR) + " " +
+					dateEnds.get(Calendar.HOUR_OF_DAY) + ":" + dateEnds.get(Calendar.MINUTE);
+			
+			
+			
+			VBox dateST = new VBox(50);
+			Label dateST_Label = new Label();
+			Label datest_Label = new Label("Дата и время начала выполнения: ");
+			datest_Label.setWrapText(true);
+			//dateST_Label.setText(data.get(i).getDateStrart().toString());
+			dateST_Label.setText(DateSAllT);
+			dateST.getChildren().addAll(datest_Label, dateST_Label);
+			dateST.setAlignment(Pos.CENTER);
+			dateST.setSpacing(5);
+			dateST.getStyleClass().add("OneStringBaze");
+			
+			VBox dateEn = new VBox(50);
+			Label dateEn_Label = new Label();
+			Label dateen_Label = new Label("Дата и время окончания выполнения: ");
+			dateen_Label.setWrapText(true);
+			//dateEn_Label.setText(data.get(i).getDateEnd().toString());
+			dateEn_Label.setText(DateEAllT);
+			dateEn.getChildren().addAll(dateen_Label,dateEn_Label);
+			dateEn.setAlignment(Pos.CENTER);
+			dateEn.setSpacing(5);
+			dateEn.getStyleClass().add("OneStringBaze");
+			
+			HBox dates = new HBox(50);
+			dates.getChildren().addAll(dateST,dateEn);
+			dates.setAlignment(Pos.CENTER);
+			dates.setSpacing(5);
+			dates.getStyleClass().add("OneString");
+			
+			 Button inf = new Button("Узнать подробнее");
+			 inf.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+			 //inf.setMaxWidth(160);
+			 inf.setId("button");
+			 inf.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent e) {
+						
+						SceneOneTask t = new SceneOneTask(primaryStage,id,thisTask);
+					}
+				});
+			 
+			VBox name = new VBox(50);
+			name.getChildren().addAll(mean,dates,inf);
+			name.setId("OneTask");
+			name.setSpacing(10);
+			name.setAlignment(Pos.CENTER);
+			name.setMaxWidth(500);
+			
+			givenTasks.getChildren().add(name);
+			
+		}
+		return givenTasks;
 	}
 
 }
