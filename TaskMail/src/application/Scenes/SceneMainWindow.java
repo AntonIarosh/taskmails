@@ -662,7 +662,7 @@ public class SceneMainWindow implements mainWindowUser {
 		colTask.setSpacing(5);
 		colTask.getStyleClass().add("EnterTask");
 		textTaskCol.setOnKeyPressed(event-> {
-			int num = 42- textTheme.getText().length();
+			int num = 42- textTaskCol.getText().length();
 			colTaskLabel.setText("Введите периодичность задачи. Осталось символов: " + num);
 			if(textTaskCol.getText().length() > 42) {
 				

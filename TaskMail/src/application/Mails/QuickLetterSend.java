@@ -17,9 +17,6 @@ import java.util.Properties;
 
 
 public class QuickLetterSend {
-	//private Message message = null;
-	//private Properties properties = null;
-	//Session session = null;
 	
 	public void senMail(String theme, String text,int idChosenUser, int idUser,LinkedList<Integer> allIdCh) throws AddressException, MessagingException {
 		
@@ -67,8 +64,9 @@ public class QuickLetterSend {
             
             //prop.put("mail.smtp.port", "465");
             Address[] cc = new Address[allIdCh.size()];
-            //Authenticator auth = new MyAuthenticator(emailFrom, passFrom); 
-            Session session = Session.getDefaultInstance(properties,
+            /*Authenticator auth = new MyAuthenticator(emailFrom, passFrom); */
+            //Session session = Session.getDefaultInstance(properties,
+            Session session = Session.getInstance(properties,
                     new Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
@@ -76,13 +74,13 @@ public class QuickLetterSend {
                             return new PasswordAuthentication(emailFrom, passFrom);
                         }
                     });
-          /*  
-            session = Session.getDefaultInstance(properties, auth); */
+          
+           // session = Session.getDefaultInstance(properties, auth); 
            System.out.println( "Сессия, порт - " + session.getProperty("mail.smtp.port")  + " " + session.getProperty("mail.smtp.host"));
           // session.get
             try {
             //Создаем новое почтовое сообщение
-           Message  message = new MimeMessage(session);
+          Message  message = new MimeMessage(session);
             //От кого
             message.setFrom(new InternetAddress(emailFrom));
             //Кому

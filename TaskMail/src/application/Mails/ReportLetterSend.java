@@ -93,7 +93,8 @@ public class ReportLetterSend {
 	            
 	            
 	           // System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
-	            Session session = Session.getDefaultInstance(properties,
+	            //Session session = Session.getDefaultInstance(properties,
+	            Session session = Session.getInstance(properties,
 	                    new Authenticator() {
 	                        @Override
 	                        protected PasswordAuthentication getPasswordAuthentication() {
