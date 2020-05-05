@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import application.DB.AddUser;
 import application.DB.ChanngeUserInfos;
+import application.DB.DeleteEmail;
 import application.DB.SearchJobs;
 import application.Entities.EntityEmail;
 import application.Entities.EntityOneUser;
@@ -518,10 +519,43 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 						+ " `user_email`.`id_email` WHERE  `user_email`.`id_user` = '" +  getIdUser() + "' AND `email`.`email` = '" + textEnterMail.getText()+ "';";*/
 				
 				String deleteUserMAil ="DELETE FROM `taskmail`.`email` WHERE `email`.`email` = '" + textEnterMail.getText()+ "'; ";
-						
-				System.out.print(deleteUserMAil);
-				add = new AddUser(deleteUserMAil);
-				boolean ifDel = add.execeteQuery();
+				// колечество упоминаний адрса
+				
+				String whatIdMail = "SELECT `email`.`id_email` FROM `taskmail`.`email` WHERE `email` = '" + textEnterMail.getText() + "';";
+				DeleteEmail oneOrMany = new DeleteEmail(whatIdMail);
+				int idOfMail = oneOrMany.whatId();
+				System.out.println("id = " + idOfMail);
+				String countOfMail =  null;
+				boolean countOfUserMail = false;
+				String delFromUsersEmail = null;
+				boolean ifDel = false;
+				if (idOfMail != -1) {
+					countOfMail = "SELECT COUNT(`user_email`.`id_email`) FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" +idOfMail+"';";
+					oneOrMany.setQuery(countOfMail);
+					countOfUserMail = oneOrMany.serchQuery();
+					if (countOfUserMail) {
+						System.out.println("Больше одного");
+						delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
+						System.out.println(delFromUsersEmail);
+						add = new AddUser(delFromUsersEmail);
+						ifDel = add.execeteQuery();
+					} else {
+						System.out.println(deleteUserMAil);
+						add = new AddUser(deleteUserMAil);
+						ifDel = add.execeteQuery();
+						System.out.println("Один одного");
+					}
+					
+				} else {
+					// Сообщение об no успехе -- /
+					Alert alert = new Alert(AlertType.INFORMATION,"Удаление адресса электронной почты");
+					alert.setTitle("Удаление");
+					alert.setHeaderText("Удаление не выполнено. Нет такого адреса электронной почты в базе данных!");
+					alert.show();
+					// Коенец сообщение об no  успехе -- /
+				}
+				//countOfUserMail = oneOrMany.serchQuery();
+				//String delFromUsersEmail = "DELETE FROM `taskmail`.`user_email`";
 				if(ifDel) {
 					// Сообщение об успехе -- /
 					Alert alert = new Alert(AlertType.INFORMATION,"Удаление адресса электронной почты");

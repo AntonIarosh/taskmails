@@ -23,8 +23,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
 import addManyItems.addFilesToLeterTask;
-//import application.DateTimePicker;
-import application.DB.AddUser;
+//import application.DB.AddUser;
 import application.DB.GetInfoLogin;
 import application.DB.ReadOneTask2;
 import application.DB.ReadOunTasks;
@@ -34,7 +33,6 @@ import application.Entities.EntityTask;
 import application.Mails.QuickLetterSend;
 import application.Mails.TaskLetterSend;
 import application.Mails.LetterRecive;
-import application.Mails.QuickL;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;
@@ -42,10 +40,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
+//import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
+//import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -74,17 +72,17 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.effect.SepiaTone;
+//import javafx.scene.effect.SepiaTone;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+//import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+//import javafx.scene.shape.Rectangle;
+//import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -306,6 +304,11 @@ public class SceneMainWindow implements mainWindowUser {
 				@Override
 				public void handle(ActionEvent e) {
 					SceneAbout ds = new SceneAbout(primaryStage);				}
+			});
+		 help.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					SceneHelp ds = new SceneHelp(primaryStage);				}
 			});
 		// Button mail = new Button("Ёлектронна€ почта");
 		 

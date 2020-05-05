@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import application.DB.AddUser;
 import application.DB.ChanngeUserInfos;
+import application.DB.ChoseIdUserByFIO;
+import application.DB.DeleteEmail;
 import application.DB.SearchJobs;
 import application.Entities.EntityEmail;
 import application.Entities.EntityUser;
@@ -460,10 +462,13 @@ public class SceneAddWorker implements ChangeDataEmails {
 
 		});
 		
-		Button delete = new Button("Удалить");
+		Button delete = new Button("Удалить почту");
 		delete.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		delete.setId("button");
 		delete.setOnAction(new EventHandler<ActionEvent>() {
+			/**
+			 *
+			 */
 			@Override
 			public void handle(ActionEvent e) {
 				String found = null;
@@ -491,10 +496,43 @@ public class SceneAddWorker implements ChangeDataEmails {
 						+ " `user_email`.`id_email` WHERE  `user_email`.`id_user` = '" +  getIdUser() + "' AND `email`.`email` = '" + textEnterMail.getText()+ "';";*/
 				
 				String deleteUserMAil ="DELETE FROM `taskmail`.`email` WHERE `email`.`email` = '" + textEnterMail.getText()+ "'; ";
+				// колечество упоминаний адрса
+				
+				String whatIdMail = "SELECT `email`.`id_email` FROM `taskmail`.`email` WHERE `email` = '" + textEnterMail.getText() + "';";
+				DeleteEmail oneOrMany = new DeleteEmail(whatIdMail);
+				int idOfMail = oneOrMany.whatId();
+				System.out.println("id = " + idOfMail);
+				String countOfMail =  null;
+				boolean countOfUserMail = false;
+				String delFromUsersEmail = null;
+				boolean ifDel = false;
+				if (idOfMail != -1) {
+					countOfMail = "SELECT COUNT(`user_email`.`id_email`) FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" +idOfMail+"';";
+					oneOrMany.setQuery(countOfMail);
+					countOfUserMail = oneOrMany.serchQuery();
+					if (countOfUserMail) {
+						System.out.println("Больше одного");
+						// Поиск айди юзера.
 						
-				System.out.print(deleteUserMAil);
-				add = new AddUser(deleteUserMAil);
-				boolean ifDel = add.execeteQuery();
+						delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
+						System.out.println(delFromUsersEmail);
+						add = new AddUser(delFromUsersEmail);
+						ifDel = add.execeteQuery();
+					} else {
+						System.out.println(deleteUserMAil);
+						add = new AddUser(deleteUserMAil);
+						ifDel = add.execeteQuery();
+						System.out.println("Один одного");
+					}
+					
+				} else {
+					// Сообщение об no успехе -- /
+					Alert alert = new Alert(AlertType.INFORMATION,"Удаление адресса электронной почты");
+					alert.setTitle("Удаление");
+					alert.setHeaderText("Удаление не выполнено. Нет такого адреса электронной почты в базе данных!");
+					alert.show();
+					// Коенец сообщение об no  успехе -- /
+				}
 				if(ifDel) {
 					// Сообщение об успехе -- /
 					Alert alert = new Alert(AlertType.INFORMATION,"Удаление адресса электронной почты");
@@ -530,6 +568,37 @@ public class SceneAddWorker implements ChangeDataEmails {
 				 tableView.getItems().setAll(dataf);
 				 tableView.refresh();
 				 textEnterMail.setText("");
+				 
+				 String found = null;
+					if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") != 0)) {
+						found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
+						}
+					if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") == 0)) {
+						found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"'); ";
+						}
+					if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") == 0)) {
+						found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"'); ";
+						}
+					if (( textName.getText().compareTo("") == 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") != 0)) {
+						found = "SELECT * FROM `users` WHERE (`lastname`='" +textFatherName.getText() + "'); ";
+						}
+					if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") == 0) && (textFatherName.getText().compareTo("") != 0)) {
+						found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
+					}
+					if (( textName.getText().compareTo("") == 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") == 0)) {
+						found = "SELECT * FROM `users` WHERE (`secondname` = '"+textSeconName.getText() +"'); ";
+					}
+					System.out.print("Запрос - " + found );
+				 ChoseIdUserByFIO who = new ChoseIdUserByFIO ();
+				 who.setQuestion(found);
+				 int IdUser = who.checkId();
+				 setId(IdUser);
+				 infos.setId(IdUser);
+				 EntityUser user = infos.whoIsThis();
+					textName.setText(user.getFirstName());
+					textSeconName.setText(user.getSecondName());
+					textFatherName.setText(user.getLastName());
+				 
 			}
 		});
 		emails.getChildren().setAll(tableView/*,buttonSelect*/, enterMail,delete,InInfo,OutInfo,buttonAdd);
@@ -563,7 +632,7 @@ public class SceneAddWorker implements ChangeDataEmails {
 		});
 		// -- Конец кнопки назад --/
 		
-		// -- Кнопка обновить данные пользователя --- /
+		// -- Кнопка добавить пользователя--- /
 		//int idposts = 0;
 		buttonAddUser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -592,9 +661,9 @@ public class SceneAddWorker implements ChangeDataEmails {
 					//add.setMail(textLogin.getText());
 					//String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
 					//add.addUserEmail(insertUserMAil);
-					Alert alert = new Alert(AlertType.INFORMATION,"Регистрация прошла успешно! Теперь Вы можете войти в систему");
-					alert.setTitle("Регистрация");
-					alert.setHeaderText("Вы зарегистрированы");
+					Alert alert = new Alert(AlertType.INFORMATION,"Добавление контакта прошло успешно.");
+					alert.setTitle("Добавление контакта в базу данных");
+					alert.setHeaderText("Контакт:" + textSeconName.getText()+" " +textName.getText() + " "+textFatherName.getText()  + " добавлен в базу данных");
 					alert.show();
 				
 				}
