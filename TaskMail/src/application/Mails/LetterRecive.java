@@ -126,7 +126,7 @@ public class LetterRecive {
                         	InputStream in = null;
                         	FileOutputStream out = null;
 	                   		 DirectoryChooser dialog = new DirectoryChooser();
-	                   		 dialog.setTitle("Выберете папку для сохранения файла");
+	                   		 dialog.setTitle("Выберете папку для сохранения файла: " + filename);
 	                   		 File result = dialog.showDialog( getPrimaryStage());
 	                   		 if(result != null) {
 	                   			path = result.getAbsolutePath() + File.separator + filename ;
@@ -164,7 +164,7 @@ public class LetterRecive {
                     String body =str.toString();
                     body.replaceAll("<(.)+?>", "");
                     parse.setText(body);
-                   // System.out.println(" Тело сообщения - " + body);
+                    System.out.println(" Тело сообщения - " + body);
                     //System.out.println(" Вызов -парсинга " );
                     parse.makeParse();
                    // System.out.println(" ПАРСИНГ УСЁ" );

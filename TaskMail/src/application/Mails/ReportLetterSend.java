@@ -162,7 +162,7 @@ public class ReportLetterSend {
 	                    
 	                    
 	   "<h3 style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Задание: " + body + /*" Номер № " + idTask + */";"+ "</h3><br>"+
-	   "<p style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Дополниельное описание: " +description +";"+ "<br>"+
+	   "<p style=\"background-color: #ADD8E6; alignment: center; padding: 2px; font-weight: bold; border-radius: 10px;\">"  + "Дополнительное описание: " +description +";"+ "<br>"+
 	   "Руководитель: " +supervisor +";"+ "<br>"+
 	   "Отчёт: " + report  +";"+ "<br>" +
 	   "Комментарии к задаче: " + comments  +";"+ "<br>" +
@@ -170,7 +170,7 @@ public class ReportLetterSend {
 	   "Периодичность выполения: " + taskCol+";" + "<br>"+
 	   "Срочность задачи: " + urgencyMail +";"+ "<br>"+
 	   "Дата и время начала выполнения: " + dateStart +";"+ "<br>"+
-	   "Дата и время окончания выполенения: " + dataEnd +";"+ "<br>"+
+	   "Дата и время окончания выполнения: " + dataEnd +";"+ "<br>"+
 	   "Дата и время создания задачи:" + dataCreate +";"+ "<br>"+
 	   "Выполнение: " + itsDone  +";"+ "</p>"
 	                            		+ "</body> <br> " +

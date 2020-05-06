@@ -12,6 +12,7 @@ import application.Entities.EntityTask;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,6 +22,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class SceneOneTask {
@@ -67,7 +69,9 @@ public class SceneOneTask {
 			VBox flowPane = new VBox(50);
 			BorderPane roots = new BorderPane();
 			roots.setId("flowPane");
-			Scene scene = new Scene(roots, 1050, 600);
+			Screen screen = Screen.getPrimary();
+			Rectangle2D bounds = screen.getBounds();
+			Scene scene = new Scene(roots, bounds.getWidth(),  bounds.getHeight());
 			//FlowPane root = new FlowPane(Orientation.HORIZONTAL);
 			// Панель для данных пользователя ---/
 			VBox TaskInfo = new VBox();

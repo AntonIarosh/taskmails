@@ -2223,12 +2223,12 @@ public class SceneMainWindow implements mainWindowUser {
 				+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
 				+ "`user_task`.`id_user` = `users`.`id_user` "
 				+ "WHERE `task`.`start_date_time` LIKE '" + sqlDate + "%' AND `users`.`id_user` ='" + this.id + "'; ";
-		System.out.println("ƒата дл€ выбора - " + queryForThisDay);
+		//System.out.println("ƒата дл€ выбора - " + queryForThisDay);
 		ReadOunTasks thisDayTasks = new ReadOunTasks();
 		thisDayTasks.setSearchQuery(queryForThisDay);
 		thisDayTasks.whatIs();
 		data = thisDayTasks.getData();
-		System.out.println("количество задач на сегодн€ - " + data.size());
+		//System.out.println("количество задач на сегодн€ - " + data.size());
 		
 		
 		//String queryForThisDayAnd ="SELECT * FROM `taskmail`.`task` WHERE `task`.`end_date_time` LIKE '" + DateSAllT +
@@ -2251,7 +2251,7 @@ public class SceneMainWindow implements mainWindowUser {
 		
 		
 		
-		System.out.println("sql data - " + sqlDate);
+		//System.out.println("sql data - " + sqlDate);
 		
 		String queryForBetweenDate = "SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"
 				+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
@@ -2280,7 +2280,7 @@ public class SceneMainWindow implements mainWindowUser {
 		for (int i =0; i < dataEnd.size(); i ++ ) {
 			System.out.println("i - " + i + " врем€ - " + dataEnd.get(i).getDateStrart() + " титл " + dataEnd.get(i).getTitle());
 		}
-		System.out.println(" //////////////////////////// - ");
+		//System.out.println(" //////////////////////////// - ");
 		HBox TaskBetween = new HBox(50);
 		TaskBetween.setId("C");
 		TaskBetween.setSpacing(10);

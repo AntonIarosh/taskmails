@@ -26,6 +26,7 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -45,6 +46,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -112,7 +114,9 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 		public Scene createNewScene() {
 			int idChosenUser=0;
 			BorderPane border =new BorderPane();
-			Scene scene = new Scene(border, 850, 650);
+			Screen screen = Screen.getPrimary();
+			Rectangle2D bounds = screen.getBounds();
+			Scene scene = new Scene(border, bounds.getWidth(),  bounds.getHeight());
 			// Выход ---- 
 			Button exitFromProgram = new Button("Назад");
 			Button exitFromLogin = new Button("Выйти из учётной записи");

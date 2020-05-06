@@ -138,18 +138,31 @@ public class TaskLetterSend {
             MimeMultipart multipart = new MimeMultipart();
             //Первый кусочек - текст письма
             MimeBodyPart part1 = new MimeBodyPart();
-            part1.setText(   "Суть задачи: " + body + /*" Номер № " + idTask + */";\n"+
-   "Дополниельное описание: " +description +";\n"+
+            
+            /////////////////////////////////////////////////////
+            part1.setDataHandler(
+                    new DataHandler(
+   "Суть задачи: " + body + /*" Номер № " + idTask + */";<br />"+
+   "Дополнительное описание: " +description +";<br />"+
+   "Ссылка на дополнительные материалы: " + link +";<br />"+
+   "Руководитель: " +supervisor +";<br />"+
+   "Периодичность выполнения: " + taskCol+";<br />" +
+   "Срочность задачи: " + urgencyMail + ";<br />" +
+   "Дата и время начала выполнения: " + dateStart + ";<br />" +
+   "Дата и время окончания выполнения: " + dataEnd + ";<br />" +
+   "Дата и время создания задачи:" + dataCreate + ";<br />" +
+   "Выполнение: " + itsDone  + ";<br />"  ,"text/html; charset=\"utf-8\"" ) );
+            /////////////////////////////////////////////////////
+           // part1.setText(   "Суть задачи: " + body + /*" Номер № " + idTask + */";\n"+
+  /* "Дополнительное описание: " +description +";\n"+
    "Ссылка на дополнительные материалы: " + link +";\n"+
    "Руководитель: " +supervisor +";\n"+ 
    "Периодичность выполения: " + taskCol+";\n" + 
    "Срочность задачи: " + urgencyMail +";\n"+
    "Дата и время начала выполнения: " + dateStart +";\n"+ 
-   "Дата и время окончания выполенения: " + dataEnd +";\n"+
+   "Дата и время окончания выполнения: " + dataEnd +";\n"+
    "Дата и время создания задачи:" + dataCreate +";\n"+ 
-   "Выполнение: " + itsDone  +";\n");
-
-            
+   "Выполнение: " + itsDone  +";\n");*/
             for(int i=0; i< paths.size(); i++) {
             	System.out.println(" Путь к файлу - " + paths.get(i));
                 // Создание второй части
@@ -161,8 +174,6 @@ public class TaskLetterSend {
                 
             	multipart.addBodyPart(p2);
             }
-
-            
             multipart.addBodyPart(part1);
             message.setContent(multipart);
             

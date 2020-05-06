@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -30,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -157,8 +159,93 @@ public class SceneAddWorker implements ChangeDataEmails {
 		search.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		search.setId("button");
 
+		Button buttonDelPerson = new Button("Удалить контакт");
+		buttonDelPerson.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		buttonDelPerson.setId("button");
+		buttonDelPerson.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				boolean ifDel = false;
+				
+				
+				ObservableList<EntityEmail> dataf = infos.whatMailsIsOnWorker(textName.getText(), textSeconName.getText(), textFatherName.getText());
+				System.out.print("Email -новый размер - " +dataf.size());
+				for (int i=0; i<dataf.size(); i++) {
+					String mail = dataf.get(i).getEmail();
+					System.out.print("Email - new" + dataf.get(i).getEmail());
+					
+					String deleteUserMAil ="DELETE FROM `taskmail`.`email` WHERE `email`.`email` = '" + mail+ "'; ";
+					// колечество упоминаний адрса
+					
+					String whatIdMail = "SELECT `email`.`id_email` FROM `taskmail`.`email` WHERE `email` = '" + mail + "';";
+					DeleteEmail oneOrMany = new DeleteEmail(whatIdMail);
+					int idOfMail = oneOrMany.whatId();
+					System.out.println("id = " + idOfMail);
+					String countOfMail =  null;
+					boolean countOfUserMail = false;
+					String delFromUsersEmail = null;
+				
+					if (idOfMail != -1) {
+						countOfMail = "SELECT COUNT(`user_email`.`id_email`) FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" +idOfMail+"';";
+						oneOrMany.setQuery(countOfMail);
+						countOfUserMail = oneOrMany.serchQuery();
+						if (countOfUserMail) {
+							System.out.println("Больше одного");
+							// Поиск айди юзера.
+							
+							delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
+							System.out.println(delFromUsersEmail);
+							add = new AddUser(delFromUsersEmail);
+							ifDel = add.execeteQuery();
+						} else {
+							System.out.println(deleteUserMAil);
+							add = new AddUser(deleteUserMAil);
+							ifDel = add.execeteQuery();
+							System.out.println("Один одного");
+						}
+						
+					} 
+					
+				}
+				String deleteQuery = "DELETE FROM `taskmail`.`users` WHERE `users`.`id_user` = '" + getIdUser() + "' AND `users`.`login` = 'Контакт';";
+				System.out.println(deleteQuery);
+				add = new AddUser(deleteQuery);
+				ifDel = add.execeteQuery();
+				System.out.println("Один одного");
+				
+				if(ifDel) {
+					// Сообщение об успехе -- /
+					Alert alert = new Alert(AlertType.INFORMATION,"Удаление контакта");
+					alert.setTitle("Удаление");
+					alert.setHeaderText("Удаление контакта выполнилось успешно! Также из базы данных удалены электронные адреса даннного контакта.");
+					alert.show();
+					// Коенец сообщение об успехе -- /
+					textName.setText("");
+					textSeconName.setText("");
+					textFatherName.setText("");
+				}
+			}
+		});
 		
-		userInfo.getChildren().setAll(enterName,enterJob,search);
+		VBox searchPeople = new VBox();
+		searchPeople.setSpacing(8);
+		searchPeople.setAlignment(Pos.CENTER);
+		searchPeople.setStyle("-fx-background-radius: 5;-fx-font-weight: bold; -fx-padding: 2px; -fx-background-color:white;");
+		searchPeople.getChildren().add(search);
+		searchPeople.setMinSize(100, 70);
+		searchPeople.setMaxSize(100, 70);
+		
+		VBox delPeople = new VBox();
+		delPeople.setSpacing(8);
+		delPeople.setAlignment(Pos.CENTER);
+		delPeople.setStyle("-fx-background-radius: 5;-fx-font-weight: bold; -fx-padding: 2px; -fx-background-color:white;");
+		delPeople.getChildren().add(buttonDelPerson);
+		delPeople.setMinSize(100, 70);
+		delPeople.setMaxSize(100, 70);
+		
+		
+		
+		userInfo.getChildren().setAll(enterName,enterJob,searchPeople,delPeople);
 		userInfo.setId("Info");
 		userInfo.setSpacing(8);
 		
@@ -601,9 +688,16 @@ public class SceneAddWorker implements ChangeDataEmails {
 				 
 			}
 		});
+		VBox deleteMail = new VBox();
+		deleteMail.setSpacing(8);
+		deleteMail.setAlignment(Pos.CENTER);
+		deleteMail.setStyle("-fx-background-radius: 5;-fx-font-weight: bold; -fx-padding: 2px; -fx-background-color:white;");
+		//deleteMail.getChildren().add(delete);
+		deleteMail.setMinSize(220, 40);
+		deleteMail.setMaxSize(220, 70);
+		
 		emails.getChildren().setAll(tableView/*,buttonSelect*/, enterMail,delete,InInfo,OutInfo,buttonAdd);
 		emails.setSpacing(10);
-
 
 		// --- конец панели для эмэйл пользователя---/
 		// --- Задание первоначальных значений полей ---/
@@ -689,7 +783,15 @@ public class SceneAddWorker implements ChangeDataEmails {
 		Sc.setMinWidth(165);
 		Sc.setStyle("-fx-alignment: center;");
 		
-		userInfo.getChildren().add(buttonAddUser);
+		VBox addPeople = new VBox();
+		addPeople.setSpacing(8);
+		addPeople.setAlignment(Pos.CENTER);
+		addPeople.setStyle("-fx-background-radius: 5;-fx-font-weight: bold; -fx-padding: 2px; -fx-background-color:white;");
+		addPeople.getChildren().add(buttonAddUser);
+		addPeople.setMinSize(100, 70);
+		addPeople.setMaxSize(100, 70);
+		
+		userInfo.getChildren().add(addPeople);
 		HBox root = new HBox(50);
 		root.getChildren().setAll(userInfo,emails);
 		root.setAlignment(Pos.CENTER);
@@ -698,7 +800,9 @@ public class SceneAddWorker implements ChangeDataEmails {
 		flowPane.getChildren().setAll(root,buttonExit);
 		flowPane.setAlignment(Pos.CENTER);
 		flowPane.setId("flowPane");
-		Scene scene = new Scene(flowPane, 1050, 600);
+		Screen screen = Screen.getPrimary();
+		Rectangle2D bounds = screen.getBounds();
+		Scene scene = new Scene(flowPane, bounds.getWidth(),  bounds.getHeight());
 		scene.getStylesheets().add(getClass().getResource("/application/styles/changeDataemails.css").toExternalForm());
 		return scene;
 	}

@@ -37,10 +37,11 @@ public class ParseText {
 	public void makeParse() {
 		// Части задачи для записи в бд
 		String title = null;
+		String Oldtitle = null;
 		//String comment = null;
 		String body = null;
 		String supervisor = null;
-		String link = null;
+		String link  = null;
 		String description = null;
 		String dateStart = null;
 		String dataEnd = null;
@@ -51,22 +52,25 @@ public class ParseText {
 		String itsDone = "0";
 
 		
-		title = getSubject();
+		Oldtitle = getSubject();
 		
-		StringBuffer strTitle = new StringBuffer(getSubject());
-		System.out.println(" =последнее вхождение двоеточия.-" + title.lastIndexOf(":"));
+		title = Oldtitle.replace("Живое расписание: Задание: ", "").trim();
+		
+		/*StringBuffer strTitle = new StringBuffer(getSubject());
+		System.out.println(" =последнее вхождение двоеточия.-" + title.lastIndexOf("\""));
 		strTitle.delete(0,title.lastIndexOf(":")+1);
 		title = strTitle.toString();
 		title.trim();
 		if (title.charAt(0) == ' ') {
 			title = title.substring(1);
-		}
+		}*/
 		
 		System.out.println(" ============================================================= -");
 		System.out.println("  У нас есть тема -|" + title+"|");
 		
 		String all = this.getText();
-		String[] words = all.split("\n"); // Разбиение строки на слова с помощью разграничителя (пробел)
+		String delimeter = ";<br />"; // Разделитель
+		String[] words = all.split(delimeter); // Разбиение строки на слова с помощью разграничителя (пробел)
 		/*for (int i =0; i < words.length; i++) {
 			 System.out.println("|" + words[i] + "|");  
 		}*/
@@ -74,7 +78,7 @@ public class ParseText {
 		for(String subStr:words) {
 			String resultStr = subStr.substring(0, subStr.indexOf(':'));
 			
-			//System.out.println("тема |" + resultStr + "|");  
+			System.out.println("тема |" + resultStr + "|");  
 			StringBuffer oneStr = new StringBuffer(subStr);
 			oneStr.delete(0,subStr.indexOf(":")+1);
 			subStr = oneStr.toString();
@@ -86,9 +90,11 @@ public class ParseText {
 			//subStr = subStr.replaceAll(" ", "");
 			subStr.trim();
 			switch(resultStr) {
-			case "Дополниельное описание": {
+			case "Дополнительное описание": {
 				System.out.println("Доп опис");  
 				description = subStr;
+				description  = description .replaceAll("[(]", "\\(");
+				description  = description .replaceAll("[)]", "\\)");
 				break;
 			}
 			case "Выполнение": {
@@ -97,13 +103,15 @@ public class ParseText {
 			}
 			case "Дата и время создания задачи": {
 				dataCreate = subStr;
+				dataCreate  = dataCreate.replaceAll("[(]", "\\(");
+				dataCreate  = dataCreate.replaceAll("[)]", "\\)");
 				break;
 			}
 			case "Дата и время начала выполнения": {
 				dateStart = subStr;
 				break;
 			}
-			case "Дата и время окончания выполенения": {
+			case "Дата и время окончания выполнения": {
 				dataEnd  = subStr;
 				break;
 			}
@@ -115,26 +123,36 @@ public class ParseText {
 					if (subStr.compareTo("Важно") == 0) {
 						urgencyMail = "2";
 					} else {
-						urgencyMail = "3";
+						if (subStr.compareTo("Срочно") == 0) {
+							urgencyMail = "3";
+						}
 					}
 				}
 				//urgencyMail
 				break;
 			}
-			case "Периодичность выполения": {
+			case "Периодичность выполнения": {
 				taskCol  = subStr;
+				taskCol = taskCol.replaceAll("[(]", "\\(");
+				taskCol   = taskCol .replaceAll("[)]", "\\)");
 				break;
 			}
 			case "Руководитель": {
 				supervisor = subStr;
+				supervisor    = supervisor .replaceAll("[(]", "\\(");
+				supervisor    = supervisor .replaceAll("[)]", "\\)");
 				break;
 			}
 			case "Ссылка на дополнительные материалы": {
 				link = subStr;
+				link   = link .replaceAll("[(]", "\\(");
+				link   = link .replaceAll("[)]", "\\)");
 				break;
 			}
 			case "Суть задачи": {
 				body = subStr;
+				body   = body .replaceAll("[(]", "\\(");
+				body   = body .replaceAll("[)]", "\\)");
 				break;
 			}
 		}

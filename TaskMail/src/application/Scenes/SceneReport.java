@@ -26,6 +26,7 @@ import application.Mails.TaskLetterSend;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -45,6 +46,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -106,7 +108,9 @@ public class SceneReport {
 					VBox flowPane = new VBox(50);
 					BorderPane roots = new BorderPane();
 					roots.setId("flowPane");
-					Scene scene = new Scene(roots, 1050, 600);
+					Screen screen = Screen.getPrimary();
+					Rectangle2D bounds = screen.getBounds();
+					Scene scene = new Scene(roots, bounds.getWidth(),  bounds.getHeight());
 					//FlowPane root = new FlowPane(Orientation.HORIZONTAL);
 					// Панель для данных пользователя ---/
 					VBox TaskInfo = new VBox();
@@ -331,14 +335,14 @@ public class SceneReport {
 							supervisor = _oneTask.getSupervisor();
 							taskCol = _oneTask.getTaskCol();
 							
-							report = bodyaddOnenComment.getText() + " Итог выполнения: " + contentDoneWork.getText() + " Возникшие проблемы: "+
+							report = bodyaddOnenComment.getText() + " Итог выполнения: " + contentDoneWork.getText() + "; Возникшие проблемы: "+
 									contentProblems.getText();
 							//String linkForDb = null;
 							// Код срочности задачи. -- /
 							int idurgency;
 							idurgency = _oneTask.getIdUrgency();
 							idurgency +=1;
-							System.out.println("код выбора срочности - " + idurgency);
+							//System.out.println("код выбора срочности - " + idurgency);
 							// конец кода срочности задачи -- /
 							//urgencyMail = Integer.toString(idurgency); 
 
@@ -351,7 +355,7 @@ public class SceneReport {
 							StringBuilder sbLink = new StringBuilder();
 							
 							for (int i =0; i < _dataComments.size(); i++) {
-								System.out.println("Начался вывод комментариев  - " + _dataComments.size());
+								//System.out.println("Начался вывод комментариев  - " + _dataComments.size());
 								//EntityComment thisComment = dataComments.get(i);
 								//String name = Integer.toString(i);
 								//comments = ""+_dataComments.get(i).getComment() + "\n";
@@ -362,7 +366,7 @@ public class SceneReport {
 								
 							}
 							comments = sbComment.toString();
-							System.out.println (" Комментарий -  " + comments);
+							//System.out.println (" Комментарий -  " + comments);
 							for (int i =0; i < _dataLinks.size(); i++) {
 								System.out.println("Начался вывод ссылок - " + _dataLinks.size());
 								//EntityComment thisComment = dataComments.get(i);
@@ -375,18 +379,18 @@ public class SceneReport {
 							
 							}
 							links = sbLink.toString();
-							System.out.println (" ссылка -  " + links);
+							//System.out.println (" ссылка -  " + links);
 							
 							urgencyMail = _oneTask.getUrgency();
-							dateStart = _oneTask.getDateStrart().toString();
-							dataEnd = _oneTask.getDateEnd().toString();
+							//dateStart = _oneTask.getDateStrart().toString();
+							//dataEnd = _oneTask.getDateEnd().toString();
 							GregorianCalendar thisData = new GregorianCalendar();
 							//data = thisData.getTime();
 							//dataCreate = data.toString();
-							dataCreate =  _oneTask.getDateCreate().toString();
+							//dataCreate =  _oneTask.getDateCreate().toString();
 							
-							Theme = "Живое расписание: Задание: " + _oneTask.getTitle();
-							Text  = "Задание: " + body  + ";\n" +
+							Theme = "Живое расписание: Отчёт: " + _oneTask.getTitle();
+							Text  = "Отчёт по заданию: " + body  + ";\n" +
 							"Дополниельное описание: " +description+";\n" + 
 							"Ссылка на дополнительные материалы: " + links + ";\n" +
 							"Руководитель: " +supervisor+";\n" +
@@ -412,20 +416,28 @@ public class SceneReport {
 									numberOfRows++;
 								}
 							} catch (FileNotFoundException e1) {
-								System.out.println("Файл не найден.");
+								//System.out.println("Файл не найден.");
+								e1.printStackTrace();
 							} catch (Exception e1) {
-								System.out.println("Ошибка при считывании из файла.");
+								//System.out.println("Ошибка при считывании из файла.");
+								e1.printStackTrace();
 								scanner.close();
 							} finally {
 								scanner.close();
 							}
 							
+							java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+							String dateStar = sdf.format(_oneTask.getDateStrart());
+							
+							String dataEn = sdf.format(_oneTask.getDateEnd());
+							
+							String dataCreat = sdf.format(_oneTask.getDateCreate());
 							ReportLetterSend sender = new ReportLetterSend();
 							try {
 								sender.senMail(Theme, Text,idch,
 										Id,body,supervisor,
-										description,dateStart,dataEnd, 
-										dataCreate,urgencyMail,taskCol,
+										description,dateStar,dataEn, 
+										dataCreat,urgencyMail,taskCol,
 										itsDone,comments,links ,
 										report,getAllIds(),getPaths() );
 								/*
