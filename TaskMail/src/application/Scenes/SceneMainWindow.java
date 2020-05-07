@@ -23,6 +23,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
 import addManyItems.addFilesToLeterTask;
+import application.Validation;
 //import application.DB.AddUser;
 import application.DB.GetInfoLogin;
 import application.DB.ReadOneTask2;
@@ -84,6 +85,7 @@ import javafx.scene.paint.Color;
 //import javafx.scene.shape.Rectangle;
 //import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -218,6 +220,19 @@ public class SceneMainWindow implements mainWindowUser {
 			
 		
 		// Выход ----/
+		Popup popup;
+		popup=new Popup();
+		popup.setAutoHide(true);
+		//popup.setAutoFix(true);
+		VBox textPopup = new VBox(50);
+		textPopup.setAlignment(Pos.CENTER);
+		textPopup.setPrefSize(500, 300);
+		textPopup.setStyle("-fx-background-color: #FF00FF;");
+		popup.getContent().add(textPopup);
+		Label popupL = new Label();
+		popupL.setStyle("-fx-background-color: #FFFFE0;");
+		popupL.setWrapText(true);
+		textPopup .getChildren().add(popupL);
 		// Аккордион меню ----
 		GetInfoLogin info = new GetInfoLogin();
 		
@@ -249,9 +264,9 @@ public class SceneMainWindow implements mainWindowUser {
 		 Joblabel.setText(info.getJob());
 		 Joblabel.setContentDisplay(ContentDisplay.LEFT);*/
 		 
-	     String URL = "/application/pictures/man.png";
-	     Image ICON_1 = new Image(getClass().getResourceAsStream(URL));
-	     ImageView man = new ImageView(ICON_1);
+	  //   String URL = "/application/pictures/man.png";
+	   //  Image ICON_1 = new Image(getClass().getResourceAsStream(URL));
+	    // ImageView man = new ImageView(ICON_1);
 	     
 	     String URLsName = "/application/pictures/secondName.png";
 	     Image ICON_2 = new Image(getClass().getResourceAsStream(URLsName));
@@ -964,6 +979,88 @@ public class SceneMainWindow implements mainWindowUser {
 		pushTaskOun.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				popupL.setText("");
+				boolean isValid = true;
+				StringBuilder str = new StringBuilder();
+				Validation validtion = new Validation();
+				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
+				
+				validtion.setText(startHour.getText());
+				isValid = validtion.validHour();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты начала выполнения задания\n - час начала выполнения задачи - "+ startHour.getText() + "\n");
+					startHour.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					startHour.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				validtion.setText(startMinute.getText());
+				isValid = validtion.validMinutes();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты начала выполнения задания\n - минуты начала выполнения задачи - " + startMinute.getText() + "\n");
+					startMinute.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					startMinute.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				validtion.setText(endHour.getText());
+				isValid = validtion.validHour();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - час окончания выполнения задачи - " + endHour.getText() + "\n");
+					endHour.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					endHour.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				validtion.setText(endMinute.getText());
+				isValid = validtion.validMinutes();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - минуты окончания выполнения задачи - " + endMinute.getText() + "\n");
+					endMinute.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					endMinute.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				
+				String dataToValid = datePickerStart.getValue().toString();
+				validtion.setText(dataToValid);
+				isValid = validtion.validData();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты начала выполнения задания\n - дата начала начала задачи - " + datePickerStart.getValue().toString() + "\n");
+					datePickerStart.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					datePickerStart.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				dataToValid = datePickerEnd.getValue().toString();
+				validtion.setText(dataToValid);
+				isValid = validtion.validData();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - дата окончания начала задачи - " + datePickerEnd.getValue().toString() + "\n");
+					datePickerEnd.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					datePickerEnd.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				int countFalse = 0;
+				for(boolean noValid: boolVali) {
+					if (!noValid) {
+						countFalse ++;
+						isValid = false;
+					}
+				}
+				str.append("Количество всех ошибок: "+countFalse);
+				if (isValid == false ) {
+					popupL.setText(str.toString());
+					popup.show(primaryStage);
+					
+				} else {
+				
+				
+				
 				int idch = 0;
 				String Theme = null;
 				String Text = null;
@@ -1044,7 +1141,7 @@ public class SceneMainWindow implements mainWindowUser {
 					// конец Дабавление записи в таблицу ссылка к задаче -- /
 				}
 				// конец обработки ссылки -- /
-
+				}
 			}
 		});
 		
@@ -1176,7 +1273,7 @@ public class SceneMainWindow implements mainWindowUser {
 						idch = scanner.nextInt();
 						//text.setText(Integer.toString(scanner.nextInt()));
 						//System.out.println(" Вывод из главного окна - " + text.getText());
-						System.out.println(" Вывод из главного окна - " + idch);
+						//System.out.println(" Вывод из главного окна - " + idch);
 						scanner.nextLine();
 						numberOfRows++;
 					}
@@ -2239,7 +2336,7 @@ public class SceneMainWindow implements mainWindowUser {
 				+ "`user_task`.`id_user` = `users`.`id_user` "
 				+ "WHERE `task`.`end_date_time` LIKE '" + sqlDate + 
 				"%' AND `start_date_time` NOT LIKE '" + sqlDate + "' AND `users`.`id_user` ='" + this.id + "'; ";
-		System.out.println("Дата для выбора - " + queryForThisDayAnd);
+		//System.out.println("Дата для выбора - " + queryForThisDayAnd);
 	/*	thisDayTasks.setSearchQuery(queryForThisDayAnd);
 		thisDayTasks.whatIs();
 		dataEnd.addAll(thisDayTasks.what());*/
@@ -2263,23 +2360,23 @@ public class SceneMainWindow implements mainWindowUser {
 		*/
 		/*String queryForBetweenDate = "Select * FROM taskmail`.`task` WHERE CURDATE() BETWEEN `task`.`start_date_time` "
 				+ "AND `task`.`end_date_time`;";*/
-		System.out.println("Дата для выбора задач между текущей датой - " + queryForBetweenDate);
+		//System.out.println("Дата для выбора задач между текущей датой - " + queryForBetweenDate);
 		ReadOunTasks3 thru = new ReadOunTasks3();
 		thru.setSearchQuery(queryForBetweenDate);
 		thru.whatIs();
 		LinkedList <EntityTask> dataThru = new LinkedList <EntityTask>();
 		dataThru = thru.getData();
-		System.out.println("Количество задач прохожящих через этот день - " + dataThru.size());
+		//System.out.println("Количество задач прохожящих через этот день - " + dataThru.size());
 		
 		
-		System.out.println("Проверка содержания списков - ");
-		for (int i =0; i < data.size(); i ++ ) {
+		//System.out.println("Проверка содержания списков - ");
+		/*for (int i =0; i < data.size(); i ++ ) {
 			System.out.println("i - начало - " + i + " время - " + data.get(i).getDateStrart() + " титл " + data.get(i).getTitle());
 		}
 		
 		for (int i =0; i < dataEnd.size(); i ++ ) {
 			System.out.println("i - " + i + " время - " + dataEnd.get(i).getDateStrart() + " титл " + dataEnd.get(i).getTitle());
-		}
+		}*/
 		//System.out.println(" //////////////////////////// - ");
 		HBox TaskBetween = new HBox(50);
 		TaskBetween.setId("C");
@@ -2403,7 +2500,7 @@ public class SceneMainWindow implements mainWindowUser {
 						dateStartss.get(Calendar.HOUR_OF_DAY) + ":" + dateStartss.get(Calendar.MINUTE);
 				
 				if ((i+1 == dateStartss.get(Calendar.HOUR_OF_DAY)) || ( (i==0) && (0 == dateStartss.get(Calendar.HOUR_OF_DAY)))) {
-				System.out.println("Начался вывод задач ");
+				//System.out.println("Начался вывод задач ");
 				EntityTask thisTask = data.get(j);
 				//String name = Integer.toString(i);
 				VBox body_ = new VBox(50);
@@ -2537,8 +2634,8 @@ public class SceneMainWindow implements mainWindowUser {
 			for (int f = 0; f < dataEnd.size(); f++ ) {
 				int iterator = f+1;
 				Label numbersTask = new Label(" Задание №" +iterator+" : ");
-				System.out.println(" Задача которая должна быть выполнена к этому время. " + dataEnd.get(f).getDateEnd() + " create " + dataEnd.get(f).getDateCreate() );
-				System.out.println("Время - " + f + " Задача - " + dataEnd.get(f).getTitle() + " Время начала" + dataEnd.get(f).getDateStrart());
+				//System.out.println(" Задача которая должна быть выполнена к этому время. " + dataEnd.get(f).getDateEnd() + " create " + dataEnd.get(f).getDateCreate() );
+				//System.out.println("Время - " + f + " Задача - " + dataEnd.get(f).getTitle() + " Время начала" + dataEnd.get(f).getDateStrart());
 				Locale.setDefault(new Locale("ru","RU"));
 				/*GregorianCalendar dateCreate = new GregorianCalendar();
 				dateCreate.setTime(res.getDate(5));*/
@@ -2557,7 +2654,7 @@ public class SceneMainWindow implements mainWindowUser {
 				
 				if (i+1 == dateEndss.get(Calendar.HOUR_OF_DAY) ) {
 						// Вывод задач которые будут заканчиваться сегодня
-						System.out.println("Вывод задач которые будут заканчиваться сегодня " + dataEnd.size());
+						//System.out.println("Вывод задач которые будут заканчиваться сегодня " + dataEnd.size());
 						
 						EntityTask thisTask = dataEnd.get(f);
 						//String name = Integer.toString(i);
@@ -2587,7 +2684,7 @@ public class SceneMainWindow implements mainWindowUser {
 						mean.setAlignment(Pos.CENTER);
 						mean.setSpacing(5);
 						mean.getStyleClass().add("OneString");
-						System.out.println("111");
+						//System.out.println("111");
 						// Время
 						Date dateE = dataEnd.get(f).getDateEnd();
 						GregorianCalendar dateEnds = new GregorianCalendar();
@@ -2618,7 +2715,7 @@ public class SceneMainWindow implements mainWindowUser {
 						dateEn.setAlignment(Pos.CENTER);
 						dateEn.setSpacing(5);
 						dateEn.getStyleClass().add("OneStringBaze");
-						System.out.println("222");
+						//System.out.println("222");
 						VBox _urgency = new VBox(50);
 						Label _urgencyLabel = new Label("Срочность задачи: ");
 						Label _urgency_Label = new Label();
@@ -2637,7 +2734,7 @@ public class SceneMainWindow implements mainWindowUser {
 						dates.setAlignment(Pos.CENTER);
 						dates.setSpacing(5);
 						dates.getStyleClass().add("OneString");
-						System.out.println("333");
+						//System.out.println("333");
 						 Button inf = new Button("Узнать подробнее");
 						 inf.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 						 //inf.setMaxWidth(160);
@@ -2655,18 +2752,18 @@ public class SceneMainWindow implements mainWindowUser {
 						name.setId("OneTask");
 						name.setSpacing(10);
 						name.setAlignment(Pos.CENTER);
-						System.out.println("444");
+						//System.out.println("444");
 						if(dataEnd.get(f).getIsDone() > 0) {
 							Done.getChildren().add(name);
-							System.out.println("555");
+							//System.out.println("555");
 						} else {
 							if(dataEnd.get(f).getIdUrgency() == 3) {
 								TaskEndforOneHour.getChildren().add(1,name);
-								System.out.println("777");
+								//System.out.println("777");
 							}else {
 								TaskEndforOneHour.getChildren().add(name);
 								//allTasksforOneHour.getChildren().add
-								System.out.println("888");
+								//System.out.println("888");
 							}
 						}
 					}
@@ -2704,7 +2801,7 @@ public class SceneMainWindow implements mainWindowUser {
 					dateStartss.get(Calendar.HOUR_OF_DAY) + ":" + dateStartss.get(Calendar.MINUTE);
 			
 			
-			System.out.println("Вывод задач проходящие через этот день: ");
+			//System.out.println("Вывод задач проходящие через этот день: ");
 			EntityTask thisTask = dataThru.get(h);
 			//String name = Integer.toString(i);
 			VBox body_ = new VBox(50);
@@ -2862,7 +2959,7 @@ public class SceneMainWindow implements mainWindowUser {
 		String StartDate = sdf.format(Start);
 		// Запрос
 		String query = "SELECT * FROM `taskmail`.`task` WHERE `task`.`supervisor` = '" + _secondName+" "+ _name+" "+ _lastName+ "' AND `task`.`create_date_time` LIKE '" + StartDate + "%';";
-		System.out.println("Запрос на задачи - " + query);
+		//System.out.println("Запрос на задачи - " + query);
 		ReadOunTasks ounTasks = new ReadOunTasks(_secondName+" "+ _name+" "+ _lastName);
 		ounTasks.setSearchQuery(query);
 		ounTasks.whatIs();

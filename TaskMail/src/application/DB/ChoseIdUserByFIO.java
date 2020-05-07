@@ -51,7 +51,7 @@ public class ChoseIdUserByFIO {
 		try {
 			while (res.next()) {
 				//String tablePass = res.getString(7);
-				System.out.println("јйди пользовател€"+ res.getInt(1));
+				//System.out.println("јйди пользовател€"+ res.getInt(1));
 				idUser = res.getInt(1);
 				
 			}

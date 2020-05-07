@@ -118,7 +118,7 @@ public class ChoseEmailToUser {
 					//EntityEmailAll email = new EntityEmailAll(res.getInt(1),res.getString(2), res.getString(3),res.getString(7) ,res.getInt(8) ,res.getString(4),res.getInt(5),res.getString(9),res.getString(6));
 					dia.getItems().add(res.getString(2));
 					count ++;
-					System.out.println(" Адрес - " + res.getString(2) + " номер адреса - " + count);
+					//System.out.println(" Адрес - " + res.getString(2) + " номер адреса - " + count);
 					
 				}
 				res.beforeFirst();
@@ -135,7 +135,7 @@ public class ChoseEmailToUser {
 							dia.getItems().add(res.getString(2));
 							this.data.add(email);
 							this.dataEmail = email;
-							System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
+							//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
 							resultItems.put(res.getInt(1), res.getString(2));
 						}
 
@@ -147,7 +147,7 @@ public class ChoseEmailToUser {
 						this.dataEmail = email;
 						
 					//	String tablePass = res.getString(7);
-						System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
+						//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
 						resultItems.put(res.getInt(1), res.getString(2));
 					}
 				}

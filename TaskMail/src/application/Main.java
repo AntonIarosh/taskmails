@@ -18,35 +18,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			/*DBConnection conect = new DBConnection("taskmail");
-			con = conect.connect();
-			System.out.println("| ура подключение");
-			String query = "select * from users";
-			try {
-				answer = con.createStatement();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			ResultSet gg = null;
-			try {
-				gg = answer.executeQuery(query);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				while (gg.next()) {
-					System.out.println(gg.getString(3) + gg.getString(2));
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-
-			}*/
-			
 			Login firstScene = new Login(primaryStage);
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("View.fxml"));
 			Scene scene = new Scene(root,400,400);

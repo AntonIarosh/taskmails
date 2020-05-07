@@ -80,7 +80,7 @@ public class ChoseUser {
 				EntityOneUser user = new EntityOneUser(res.getInt(1),res.getString(2), res.getString(3),res.getString(4) ,res.getString(6), res.getString(7),res.getInt(5));
 				this.data.add(user);
 			//	String tablePass = res.getString(7);
-				System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7));
+				//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7));
 				resultItems.put(res.getInt(1), res.getString(2));
 				
 			}
@@ -155,7 +155,7 @@ public class ChoseUser {
 		}
 		
 		try {
-			System.out.println("Добавление чувака");
+			//System.out.println("Добавление чувака");
 			System.out.println(query);
 			answer.executeUpdate(query);
 		

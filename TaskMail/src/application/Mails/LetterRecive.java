@@ -74,10 +74,6 @@ public class LetterRecive {
                         return new PasswordAuthentication(IMAP_AUTH_EMAIL, IMAP_AUTH_EMAIL);
                     }
                 });
-        
-        /*Authenticator auth = new EmailAuthenticator(IMAP_AUTH_EMAIL,
-                                                    IMAP_AUTH_PWD);
-        Session session = Session.getDefaultInstance(properties, auth);*/
         session.setDebug(false);
         try {
             Store store = session.getStore();
@@ -87,7 +83,7 @@ public class LetterRecive {
 
             // Папка входящих сообщений
             Folder inbox = store.getFolder("INBOX");
-            // Открываем папку в режиме только для чтения
+            // Открываем папку в режиме для чтения и записи
             inbox.open(Folder.READ_WRITE);
            
             System.out.println("Количество сообщений : " + 

@@ -1,7 +1,7 @@
 package application.Scenes;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+//import java.io.BufferedReader;
+//import java.io.FileNotFoundException;
+//import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,14 +10,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.Scanner;
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
+//import java.util.Scanner;
+//import javax.mail.MessagingException;
+//import javax.mail.internet.AddressException;
 import application.DB.GetInfoLogin;
 import application.DB.ReadOneTask2;
 import application.DB.ReadOunTasks;
 import application.Entities.EntityTask;
-import application.Mails.QuickLetterSend;
+//import application.Mails.QuickLetterSend;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;
@@ -38,8 +38,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+//import javafx.scene.control.TextArea;
+//import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.BorderPane;
@@ -128,7 +128,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 				@Override
 				public void handle(ActionEvent e) {
 					//Login firstScene = new Login(primaryStage);
-					System.out.print("DВызов назад");
+					//System.out.print("DВызов назад");
 					//primaryStage.setScene(firstScene.getScene());//,oldScene);
 					//setReturnScene();
 					primaryStage.setScene(oldScene);
@@ -139,7 +139,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 				@Override
 				public void handle(ActionEvent e) {
 					//Login firstScene = new Login(primaryStage);
-					System.out.print("DВызов назад");
+					//System.out.print("DВызов назад");
 					//primaryStage.setScene(firstScene.getScene());//,oldScene);
 					
 					primaryStage.setScene(oldScene);
@@ -279,8 +279,8 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						_tasksAllDay.getChildren().clear();
 						LocalDate starts = datePickerStart.getValue();
 						LocalDate ends = datePickerEnd.getValue();
-						System.out.println("Дата начала- " + java.sql.Date.valueOf(starts));
-						System.out.println("Дата конца - " + java.sql.Date.valueOf(ends));
+						//System.out.println("Дата начала- " + java.sql.Date.valueOf(starts));
+						//System.out.println("Дата конца - " + java.sql.Date.valueOf(ends));
 						all.setContent(getWeek(_tasksAllDay, java.sql.Date.valueOf(starts), java.sql.Date.valueOf(ends)));
 					}
 				});
@@ -327,9 +327,9 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 							Locale.setDefault(new Locale("ru","RU"));
 							//week.getChildren().clear();
 							Date start = getWeekStartDate();
-							System.out.println("Дата начала- " + start);
+							//System.out.println("Дата начала- " + start);
 							Date end = getWeekEndDate();
-							System.out.println("Дата конца - " + end);
+							//System.out.println("Дата конца - " + end);
 							weekSc.setContent(getWeek(_week, start, end));
 						
 							//getTaskOnThisDay(_tasksAllDay);
@@ -431,20 +431,20 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 					+ "`user_task`.`id_user` = `users`.`id_user` "
 					+ "WHERE `task`.`start_date_time` LIKE '" + sqlDate + "%' AND `users`.`id_user` ='" + this.id + "'; ";*/
 			Date start = getWeekStartDate();
-			System.out.println("Дата начала- " + StartDate);
+			//System.out.println("Дата начала- " + StartDate);
 			Date end = getWeekEndDate();
-			System.out.println("Дата конца - " + EndDate );
+			//System.out.println("Дата конца - " + EndDate );
 			String queryForBetweenDate = "SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"
 					+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
 					+ "`user_task`.`id_user` = `users`.`id_user` "
 					+ "WHERE `task`.`start_date_time` >= '" + StartDate + " 00:00:00" + 
 					"' AND `start_date_time`  <= '" + EndDate + " 23:59:59" + "' AND `users`.`id_user` ='" + this.id + "'; ";
-			System.out.println("Дата для выбора - " + queryForBetweenDate);
+			//System.out.println("Дата для выбора - " + queryForBetweenDate);
 			ReadOunTasks thisDayTasks = new ReadOunTasks();
 			thisDayTasks.setSearchQuery(queryForBetweenDate);
 			thisDayTasks.whatIs();
 			dataWeek = thisDayTasks.getData();
-			System.out.println("количество задач на сегодня - " + dataWeek.size());
+			//System.out.println("количество задач на сегодня - " + dataWeek.size());
 			
 			LinkedList <EntityTask> dataEndWeek = new LinkedList <EntityTask>();
 			String queryForBetweenDateEnd = "SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"
@@ -452,13 +452,13 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 					+ "`user_task`.`id_user` = `users`.`id_user` "
 					+ "WHERE `task`.`end_date_time` >= '" + StartDate + " 00:00:00" + 
 					"' AND `task`.`end_date_time`  <= '" + EndDate+" 23:59:59" + "' AND `users`.`id_user` ='" + this.id + "'; ";
-			System.out.println("Дата для выбора - " + queryForBetweenDateEnd);
+			//System.out.println("Дата для выбора - " + queryForBetweenDateEnd);
 			
 			ReadOneTask2 thisDayTasksAnd = new ReadOneTask2();
 			thisDayTasksAnd.setSearchQuery(queryForBetweenDateEnd);
 			thisDayTasksAnd.whatIs();
 			dataEndWeek = thisDayTasksAnd.getData();
-			System.out.println("количество задач на сегодня - " + dataEndWeek.size());
+			//System.out.println("количество задач на сегодня - " + dataEndWeek.size());
 			
 			for (int i =1; i <8; i++) {
 				
@@ -706,7 +706,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 					
 					if ((i == oneTaskDate.get(Calendar.DAY_OF_WEEK))) {
 						
-						System.out.println("День недели - " + i + " и на день- " + oneTaskDate.get(Calendar.DAY_OF_WEEK));
+						//System.out.println("День недели - " + i + " и на день- " + oneTaskDate.get(Calendar.DAY_OF_WEEK));
 						EntityTask thisTask = dataEndWeek .get(k);
 						//String name = Integer.toString(i);
 						VBox body_ = new VBox(50);

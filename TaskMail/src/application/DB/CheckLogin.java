@@ -50,7 +50,7 @@ public class CheckLogin implements loginCheck {
 		try {
 			while (res.next()) {
 				String tablePass = res.getString(7);
-				System.out.println(res.getString(3) + res.getString(7));
+				//System.out.println(res.getString(3) + res.getString(7));
 				int mark = pass.compareTo(tablePass);
 				if(mark == 0) {
 					this.idUser = res.getInt(1);

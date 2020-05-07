@@ -114,7 +114,7 @@ public class SearchCommemtsAndLinksTask {
 				//task.setUrgency( whatUrgency(task.getIdUrgency()));
 				this.dataComments.add(comment);
 			//	String tablePass = res.getString(7);
-				System.out.println (" Комменты -  " + resComment.getString(2)  );
+				//System.out.println (" Комменты -  " + resComment.getString(2)  );
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();

@@ -148,7 +148,7 @@ public class ChanngeUserInfos {
 		}
 		
 		try {
-			System.out.println("Добавление чувака");
+			//System.out.println("Добавление чувака");
 			System.out.println(query);
 			answer.executeUpdate(query);
 		
@@ -201,9 +201,9 @@ public class ChanngeUserInfos {
 					this.data.add(email);
 					dataf.add(email);
 				//	String tablePass = res.getString(7);
-					System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
+					//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
 					resultItems.put(res.getInt(1), res.getString(2));
-					System.out.println(" Размер данных в запросе - " + this.data.size());
+					//System.out.println(" Размер данных в запросе - " + this.data.size());
 					
 				}
 			} catch (SQLException e1) {

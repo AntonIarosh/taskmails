@@ -107,7 +107,7 @@ public class TaskLetterSend {
     				cc[i] = new InternetAddress(emailTo);
     				//message.setRecipient(Message.RecipientType.CC, new InternetAddress(emailTo));
     				//message.setRecipients(Message.RecipientType.CC,InternetAddress.parse(emailTo, true));
-    				System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+    				//System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
     			}
     			message.addRecipients(Message.RecipientType.CC, cc);
     			
@@ -119,7 +119,7 @@ public class TaskLetterSend {
 				mailTo = who.whatMailsIs();
     			String emailTo = mailTo.getEmail();
     			message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
-    			 System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
+    			 //System.out.println ("От кого - " + emailFrom+" c паролем - " + passFrom + " SMTP - " + hostSMTPServerMailFrom + " code - " + codeSMTPFrom + " Кому - " + emailTo);
     		}
             //Тема письма
             message.setSubject(theme);
@@ -165,7 +165,7 @@ public class TaskLetterSend {
    "Выполнение: " + itsDone  +";\n");*/
             for(int i=0; i< paths.size(); i++) {
             	System.out.println(" Путь к файлу - " + paths.get(i));
-                // Создание второй части
+                // Создание второй части части письма - вложение
                 MimeBodyPart p2 = new MimeBodyPart();
              // Добавление файла во вторую часть
                 FileDataSource fds = new FileDataSource(paths.get(i));

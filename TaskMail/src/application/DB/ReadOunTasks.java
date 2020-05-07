@@ -115,7 +115,7 @@ public class ReadOunTasks {
 				datas.add(task);
 			
 			//	String tablePass = res.getString(7);
-				System.out.println (" Даты: " + res.getTime(6) + " | " + dateS + " | " +  res.getDate(6) );
+				//System.out.println (" Даты: " + res.getTime(6) + " | " + dateS + " | " +  res.getDate(6) );
 				resultItems.put(res.getDate(5), task);
 				
 			}
@@ -190,8 +190,8 @@ public class ReadOunTasks {
 		}
 		
 		try {
-			System.out.println("Добавление чувака");
-			System.out.println(query);
+			//System.out.println("Добавление чувака");
+			//System.out.println(query);
 			answer.executeUpdate(query);
 		
 		} catch (SQLException e1) {
@@ -228,7 +228,7 @@ public class ReadOunTasks {
 			while (res.next()) {
 				urgency  = res.getString(1);
 			//	String tablePass = res.getString(7);
-				System.out.println("Срочность -  "+res.getString(1));
+				//System.out.println("Срочность -  "+res.getString(1));
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -283,7 +283,7 @@ public class ReadOunTasks {
 		
 				dataset.add(task);
 			//	String tablePass = res.getString(7);
-				System.out.println (" Даты: " + res.getTime(6) + " | " + dateS + " | " +  res.getDate(6) );
+			//	System.out.println (" Даты: " + res.getTime(6) + " | " + dateS + " | " +  res.getDate(6) );
 				resultItems.put(res.getDate(5), task);
 				
 			}

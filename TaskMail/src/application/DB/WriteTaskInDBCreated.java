@@ -41,7 +41,7 @@ public class WriteTaskInDBCreated {
 		}
 		
 		try {
-			System.out.println("Добавление новой задачи в бд - ");
+			//System.out.println("Добавление новой задачи в бд - ");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			// Сообщение об успехе -- /
@@ -67,7 +67,7 @@ public class WriteTaskInDBCreated {
 	
 	public int WhoAdd(String query) {
 		//this.conect = new DBConnection("taskmail");
-		System.out.println("Проверка последней добавленнной задачи (айди) - " + query);
+		//System.out.println("Проверка последней добавленнной задачи (айди) - " + query);
 		this.con = conect.connect();
 		int idTask =0;
 		ResultSet res = null;
@@ -78,7 +78,7 @@ public class WriteTaskInDBCreated {
 			e1.printStackTrace();
 		}
 		try {
-			System.out.println("WhoAdd");
+			//System.out.println("WhoAdd");
 			System.out.println(query);
 			res = answer.executeQuery(query);
 		
@@ -120,7 +120,7 @@ public class WriteTaskInDBCreated {
 		}
 		
 		try {
-			System.out.println("Добавить записи в таблицу - задач пользователя");
+			//System.out.println("Добавить записи в таблицу - задач пользователя");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;
@@ -147,7 +147,7 @@ public class WriteTaskInDBCreated {
 		}
 		
 		try {
-			System.out.println("Добавить записи в таблицу - ссылка");
+			//System.out.println("Добавить записи в таблицу - ссылка");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;

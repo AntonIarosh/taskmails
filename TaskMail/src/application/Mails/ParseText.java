@@ -46,7 +46,7 @@ public class ParseText {
 		String dateStart = null;
 		String dataEnd = null;
 		String dataCreate = null;
-		Date data = null;
+		//Date data = null;
 		String urgencyMail = null; // код срочности
 		String taskCol = null;// Периодичность
 		String itsDone = "0";
