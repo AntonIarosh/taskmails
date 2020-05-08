@@ -256,6 +256,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 			VBox dateEnd = new VBox(50);
 			Label dateEndLabel = new Label("Задачи заканичая датой: ");
 			DatePicker datePickerEnd = new DatePicker();
+			datePickerEnd.setEditable(false);
 			dateEnd.getChildren().addAll(dateEndLabel, datePickerEnd);
 			dateEnd.setAlignment(Pos.CENTER);
 			dateEnd.setSpacing(5);
@@ -264,6 +265,7 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 			VBox dateStart = new VBox(50);
 			Label dateSartLabel = new Label("Задачи начинающиеся от даты: ");
 			DatePicker datePickerStart = new DatePicker();
+			datePickerStart.setEditable(false);
 			dateStart.getChildren().addAll(dateSartLabel, datePickerStart);
 			dateStart.setAlignment(Pos.CENTER);
 			dateStart.setSpacing(5);

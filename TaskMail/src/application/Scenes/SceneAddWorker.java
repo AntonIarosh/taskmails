@@ -1,7 +1,9 @@
 package application.Scenes;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
+import application.Validation;
 import application.DB.AddUser;
 import application.DB.ChanngeUserInfos;
 import application.DB.ChoseIdUserByFIO;
@@ -31,6 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -79,6 +82,21 @@ public class SceneAddWorker implements ChangeDataEmails {
 	}
 	@Override
 	public Scene createNewScene() {
+		
+		Popup popup;
+		popup=new Popup();
+		popup.setAutoHide(true);
+		//popup.setAutoFix(true);
+		VBox textPopup = new VBox(50);
+		textPopup.setAlignment(Pos.CENTER);
+		textPopup.setPrefSize(500, 300);
+		textPopup.setStyle("-fx-background-color: #FF00FF;");
+		popup.getContent().add(textPopup);
+		Label popupL = new Label();
+		popupL.setStyle("-fx-background-color: #FFFFE0;");
+		popupL.setWrapText(true);
+		textPopup .getChildren().add(popupL);
+		
 		//FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
 		VBox flowPane = new VBox(50);
 		//FlowPane root = new FlowPane(Orientation.HORIZONTAL);
@@ -478,6 +496,79 @@ public class SceneAddWorker implements ChangeDataEmails {
 		buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				popupL.setText("");
+				boolean isValid = true;
+				StringBuilder str = new StringBuilder();
+				Validation validtion = new Validation();
+				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
+				
+				validtion.setText(textEnterMail.getText());
+				isValid = validtion.validEmail();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении E-mail -\n"+ " E-mail <" +textEnterMail.getText()+">"+ "\n");
+					textEnterMail.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					textEnterMail.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация порта IMAP сервера
+				validtion.setText(InServerFieldPort.getText());
+				isValid = validtion.validPort();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении порта IMAP сервера -\n Порт <"+ InServerFieldPort.getText() + ">\n");
+					InServerFieldPort.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					InServerFieldPort.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация порта SMTP сервера
+				validtion.setText(OutServerFieldPort.getText());
+				isValid = validtion.validPort();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении порта SMTP сервера -\n Порт <"+ OutServerFieldPort.getText() + ">\n");
+					OutServerFieldPort.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					OutServerFieldPort.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация имени SMTP сервера
+				validtion.setText(OutServerField.getText());
+				isValid = validtion.validSMTP();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении имени SMTP сервера -\n Имя <"+ OutServerField.getText() + ">\n");
+					OutServerField.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					OutServerField.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация имени IMAP сервера
+				validtion.setText(InServerField.getText());
+				isValid = validtion.validIMAP();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении имени IMAP сервера -\n Имя <"+ InServerField.getText() + ">\n");
+					InServerField.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					InServerField.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				// Сколько всего ошибок
+				int countFalse = 0;
+				for(boolean noValid: boolVali) {
+					if (!noValid) {
+						countFalse ++;
+						isValid = false;
+					}
+				}
+				//формирование строки ошибок
+				str.append(" Количество всех ошибок: "+countFalse);
+				if (isValid == false ) {
+					popupL.setText(str.toString());
+					popup.show(primaryStage);
+					
+				} else {
+				
+				
 				String founds = null;
 				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") != 0)) {
 					founds = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
@@ -546,6 +637,7 @@ public class SceneAddWorker implements ChangeDataEmails {
 				 OutServerField.setText("");
 				 OutServerFieldPort.setText("");
 			}
+			}
 
 		});
 		
@@ -558,6 +650,80 @@ public class SceneAddWorker implements ChangeDataEmails {
 			 */
 			@Override
 			public void handle(ActionEvent e) {
+				popupL.setText("");
+				boolean isValid = true;
+				StringBuilder str = new StringBuilder();
+				Validation validtion = new Validation();
+				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
+				
+				validtion.setText(textEnterMail.getText());
+				isValid = validtion.validEmail();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении E-mail -\n"+ " E-mail <" +textEnterMail.getText()+">"+ "\n");
+					textEnterMail.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					textEnterMail.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация порта IMAP сервера
+				validtion.setText(InServerFieldPort.getText());
+				isValid = validtion.validPort();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении порта IMAP сервера -\n Порт <"+ InServerFieldPort.getText() + ">\n");
+					InServerFieldPort.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					InServerFieldPort.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация порта SMTP сервера
+				validtion.setText(OutServerFieldPort.getText());
+				isValid = validtion.validPort();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении порта SMTP сервера -\n Порт <"+ OutServerFieldPort.getText() + ">\n");
+					OutServerFieldPort.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					OutServerFieldPort.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация имени SMTP сервера
+				validtion.setText(OutServerField.getText());
+				isValid = validtion.validSMTP();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении имени SMTP сервера -\n Имя <"+ OutServerField.getText() + ">\n");
+					OutServerField.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					OutServerField.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация имени IMAP сервера
+				validtion.setText(InServerField.getText());
+				isValid = validtion.validIMAP();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении имени IMAP сервера -\n Имя <"+ InServerField.getText() + ">\n");
+					InServerField.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					InServerField.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				// Сколько всего ошибок
+				int countFalse = 0;
+				for(boolean noValid: boolVali) {
+					if (!noValid) {
+						countFalse ++;
+						isValid = false;
+					}
+				}
+				//формирование строки ошибок
+				str.append(" Количество всех ошибок: "+countFalse);
+				if (isValid == false ) {
+					popupL.setText(str.toString());
+					popup.show(primaryStage);
+					
+				} else {
+				
+				
+				
 				String found = null;
 				if (( textName.getText().compareTo("") != 0) && (textSeconName.getText().compareTo("") != 0) && (textFatherName.getText().compareTo("") != 0)) {
 					found = "SELECT * FROM `users` WHERE (`firstname` = '"+ textName.getText() +"' AND `secondname` = '"+textSeconName.getText() +"' AND `lastname`='" +textFatherName.getText() + "'); ";
@@ -639,6 +805,7 @@ public class SceneAddWorker implements ChangeDataEmails {
 				 tableView.getItems().setAll(dataf);
 				 tableView.refresh();
 				 textEnterMail.setText("");
+			}
 			}
 
 		});
@@ -731,6 +898,59 @@ public class SceneAddWorker implements ChangeDataEmails {
 		buttonAddUser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				popupL.setText("");
+				boolean isValid = true;
+				StringBuilder str = new StringBuilder();
+				Validation validtion = new Validation();
+				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
+				
+				// Валидация Имени
+				validtion.setText(textName.getText());
+				isValid = validtion.validName();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении имени -\n Имя <"+ textName.getText() + "> Использовано: " + textName.getText().length() + " символов\n");
+					textName.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					textName.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				//Валидация Фамилии
+				validtion.setText(textSeconName.getText());
+				isValid = validtion.validElseName();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении фамилии -\n Фамилия <"+ textSeconName.getText() + ">  Использовано: " + textSeconName.getText().length() + " символов\n");
+					textSeconName.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					textSeconName.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				// Валидация Отчества
+				if (!textFatherName.getText().isEmpty()) {
+					validtion.setText(textFatherName.getText());
+					isValid = validtion.validElseName();
+					boolVali.add(isValid);
+					if (!isValid) {
+						str.append(" Ошибка в заполнении отчества -\n Отчество <" + textFatherName.getText() + "> Использовано: " + textFatherName.getText().length() +" символов\n");
+						textFatherName.setStyle("-fx-background-color: #FF7F50;");
+					} else {
+						textFatherName.setStyle("-fx-background-color: #FFFFFF;");
+					}
+				}
+				// проверка сколько всего ошибок
+				int countFalse = 0;
+				for(boolean noValid: boolVali) {
+					if (!noValid) {
+						countFalse ++;
+						isValid = false;
+					}
+				}
+				//формирование строки ошибок
+				str.append(" Количество всех ошибок: "+countFalse);
+				if (isValid == false ) {
+					popupL.setText(str.toString());
+					popup.show(primaryStage);
+					
+				} else {
 				int idpost;
 				if (job.getText().isEmpty()) {
 					idpost = allJobs.getSelectionModel().getSelectedIndex();
@@ -769,6 +989,7 @@ public class SceneAddWorker implements ChangeDataEmails {
 			+ "');\r\n" + 
 						"";
 				infos.updateData(query);*/
+			}
 			}
 		});
 		// -- Конец кнопки обновить данные пользователя --- /

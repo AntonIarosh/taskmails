@@ -784,7 +784,7 @@ public class SceneMainWindow implements mainWindowUser {
 		VBox dateStart = new VBox(50);
 		Label dateStartLabel = new Label("ƒата начала задачи");
 		DatePicker datePickerStart = new DatePicker();
-		
+		datePickerStart.setEditable(false);
 		
 		JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
@@ -928,6 +928,7 @@ public class SceneMainWindow implements mainWindowUser {
 		VBox dateEnd = new VBox(50);
 		Label dateEndLabel = new Label("ƒата конца задачи");
 		DatePicker datePickerEnd = new DatePicker();
+		datePickerEnd.setEditable(false);
 		dateEnd.getChildren().addAll(dateEndLabel, datePickerEnd);
 		dateEnd.setAlignment(Pos.CENTER);
 		dateEnd.setSpacing(5);
@@ -984,21 +985,22 @@ public class SceneMainWindow implements mainWindowUser {
 				StringBuilder str = new StringBuilder();
 				Validation validtion = new Validation();
 				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
-				
+				// валидаци€ времени - часа начала работы.
 				validtion.setText(startHour.getText());
 				isValid = validtion.validHour();
 				boolVali.add(isValid);
 				if (!isValid) {
-					str.append(" ќшибка в заполнении даты начала выполнени€ задани€\n - час начала выполнени€ задачи - "+ startHour.getText() + "\n");
+					str.append(" ќшибка в заполнении даты начала выполнени€ задани€\n - час начала выполнени€ задачи <"+ startHour.getText() + ">\n");
 					startHour.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					startHour.setStyle("-fx-background-color: #FFFFFF;");
 				}
+				// ¬алидаци€ времени минут начала работы 
 				validtion.setText(startMinute.getText());
 				isValid = validtion.validMinutes();
 				boolVali.add(isValid);
 				if (!isValid) {
-					str.append(" ќшибка в заполнении даты начала выполнени€ задани€\n - минуты начала выполнени€ задачи - " + startMinute.getText() + "\n");
+					str.append(" ќшибка в заполнении даты начала выполнени€ задани€\n - минуты начала выполнени€ задачи <" + startMinute.getText() + ">\n");
 					startMinute.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					startMinute.setStyle("-fx-background-color: #FFFFFF;");
@@ -1008,7 +1010,7 @@ public class SceneMainWindow implements mainWindowUser {
 				isValid = validtion.validHour();
 				boolVali.add(isValid);
 				if (!isValid) {
-					str.append(" ќшибка в заполнении даты окончани€ выполнени€ задани€\n - час окончани€ выполнени€ задачи - " + endHour.getText() + "\n");
+					str.append(" ќшибка в заполнении даты окончани€ выполнени€ задани€\n - час окончани€ выполнени€ задачи <" + endHour.getText() + ">\n");
 					endHour.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					endHour.setStyle("-fx-background-color: #FFFFFF;");
@@ -1017,14 +1019,14 @@ public class SceneMainWindow implements mainWindowUser {
 				isValid = validtion.validMinutes();
 				boolVali.add(isValid);
 				if (!isValid) {
-					str.append(" ќшибка в заполнении даты окончани€ выполнени€ задани€\n - минуты окончани€ выполнени€ задачи - " + endMinute.getText() + "\n");
+					str.append(" ќшибка в заполнении даты окончани€ выполнени€ задани€\n - минуты окончани€ выполнени€ задачи <" + endMinute.getText() + ">\n");
 					endMinute.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					endMinute.setStyle("-fx-background-color: #FFFFFF;");
 				}
 				
 				
-				String dataToValid = datePickerStart.getValue().toString();
+			/*	String dataToValid = datePickerStart.getValue().toString();
 				validtion.setText(dataToValid);
 				isValid = validtion.validData();
 				boolVali.add(isValid);
@@ -1043,7 +1045,7 @@ public class SceneMainWindow implements mainWindowUser {
 					datePickerEnd.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					datePickerEnd.setStyle("-fx-background-color: #FFFFFF;");
-				}
+				}*/
 				
 				int countFalse = 0;
 				for(boolean noValid: boolVali) {
@@ -1052,7 +1054,7 @@ public class SceneMainWindow implements mainWindowUser {
 						isValid = false;
 					}
 				}
-				str.append(" оличество всех ошибок: "+countFalse);
+				str.append("  оличество всех ошибок: "+countFalse);
 				if (isValid == false ) {
 					popupL.setText(str.toString());
 					popup.show(primaryStage);
@@ -1152,6 +1154,63 @@ public class SceneMainWindow implements mainWindowUser {
 		pushTask.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				popupL.setText("");
+				boolean isValid = true;
+				StringBuilder str = new StringBuilder();
+				Validation validtion = new Validation();
+				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
+				
+				validtion.setText(startHour.getText());
+				isValid = validtion.validHour();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" ќшибка в заполнении даты начала выполнени€ задани€\n - час начала выполнени€ задачи <"+ startHour.getText() + ">\n");
+					startHour.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					startHour.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				validtion.setText(startMinute.getText());
+				isValid = validtion.validMinutes();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" ќшибка в заполнении даты начала выполнени€ задани€\n - минуты начала выполнени€ задачи <" + startMinute.getText() + ">\n");
+					startMinute.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					startMinute.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				validtion.setText(endHour.getText());
+				isValid = validtion.validHour();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" ќшибка в заполнении даты окончани€ выполнени€ задани€\n - час окончани€ выполнени€ задачи <" + endHour.getText() + ">\n");
+					endHour.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					endHour.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				validtion.setText(endMinute.getText());
+				isValid = validtion.validMinutes();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" ќшибка в заполнении даты окончани€ выполнени€ задани€\n - минуты окончани€ выполнени€ задачи <" + endMinute.getText() + ">\n");
+					endMinute.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					endMinute.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				int countFalse = 0;
+				for(boolean noValid: boolVali) {
+					if (!noValid) {
+						countFalse ++;
+						isValid = false;
+					}
+				}
+				str.append("  оличество всех ошибок: "+countFalse);
+				if (isValid == false ) {
+					popupL.setText(str.toString());
+					popup.show(primaryStage);
+					
+				} else {
 				
 				LinkedList<Integer> all = getAllIds();
 				all.clear();
@@ -1300,6 +1359,7 @@ public class SceneMainWindow implements mainWindowUser {
 					e1.printStackTrace();
 				}
 			}
+			}
 		});
 		
 		HBox buttons = new HBox(50);
@@ -1371,6 +1431,7 @@ public class SceneMainWindow implements mainWindowUser {
 		VBox givenTaskdate = new VBox(50);
 		Label givenTaskdateLabel = new Label(" ¬ыданные задачи за этот день: ");
 		DatePicker givenTaskdatePickerStart = new DatePicker();
+		givenTaskdatePickerStart.setEditable(false);
 		givenTaskdate.getChildren().addAll(givenTaskdateLabel, givenTaskdatePickerStart);
 		givenTaskdate.setAlignment(Pos.CENTER);
 		givenTaskdate.setSpacing(5);
