@@ -50,12 +50,9 @@ public class SceneOneTaskForWorker {
 				System.out.println("Конструктор айдиc - " + this.Id);
 				System.out.println("передача  - " + _id);
 				this.primaryStage = primaryStage;
-
 				this.ounScene = createNewScene(this.oneTask);
 				this.oldScene = primaryStage.getScene();
 				setNewScene(this.primaryStage,this.ounScene); 
-				
-
 			}
 			
 			public void setNewScene(Stage primaryStage, Scene newScene) {
@@ -87,14 +84,12 @@ public class SceneOneTaskForWorker {
 				ScrollPane ScUsers =new ScrollPane();
 				ScUsers.setLayoutX(10);
 				ScUsers.setLayoutY(10);
-				//spComment.setHmin(400);
 				ScUsers .setCursor(Cursor.CLOSED_HAND);
 				ScUsers.setMaxHeight(400);
 				ScUsers.setMinWidth(300);
 				ScUsers.setMinHeight(160);
 				ScUsers.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
 			
-				
 				VBox title = new VBox(50);
 				Label titleLabel = new Label("Заголовок задачи: ");
 				titleLabel.setId("PULL");
@@ -102,7 +97,6 @@ public class SceneOneTaskForWorker {
 				title_Label.setText(_oneTask.getTitle());
 				title_Label.setWrapText(true);
 				title.getChildren().addAll(titleLabel, title_Label);
-				//enternName.setAlignment(Pos.CENTER);
 				title.setSpacing(5);
 				title.getStyleClass().add("EnterUserData");
 				
@@ -127,7 +121,6 @@ public class SceneOneTaskForWorker {
 				description_Label.setText(_oneTask.getDescription());
 				description_Label.setWrapText(true);
 				description.getChildren().addAll(descriptionLabel, description_Label);
-				//enternFatherName.setAlignment(Pos.CENTER);
 				description.setSpacing(5);
 				description.getStyleClass().add("EnterUserData");
 				
@@ -139,16 +132,13 @@ public class SceneOneTaskForWorker {
 				urgency_Label.setText(_oneTask.getUrgency());
 				urgency_Label.setWrapText(true);
 				urgency.getChildren().addAll(urgencyLabel, urgency_Label);
-				//enternFatherName.setAlignment(Pos.CENTER);
 				urgency.setSpacing(5);
 				urgency.getStyleClass().add("EnterUserData");
 				
 				HBox mean = new HBox(50);
 				mean.getChildren().addAll(title,body_,description,urgency);
-				//mean.setAlignment(Pos.CENTER);
 				mean.setId("Data");
 				mean.setSpacing(10);
-				//enterName.setAlignment(Pos.CENTER);
 				mean.getStyleClass().add("Data");
 				ScUsers.setContent(mean);
 				
@@ -158,7 +148,6 @@ public class SceneOneTaskForWorker {
 				Label supervisor_Label = new Label();
 				supervisor_Label.setText(_oneTask.getSupervisor());
 				supervisor.getChildren().addAll(supervisorLabel, supervisor_Label);
-				//enternFatherName.setAlignment(Pos.CENTER);
 				supervisor.setSpacing(5);
 				supervisor.getStyleClass().add("EnterUserData"); 
 				
@@ -168,7 +157,6 @@ public class SceneOneTaskForWorker {
 				Label taskcol_Label = new Label();
 				taskcol_Label.setText(_oneTask.getTaskCol());
 				taskcol.getChildren().addAll(taskcolLabel, taskcol_Label);
-				//enternFatherName.setAlignment(Pos.CENTER);
 				taskcol.setSpacing(5);
 				taskcol.getStyleClass().add("EnterUserData");
 				
@@ -195,22 +183,15 @@ public class SceneOneTaskForWorker {
 					idPrent_Label.setText(Integer.toString(_oneTask.getIdParent()));
 				}
 				idPrent.getChildren().addAll(idPrentLabel, idPrent_Label);
-				//enternFatherName.setAlignment(Pos.CENTER);
 				idPrent.setSpacing(5);
 				idPrent.getStyleClass().add("EnterUserData");
 				
 				HBox about = new HBox(50);
 				about .getChildren().addAll(supervisor,taskcol,BoxDone,idPrent);
-				//mean.setAlignment(Pos.CENTER);
 				about .setId("Data");
 				about .setSpacing(10);
-				//enterName.setAlignment(Pos.CENTER);
 				about .getStyleClass().add("Data");
-				
-				
 				// --- 
-
-				
 				// Время
 				Locale.setDefault(new Locale("ru","RU"));
 				Date dateC = _oneTask.getDateCreate();
@@ -220,7 +201,6 @@ public class SceneOneTaskForWorker {
 				String DateSAllC = " " + dateCreate.get(Calendar.DAY_OF_MONTH) + "." + Month +"."+ dateCreate.get(Calendar.YEAR) + " " +
 						dateCreate.get(Calendar.HOUR_OF_DAY) + ":" + dateCreate.get(Calendar.MINUTE);
 				
-				
 				Date dateS = _oneTask.getDateStrart();
 				GregorianCalendar dateStarts = new GregorianCalendar();
 				dateStarts.setTime(dateS);
@@ -228,17 +208,12 @@ public class SceneOneTaskForWorker {
 				String DateSAllT = " " + dateStarts.get(Calendar.DAY_OF_MONTH) + "." + Month +"."+ dateStarts.get(Calendar.YEAR) + " " +
 						dateStarts.get(Calendar.HOUR_OF_DAY) + ":" + dateStarts.get(Calendar.MINUTE);
 				
-				
 				Date dateE = _oneTask.getDateEnd();
 				GregorianCalendar dateEnds = new GregorianCalendar();
 				dateEnds.setTime(dateE);
 				Month =  dateEnds.get(Calendar.MONTH) + 1;
 				String DateEAllT = dateEnds.get(Calendar.DAY_OF_MONTH) +"."+ Month +"."+ dateEnds.get(Calendar.YEAR) + " " +
 						dateEnds.get(Calendar.HOUR_OF_DAY) + ":" + dateEnds.get(Calendar.MINUTE);
-				
-				
-				
-				
 				
 				VBox dateST = new VBox(50);
 				Label dateST_Label = new Label();
@@ -257,7 +232,6 @@ public class SceneOneTaskForWorker {
 				Label dateen_Label = new Label("Дата и время окончания выполнения: ");
 				 dateen_Label.setId("PULL");
 				dateen_Label.setWrapText(true);
-				//dateEn_Label.setText(data.get(i).getDateEnd().toString());
 				dateEn_Label.setText(DateEAllT);
 				dateEn.getChildren().addAll(dateen_Label,dateEn_Label);
 				dateEn.setAlignment(Pos.CENTER);
@@ -269,7 +243,6 @@ public class SceneOneTaskForWorker {
 				Label dateeC_Label = new Label("Дата и время создания задачи: ");
 				dateeC_Label.setId("PULL");
 				dateen_Label.setWrapText(true);
-				//dateEn_Label.setText(data.get(i).getDateEnd().toString());
 				dateC_Label.setText(DateSAllC);
 				dateCr .getChildren().addAll(dateeC_Label,dateC_Label);
 				dateCr .setAlignment(Pos.CENTER);
@@ -304,12 +277,10 @@ public class SceneOneTaskForWorker {
 				_Label.setId("PULL");
 				givenComments.getChildren().add(_Label);
 				givenComments.setMinWidth(250);
-				//givenComments.getStyleClass().add("Data");
 				
 				ScrollPane spComment =new ScrollPane();
 				spComment.setLayoutX(10);
 				spComment.setLayoutY(10);
-				//spComment.setHmin(400);
 				spComment.setCursor(Cursor.CLOSED_HAND);
 				spComment.setContent(givenComments);
 				spComment.setMinWidth(250);
@@ -322,7 +293,6 @@ public class SceneOneTaskForWorker {
 				_LabelL.setId("PULL");
 				givenLinks.getChildren().add(_LabelL);
 				givenLinks.setMinWidth(250);
-				//givenLinks.getStyleClass().add("Data");
 				
 				ScrollPane spLink =new ScrollPane();
 				spLink.setLayoutX(10);
@@ -334,10 +304,9 @@ public class SceneOneTaskForWorker {
 				//spLink.setMinHeight(200);
 				
 				for (int i =0; i < dataComments.size(); i++) {
-					System.out.println("Начался вывод комментариев  - " + dataComments.size());
+					//System.out.println("Начался вывод комментариев  - " + dataComments.size());
 					//EntityComment thisComment = dataComments.get(i);
 					//String name = Integer.toString(i);
-					
 					VBox comment = new VBox(50);
 					comment.setMaxWidth(400);
 					Label comment_Label = new Label();
@@ -351,12 +320,11 @@ public class SceneOneTaskForWorker {
 					comment.getStyleClass().add("String");
 					comment.setMinHeight(100);
 					comment.setMaxWidth(200);
-					
 					givenComments.getChildren().add(comment);
 				}
 				
 				for (int i =0; i < dataLinks.size(); i++) {
-					System.out.println("Начался вывод ссылок - " + dataLinks.size());
+					//System.out.println("Начался вывод ссылок - " + dataLinks.size());
 					//EntityComment thisComment = dataComments.get(i);
 					//String name = Integer.toString(i);
 					
@@ -385,11 +353,9 @@ public class SceneOneTaskForWorker {
 					int num = 357 - bodyaddOnenComment.getText().length();
 					addOnenCommentLabel.setText("Комментарий. Осталось символов: " + num);
 					if(bodyaddOnenComment.getText().length() > 357) {
-						
 						bodyaddOnenComment.setEditable(false);
 					}
 					if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-						
 						bodyaddOnenComment.setEditable(true);
 					}
 				});
@@ -402,8 +368,6 @@ public class SceneOneTaskForWorker {
 				addOnenComment.setSpacing(5);
 				addOnenComment.getStyleClass().add("EnterUserData");
 
-				
-				
 				VBox addOneLink = new VBox(50);
 				Label addOneLinkLabel = new Label("Ссылка");
 				addOneLinkLabel.setId("PULL");
@@ -428,8 +392,6 @@ public class SceneOneTaskForWorker {
 				addOneLink.setSpacing(5);
 				addOneLink.getStyleClass().add("EnterUserData");
 
-	
-				
 				HBox adding = new HBox(50);
 				adding.getChildren().addAll(addOnenComment,addOneLink);
 				//mean.setAlignment(Pos.CENTER);
@@ -438,11 +400,9 @@ public class SceneOneTaskForWorker {
 				//enterName.setAlignment(Pos.CENTER);
 				adding.getStyleClass().add("Data");
 
-				
 				// --- конец панели для данных пользователя ---/
 				// Панель для эмэйл пользователя ---/
 
-				
 				// --- конец панели для эмэйл пользователя---/
 
 				// -- Кнопка назад ---/
@@ -452,10 +412,6 @@ public class SceneOneTaskForWorker {
 				buttonExit.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
-						//Login firstScene = new Login(primaryStage);
-						System.out.print("DВызов назад");
-						//primaryStage.setScene(firstScene.getScene());//,oldScene);
-						
 						primaryStage.setScene(oldScene);
 						primaryStage.centerOnScreen();
 					}
@@ -515,7 +471,6 @@ public class SceneOneTaskForWorker {
 						alert.setHeaderText("Ссылка добавлена!");
 						alert.show();
 						// Коенец сообщение об успехе -- /
-						
 						 updateLink (givenLinks, _dataLinks);
 					}
 				});
@@ -554,14 +509,11 @@ public class SceneOneTaskForWorker {
 					@Override
 					public void handle(ActionEvent e) {
 						SceneReport send = new SceneReport (primaryStage, Id , _oneTask, _dataLinks, _dataComments);
-		
 					}
 				});
 				
 				HBox buttons = new HBox(50);
 				buttons.getChildren().addAll(addComment,done,report,addLink );
-				//mean.setAlignment(Pos.CENTER);
-				//buttons.setId("Data");
 				buttons.setSpacing(10);
 				buttons.setAlignment(Pos.CENTER);
 				buttons.getStyleClass().add("Data");
@@ -624,16 +576,13 @@ public class SceneOneTaskForWorker {
 				search.setIdTask(this.oneTask.getIdTask());
 				search.whatIs();
 
-				
 				dataComments = search.getDataComments();
 				this.set_dataComments(dataComments);
 
-				
 				for (int i =0; i < dataComments.size(); i++) {
-					System.out.println("Начался вывод комментариев  - " + dataComments.size());
+					//System.out.println("Начался вывод комментариев  - " + dataComments.size());
 					//EntityComment thisComment = dataComments.get(i);
 					//String name = Integer.toString(i);
-					
 					VBox comment = new VBox(50);
 					comment.setMaxWidth(400);
 					Label comment_Label = new Label();
@@ -650,7 +599,6 @@ public class SceneOneTaskForWorker {
 					
 					_commit.getChildren().add(comment);
 				}
-				
 				return _commit;
 			}
 
@@ -668,10 +616,7 @@ public class SceneOneTaskForWorker {
 				this.set_dataLinks(dataLinks);
 				
 				for (int i =0; i < dataLinks.size(); i++) {
-					System.out.println("Начался вывод ссылок - " + dataLinks.size());
-					//EntityComment thisComment = dataComments.get(i);
-					//String name = Integer.toString(i);
-					
+					//System.out.println("Начался вывод ссылок - " + dataLinks.size());
 					VBox link = new VBox(50);
 					link.setMaxWidth(400);
 					Label link_Label = new Label();
@@ -687,8 +632,6 @@ public class SceneOneTaskForWorker {
 					link.setMaxWidth(200);
 					_link.getChildren().add(link);
 				}
-				
 				return _link;
 			}
-	
 }

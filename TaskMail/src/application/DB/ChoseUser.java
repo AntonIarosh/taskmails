@@ -81,7 +81,7 @@ public class ChoseUser {
 				this.data.add(user);
 			//	String tablePass = res.getString(7);
 				//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7));
-				resultItems.put(res.getInt(1), res.getString(2));
+				//resultItems.put(res.getInt(1), res.getString(2));
 				
 			}
 		} catch (SQLException e1) {

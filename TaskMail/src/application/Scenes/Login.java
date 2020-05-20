@@ -55,7 +55,6 @@ public class Login implements loginScene {
 		Popup popup;
 		popup=new Popup();
 		popup.setAutoHide(true);
-		//popup.setAutoFix(true);
 		VBox textPopup = new VBox(50);
 		textPopup.setAlignment(Pos.CENTER);
 		textPopup.setPrefSize(400, 300);
@@ -68,7 +67,6 @@ public class Login implements loginScene {
 		
 		VBox window = new VBox(50);
 		window.setAlignment(Pos.CENTER);
-		//FlowPane flowPane = new FlowPane(Orientation.VERTICAL, 4, 2);
 		Scene scene = new Scene(window, 600, 670);
 		scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
 		
@@ -93,7 +91,6 @@ public class Login implements loginScene {
 		enterLogin.setSpacing(5);
 		enterLoginLabel.setId("login");
 		
-		
 		HBox enterPass = new HBox(50);
 		enterPass.getStyleClass().add("Enter");
 		Label enterLoginPass = new Label("Введите пароль");
@@ -103,10 +100,8 @@ public class Login implements loginScene {
 		enterPass.setAlignment(Pos.CENTER);
 		enterPass.setSpacing(5);
 		enterLoginPass.setId("pass");
-		
 		Rectangle rec  = new Rectangle(200.0,20.0);
 		rec.setId("Rectangle");
-		
 		
 		VBox need = new VBox(50);
 		
@@ -117,11 +112,9 @@ public class Login implements loginScene {
 	     String URL = "/application/pictures/yes.png";
 	     Image ICON_4 = new Image(getClass().getResourceAsStream(URL));
 	     ImageView yes = new ImageView(ICON_4);
-		 //Label Joblabel = new Label("",work);
+	     
 		Label alarm = new Label("");
 		alarm.setStyle("-fx-text-fill: ff0000; -fx-font-size: 14pt; -fx-font-weight: bold;");
-		//alarm.setWrapText(true);
-		//alarm.setTextAlignment(TextAligment.);
 		Label needs = new Label("Вы должны быть зарегистрированным");
 		needs.setId("needs");
 		Button button = new Button("Регистрация");
@@ -140,7 +133,6 @@ public class Login implements loginScene {
 		
 		VBox logPas = new VBox(50);
 		logPas.getChildren().addAll(enterLogin, enterPass);
-		//logPas.setAlignment(Pos.TOP_LEFT);
 		logPas.setSpacing(5);
 		logPas.setId("LogPas");
 		
@@ -150,7 +142,7 @@ public class Login implements loginScene {
 		buttonEnter.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				System.out.println("|"+pass.getText()+"|"+ text.getText()+"|");
+				//System.out.println("|"+pass.getText()+"|"+ text.getText()+"|");
 				popupL.setText("");
 				boolean isValid = true;
 				StringBuilder str = new StringBuilder();
@@ -192,7 +184,6 @@ public class Login implements loginScene {
 					
 				} else {
 				
-				
 				if (check(pass.getText(), text.getText())) {
 					alarm.setText("Вы зарегистрированы!");
 					alarm.setGraphic(yes);
@@ -213,13 +204,10 @@ public class Login implements loginScene {
 		Image ICON = new Image(getClass().getResourceAsStream(IMAGE));
 		ImageView image = new ImageView(ICON);
 		
-		//flowPane.setId("win");
-		//flowPane.getChildren().addAll(present, enterLogin, enterPass, buttonEnter, need);
 		window.getChildren().addAll(present,image, /*enterLogin, enterPass,buttonEnter,*/logPas,  need);
 		//window.setAlignment(Pos.);
 		window.setSpacing(15);
 		window.setId("win");
-		//window.setStyle("-fx-background-image: url(/application/todo-list.png);");
 		setScene(scene);
 		
 		return scene;

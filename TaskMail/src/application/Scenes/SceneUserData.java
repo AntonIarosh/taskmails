@@ -66,9 +66,6 @@ public class SceneUserData implements enterDataUsers{
 		ImageView image = new ImageView(ICON);
 		image.setStyle("-fx-opacity: 0.6;");
 		image.setId("come");
-		//windiw.getChildren().setAll(flowPane);
-		//windiw.setMinSize(850, 300);
-		//windiw.setId("win");
 		VBox enternName = new VBox(50);
 		Label enterLNameLabel = new Label("Введите имя");
 		TextField textName = new TextField();
@@ -112,8 +109,6 @@ public class SceneUserData implements enterDataUsers{
 		enterName.setSpacing(10);
 		enterName.setAlignment(Pos.CENTER);
 		
-		
-		
 		HBox enterPass = new HBox(50);
 		Label enterLoginPass = new Label("Введите пароль");
 		Label enterRule = new Label("Пароль должен содержать буквы латинского алфавита и не меннее одной цифры");
@@ -138,14 +133,12 @@ public class SceneUserData implements enterDataUsers{
 		resultItems = posts.doQery();
 		enterJob.getStyleClass().add("EnterInfo");
 		
-		//String itms[] = {"Dog", "Cat", "Horse"};
         ChoiceBox allJobs = new ChoiceBox();
         allJobs.getItems().addAll(resultItems.values());
         allJobs.getSelectionModel().selectFirst();
 		enterJob.getChildren().addAll(lookJobLabel,allJobs,enterJobLabel, job);
 		enterJob.setAlignment(Pos.CENTER);
 		enterJob.setSpacing(5);
-		//flowPane.setSpacing(15);
 		Button readData = new Button("Ознакомиться");
 		readData.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		readData.setId("button");
@@ -202,17 +195,13 @@ public class SceneUserData implements enterDataUsers{
 		        
 		        dialog.setWidth(1000);
 		    	dialog.setHeight(750);
-				//ScrollPane sp=new ScrollPane();
 				sp.setLayoutX(10);
 				sp.setLayoutY(10);
 				sp.setCursor(Cursor.CLOSED_HAND);
-				
 				dialog.show();
 			}
 		});
-		/*String IMAGE = "/application/DataAdd.png";
-		Image ICON = new Image(getClass().getResourceAsStream(IMAGE));
-		ImageView image = new ImageView(ICON);*/
+		
 		Label alarm = new Label();
 		alarm.setId("alarm");
 		CheckBox box = new CheckBox();
@@ -248,7 +237,6 @@ public class SceneUserData implements enterDataUsers{
 						System.out.println(ins);
 						add = new AddUser(ins);
 						
-
 						boolean execTrue = add.execeteQuery();
 						if(execTrue) {
 							String found = "SELECT * FROM `users` WHERE (`login` = '"+ textLogin.getText()+"' AND `password` = '"+pass.getText()+"') ";
@@ -276,7 +264,6 @@ public class SceneUserData implements enterDataUsers{
 		reg.setPadding(new Insets(10.0,10.0,10.0,10.0));
 		Label personalData = new Label("Я согласен на обработку персональных данных");
 		personalData.setWrapText(true);
-		
 		reg.getChildren().addAll(box,personalData, readData, Enter  );
 		reg.setId("Info");
 		
@@ -289,7 +276,6 @@ public class SceneUserData implements enterDataUsers{
 				//Login firstScene = new Login(primaryStage);
 				System.out.print("DВызов назад");
 				//primaryStage.setScene(firstScene.getScene());//,oldScene);
-				
 				primaryStage.setScene(oldScene);
 				primaryStage.centerOnScreen();
 			}
@@ -302,12 +288,9 @@ public class SceneUserData implements enterDataUsers{
 		inner.setSpacing(7);
 		inner.setId("inner");
 		
-		
 		flowPane.getChildren().setAll(/*image, enterName,enterPass, enterJob,reg, alarm,buttonExit*/inner);
 		flowPane.setHgap(10);
 		flowPane.setVgap(10);
-//flowPane.setLayoutX(10);
-		//flowPane.setLayoutY(10);
 		flowPane.setColumnHalignment(HPos.CENTER);
 		flowPane.setAlignment(Pos.CENTER);
 		flowPane.setId("w");

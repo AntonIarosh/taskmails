@@ -89,7 +89,7 @@ public class ChoseEmailToUser {
 			// -- Конец поиска пользователя -- /
 			
 			
-			HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
+			//HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
 			String query = "SELECT * FROM (`taskmail`.`email` JOIN `taskmail`.`user_email` ON `email`.`id_email`= `user_email`.`id_email`) JOIN `taskmail`.`users` ON `user_email`.`id_user` = `users`.`id_user` WHERE `users`.`id_user` = '" + idUser +"'";
 			res = null;
 			System.out.println(query);
@@ -136,7 +136,7 @@ public class ChoseEmailToUser {
 							this.data.add(email);
 							this.dataEmail = email;
 							//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
-							resultItems.put(res.getInt(1), res.getString(2));
+							//resultItems.put(res.getInt(1), res.getString(2));
 						}
 
 					} else {
@@ -148,7 +148,7 @@ public class ChoseEmailToUser {
 						
 					//	String tablePass = res.getString(7);
 						//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
-						resultItems.put(res.getInt(1), res.getString(2));
+						//resultItems.put(res.getInt(1), res.getString(2));
 					}
 				}
 			} catch (SQLException e1) {

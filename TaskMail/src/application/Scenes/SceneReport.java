@@ -190,20 +190,15 @@ public class SceneReport {
 					problems.setAlignment(Pos.CENTER);
 					problems.setSpacing(5);
 					problems.getStyleClass().add("EnterUserData");
-					
 				
 					VBox adding = new VBox(50);
 					adding.getChildren().addAll(supervisorLabel,addOnenComment,doneWork ,problems );
-					//mean.setAlignment(Pos.CENTER);
 					adding.setId("Data");
 					adding.setSpacing(10);
-					//enterName.setAlignment(Pos.CENTER);
 					adding.getStyleClass().add("Data");
-
 					
 					// --- конец панели для данных пользователя ---/
 					// Панель для эмэйл пользователя ---/
-					
 					
 					// --- конец панели для эмэйл пользователя---/
 					 //----------------------------------------------------прикрепление файлов----------------------------/
@@ -215,7 +210,6 @@ public class SceneReport {
 					Allfilles.setAlignment(Pos.CENTER);
 					Allfilles.setSpacing(5);
 					Allfilles.setStyle("-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #FF6347; -fx-background-radius: 6;");
-					//Allfusers.setMaxWidth(140);
 					VBox files = new VBox(50);
 					Label fileLabel = new Label("Прикреплённые файлы");
 					fileLabel.setWrapText(true);
@@ -225,21 +219,15 @@ public class SceneReport {
 					files.setAlignment(Pos.CENTER);
 					files.setSpacing(5);
 					files.setStyle("-fx-alignment: center;-fx-padding: 5px;  -fx-background-color: #DC143C; -fx-background-radius: 6;");
-					//users.setMaxWidth(500);
 					files.setMinWidth(230);
-					
 					
 					ScrollPane ScUsers =new ScrollPane();
 					ScUsers.setLayoutX(10);
 					ScUsers.setLayoutY(10);
-					//spComment.setHmin(400);
 					ScUsers .setCursor(Cursor.CLOSED_HAND);
 					ScUsers.setContent(files);
 					ScUsers.setMaxWidth(230);
 					ScUsers.setMinWidth(230);
-					//ScUsers.setMinHeight(100);
-					//ScUsers.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
-					//ScUsers.setEffect(is);
 
 				// --------------------------------- Конец прикрепления файлов -----------------------------------------/
 
@@ -259,7 +247,6 @@ public class SceneReport {
 						}
 					});
 					// -- Конец кнопки назад --/
-					
 
 					Button adressTask = new Button("Выберите адресата");
 					adressTask .getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
@@ -311,8 +298,6 @@ public class SceneReport {
 							int idch = 0;
 							String Theme = null;
 							String Text = null;
-							
-							
 							String comments = null;
 							String body = null;
 							String supervisor = null;
@@ -344,9 +329,6 @@ public class SceneReport {
 							idurgency +=1;
 							//System.out.println("код выбора срочности - " + idurgency);
 							// конец кода срочности задачи -- /
-							//urgencyMail = Integer.toString(idurgency); 
-
-						
 							
 							// Выполнение задачи -- /
 							int itsDoneToDB = 0;
@@ -474,8 +456,6 @@ public class SceneReport {
 					
 					HBox buttons = new HBox(50);
 					buttons.getChildren().addAll(adressTask,addFile,pushTask);
-					//mean.setAlignment(Pos.CENTER);
-					//buttons.setId("Data");
 					buttons.setSpacing(10);
 					buttons.setAlignment(Pos.CENTER);
 					buttons.getStyleClass().add("Data");
@@ -486,14 +466,13 @@ public class SceneReport {
 					userInfo.setId("Info");
 					userInfo.setSpacing(8);
 				
-					
 					HBox root = new HBox(50);
 					root.getChildren().setAll(/*userInfo,emails*/buttonExit);
 					root.setAlignment(Pos.CENTER);
 					root.setSpacing(20);
 					root.setId("root");
 					flowPane.getChildren().setAll(root);
-					
+		
 					roots.setCenter(userInfo);
 					roots.setRight(ScUsers);
 					roots.setBottom(root);
@@ -546,9 +525,7 @@ public class SceneReport {
 							file.setAlignment(Pos.CENTER);
 							file.setSpacing(5);
 							file.setMaxWidth(200);
-							
 							file.getStyleClass().add("EnterTask");
-							
 							fileLabel.setStyle("-fx-text-fill: white;");
 							fileName.setStyle("-fx-text-fill: white;");
 							
@@ -567,13 +544,10 @@ public class SceneReport {
 							Scf.setStyle("-fx-alignment: center; -fx-background-color: #FFA500; -fx-padding: 2px;");
 							Scf.setEffect(ef);
 							
-							//file.setEffect(effect);
 							Button delete = new Button("Удалить");
 							delete.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-							 //inf.setMaxWidth(160);
 							delete.setId("button");
 							file.getChildren().add(delete);
-							//file.getChildren().add(delete);
 							vBox.getChildren().add(file);
 							delete.setOnAction(new EventHandler<ActionEvent>() {
 									@Override

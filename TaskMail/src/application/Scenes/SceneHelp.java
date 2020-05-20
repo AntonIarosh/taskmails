@@ -46,8 +46,6 @@ public class SceneHelp {
 			int numberOfRows = 0;
 			while (scanner.hasNext()) {
 				str.append(scanner.nextLine() + "\n");
-				//text.setText(Integer.toString(scanner.nextInt()));
-				//System.out.println(" ¬ывод из главного окна - " + text.getText());
 				numberOfRows++;
 			}
 		} catch (FileNotFoundException e1) {
@@ -121,33 +119,12 @@ public class SceneHelp {
 									break;
 								}
 							}
-							//start =0;
-							//end = 0;
-							
 						}
 						h++;
 					}
 				}
-				
-				/*if (all[i] == target[target.length-1])  {
-					end = i;
-					text.selectRange(start, end+1);
-					System.out.println(" начало -" +start + ", конец - "+ end +", буковки - "+all[start] + " " + all[end]);
-					Optional <ButtonType> result = dia.showAndWait();
-					if (result.isPresent()) {
-						if(result.orElseThrow().getButtonData() == ButtonData.CANCEL_CLOSE) {
-							break;
-						}
-					}
-					
-					//start =0;
-					//end = 0;
-					
-				}*/
 			}
 		});
-		
-		
 		
 		VBox rirht = new VBox();
 		rirht.setMinWidth(200);

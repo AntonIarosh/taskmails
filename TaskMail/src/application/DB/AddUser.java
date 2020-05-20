@@ -42,7 +42,7 @@ public class AddUser implements addToDBUser {
 		}
 		
 		try {
-			System.out.println("Добавление чувака");
+			//System.out.println("Добавление чувака");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;
@@ -72,7 +72,7 @@ public class AddUser implements addToDBUser {
 			e1.printStackTrace();
 		}
 		try {
-			System.out.println("WhoAdd");
+			//System.out.println("WhoAdd");
 			System.out.println(query);
 			res = answer.executeQuery(query);
 			
@@ -82,7 +82,7 @@ public class AddUser implements addToDBUser {
 		try {
 			while (res.next()) {
 				idPerson = res.getInt(1);
-				System.out.println("узнать какой у нового у чувака - итого" + idPerson);
+				//System.out.println("узнать какой у нового у чувака - итого" + idPerson);
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -114,7 +114,7 @@ public class AddUser implements addToDBUser {
 		}
 		
 		try {
-			System.out.println("Добавление в таблицу эмейл");
+			//System.out.println("Добавление в таблицу эмейл");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			
@@ -124,8 +124,8 @@ public class AddUser implements addToDBUser {
 		/// ---/
 		// узнать какой у нового эмэйла айди. ---/
 		try {
-			System.out.println("узнать какой у нового эмэйла айди");
-			System.out.println("SELECT * FROM `taskmail`.`email` WHERE `email` = '"+this.email +"';");
+			//System.out.println("узнать какой у нового эмэйла айди");
+			//System.out.println("SELECT * FROM `taskmail`.`email` WHERE `email` = '"+this.email +"';");
 			res = answer.executeQuery("SELECT * FROM `taskmail`.`email` WHERE (`email` = '"+this.email +"');");
 			
 		} catch (SQLException e1) {
@@ -135,7 +135,7 @@ public class AddUser implements addToDBUser {
 		try {
 			while (res.next()) {
 				idMail = res.getInt(1);
-				System.out.println("узнать какой у нового эмэйла айди - итого" + idMail);
+				//System.out.println("узнать какой у нового эмэйла айди - итого" + idMail);
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -165,7 +165,7 @@ public class AddUser implements addToDBUser {
 		}
 		
 		try {
-			System.out.println("Добавить записи в таблицу - почта пользователя");
+			//System.out.println("Добавить записи в таблицу - почта пользователя");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;

@@ -52,14 +52,10 @@ public class addFilesToLeterTask {
 	}
 	
 	public VBox setVisibleMenuFiles(VBox vBox,Stage primaryStage) {
-		//this.paths.clear();
-		//FileChooser fileChooser = new FileChooser();
 		LinkedList <String> pa = new LinkedList();
 		fileChooser.setTitle("Âûבמנ פאיכמג");
 		List <File> files = null;
 		files = fileChooser.showOpenMultipleDialog(primaryStage);
-		//this.files.clear();
-		//this.files.addAll(files);
 		
 		if(!files.isEmpty()) {
 		for (int i=0; i <files.size(); i++) {
@@ -69,11 +65,9 @@ public class addFilesToLeterTask {
 		
 		for (int i=0; i < pa.size(); i++ ) {
 			String nAme = pa.get(i);
-			
 			Bloom effect = new Bloom();
 			Bloom effect_ = new Bloom(0.9);
 			Glow ef = new Glow(0.7);
-			
 			VBox file = new VBox(50);
 			Label fileLabel = new Label("Ôאיכ");
 			fileLabel.setEffect(ef);
@@ -84,29 +78,12 @@ public class addFilesToLeterTask {
 			file.getChildren().addAll(fileLabel,fileName);
 			file.setAlignment(Pos.CENTER);
 			file.setSpacing(5);
-			
 			file.getStyleClass().add("EnterTask");
-			
 			fileLabel.setStyle("-fx-text-fill: white;");
 			fileName.setStyle("-fx-text-fill: white;");
-		
-			
 			file.setStyle("-fx-border-style: dashed centered; -fx-border-width: 1.5px;-fx-background-color: #7B68EE;");
-			//file.setEffect(effect);
-		/*	Button delete = new Button("Óהאכטעü");
-			delete.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-			 //inf.setMaxWidth(160);
-			delete.setId("button");*/
-			
-			//file.getChildren().add(delete);
 			vBox.getChildren().add(file);
-			/*delete.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent e) {
-						file.getChildren().remove(file);
-						pa.remove(nAme);
-					}
-				});*/
+		
 		}
 
 		}

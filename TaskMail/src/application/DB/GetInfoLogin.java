@@ -10,10 +10,7 @@ public class GetInfoLogin extends CheckLogin {
 	private String secondName;
 	private String job;
 	private String lastName;
-	//private int id;
-	/*private Connection con;
-	private DBConnection conect;
-	static Statement answer;*/
+	
 	public GetInfoLogin() {
 		name = null;
 		secondName=null;

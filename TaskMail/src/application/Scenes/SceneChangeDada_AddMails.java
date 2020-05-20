@@ -97,19 +97,15 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		popupL.setStyle("-fx-background-color: #FFFFE0;");
 		popupL.setWrapText(true);
 		textPopup .getChildren().add(popupL);
-		//FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
 		VBox flowPane = new VBox(50);
-		//FlowPane root = new FlowPane(Orientation.HORIZONTAL);
 		// Панель для данных пользователя ---/
 		VBox userInfo = new VBox();
-		
 		
 		VBox enternName = new VBox(50);
 		Label enterLNameLabel = new Label("Введите имя");
 		TextField textName = new TextField();
 		textName.setPromptText("Имя");
 		enternName.getChildren().addAll(enterLNameLabel, textName);
-		//enternName.setAlignment(Pos.CENTER);
 		enternName.setSpacing(5);
 		enternName.getStyleClass().add("EnterUserData");
 		enternName.setMinWidth(150);
@@ -119,7 +115,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		TextField textSeconName = new TextField();
 		textSeconName.setPromptText("Фамилия");
 		enternSecondName.getChildren().addAll(enterSecondNameLabel, textSeconName);
-		//enternSecondName.setAlignment(Pos.CENTER);
 		enternSecondName.setSpacing(5);
 		enternSecondName.getStyleClass().add("EnterUserData");
 		enternSecondName.setMinWidth(150);
@@ -129,22 +124,10 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		TextField textFatherName = new TextField();
 		textFatherName.setPromptText("Отчество");
 		enternFatherName.getChildren().addAll(enterFatherNameLabel, textFatherName);
-		//enternFatherName.setAlignment(Pos.CENTER);
 		enternFatherName.setSpacing(5);
 		enternFatherName.getStyleClass().add("EnterUserData");
 		enternFatherName.setMinWidth(150);
-		
-		/*VBox enterLogin = new VBox(50);
-		Label enterLoginLabel = new Label("Введите логин - эмейл");
-		TextField textLogin = new TextField();
-		textLogin.setPromptText("email");
-		enterLogin.getChildren().addAll(enterLoginLabel, textLogin);
-		//enterLogin.setAlignment(Pos.CENTER);
-		enterLogin.setSpacing(5);
-		enterLogin.getStyleClass().add("EnterUserData");*/
-		//enternFatherName.setMargin(child, value);
-		
-		
+	
 		HBox enterPass = new HBox(50);
 		Label enterLoginPass = new Label("Введите пароль");
 		enterLoginPass.setWrapText(true);
@@ -175,21 +158,18 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		enterLogPas.getChildren().addAll(enterLogin);
 		enterLogPas.setId("Data");
 		enterLogPas.setSpacing(10);
-		//enterName.setAlignment(Pos.CENTER);
 		enterLogPas.getStyleClass().add("EnterUserData");
 		
 		HBox enterName = new HBox(50);
 		enterName.getChildren().addAll(enternName,enternSecondName,enternFatherName);
 		enterName.setId("Data");
 		enterName.setSpacing(10);
-		//enterName.setAlignment(Pos.CENTER);
 		enterName.getStyleClass().add("EnterUserData");
 		
 		HBox enterData = new HBox(50);
 		enterData.getChildren().addAll(/*enterLogin,*/enterPass);
 		enterData.setId("Data");
 		enterData.setSpacing(10);
-		//enterName.setAlignment(Pos.CENTER);
 		enterData.getStyleClass().add("EnterUserData");
 					
 		HBox enterJob = new HBox(50);
@@ -231,8 +211,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		ChanngeUserInfos infos = new ChanngeUserInfos(idUserInner);
 		infos.whatMailsIs();
 		this.data = infos.getData();
-		
-		
 		
 		// Первая колонка
 		TableColumn<EntityEmail, Integer> firstColId = new TableColumn<EntityEmail, Integer>();
@@ -321,12 +299,10 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		Label InServerLabelPort = new Label("Введите номер порта почты");
 		InServerLabelPort.setMaxWidth(300);
 		InServerLabelPort.setMinWidth(200);
-		//InServerLabelPort.setWrapText(true);
 		InServerLabelPort.setMinHeight(25);
 		TextField InServerFieldPort = new TextField();
 		InServerFieldPort.setPromptText("Порт IMAP Сервера");
 		enterInServerPort.getChildren().addAll(InServerLabelPort , InServerFieldPort);
-		//enterInServerPort.setAlignment(Pos.CENTER);
 		enterInServerPort.setSpacing(5);
 		enterInServerPort.getStyleClass().add("EnterUserData");
 		
@@ -337,7 +313,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		InAuth.getItems().addAll("Да", "Нет");
 		InAuth.getSelectionModel().selectFirst();
 		enterInAuth.getChildren().addAll(enterInAuthLabel , InAuth);
-		//enterInAuth.setAlignment(Pos.CENTER);
 		enterInAuth.setSpacing(5);
 		enterInAuth.getStyleClass().add("EnterUserData");
 		
@@ -346,7 +321,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		InInfo.setAlignment(Pos.CENTER);
 		InInfo.setSpacing(5);
 		InInfo.setId("Info");
-		//enterInAuth.getStyleClass().add("EnterUserData");
 		
 		VBox  enterOutServer = new VBox();
 		Label OutServerLabel = new Label("Введите Сервер исходящей почты");
@@ -454,7 +428,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				);
 		textEnterMail.setPromptText("email");
 		enterMail.getChildren().addAll(enterMailLabel, textEnterMail);
-		//enterLogin.setAlignment(Pos.CENTER);
 		enterMail.setSpacing(5);
 		enterMail.getStyleClass().add("EnterUserData");
 		
@@ -464,10 +437,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		OutInfo.setSpacing(5);
 		OutInfo.setId("Info");
 		
-		
-		/*Button buttonSelect = new Button("Выбрать почтовый адрес в качестве логина");
-		buttonSelect.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-		buttonSelect.setId("button");*/
 		Button buttonAdd = new Button("Добавить почту");
 		buttonAdd.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		buttonAdd.setId("button");
@@ -579,15 +548,11 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				add = new AddUser(query);
 				String found = "SELECT * FROM `users` WHERE (`id_user` = '"+ Id +"'); ";
 				add.setMail(textEnterMail.getText());
-				//String insertMail = "INSERT INTO `taskmail`.`email`(`email`) VALUES ('"+textLogin.getText() +"');";
-				//add.setQuery(insertMail);
-				//add.setMail(textLogin.getText());
+				
 				String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
 				add.addUserEmail(insertUserMAil);
 				
 				infos.whatMailsIs();
-				//data.clear();
-				//setData(infos.getData());
 				ObservableList<EntityEmail> dataf = infos.whatMailsIs();
 				System.out.print("Email -новый размер - " +dataf.size());
 				for (int i=0; i<dataf.size(); i++) {
@@ -595,7 +560,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				}
 				 tableView.getItems().setAll(dataf);
 				 tableView.refresh();
-				 
 				 textEnterMail.setText("");
 				 passMail.setText("");
 				 InServerField.setText("");
@@ -722,8 +686,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					alert.show();
 					// Коенец сообщение об no  успехе -- /
 				}
-				//countOfUserMail = oneOrMany.serchQuery();
-				//String delFromUsersEmail = "DELETE FROM `taskmail`.`user_email`";
 				if(ifDel) {
 					// Сообщение об успехе -- /
 					Alert alert = new Alert(AlertType.INFORMATION,"Удаление адресса электронной почты");
@@ -748,7 +710,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 
 		});
 		
-		
 		emails.getChildren().setAll(tableView/*,buttonSelect*/, enterMail,delete,enterPassMail,InInfo,OutInfo,buttonAdd);
 		emails.setSpacing(10);
 
@@ -770,10 +731,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		buttonExit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//Login firstScene = new Login(primaryStage);
 				System.out.print("DВызов назад");
-				//primaryStage.setScene(firstScene.getScene());//,oldScene);
-				
 				primaryStage.setScene(oldScene);
 				primaryStage.centerOnScreen();
 			}
@@ -890,9 +848,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		ScrollPane Sc =new ScrollPane();
 		Sc.setLayoutX(10);
 		Sc.setLayoutY(10);
-		//spComment.setHmin(400);
 		Sc .setCursor(Cursor.CLOSED_HAND);
-		//Sc.setContent(files );
 		Sc.setMaxWidth(165);
 		Sc.setMinWidth(165);
 		Sc.setStyle("-fx-alignment: center;");

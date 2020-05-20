@@ -48,7 +48,7 @@ public class ChanngeUserInfos {
 	
 	public ObservableList<EntityEmail>   whatMailsIs() {
 	//public HashMap <Integer, String>  whatMailsIs() {
-		HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
+		//HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
 		ObservableList<EntityEmail> dataf = FXCollections.observableArrayList();
 		String query = "SELECT * FROM (`taskmail`.`email` JOIN `taskmail`.`user_email` ON `email`.`id_email`= `user_email`.`id_email`) JOIN `taskmail`.`users` ON `user_email`.`id_user` = `users`.`id_user` WHERE `users`.`id_user` = '" + idUser +"'";
 		ResultSet res = null;
@@ -73,7 +73,7 @@ public class ChanngeUserInfos {
 				dataf.add(email);
 			//	String tablePass = res.getString(7);
 				System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
-				resultItems.put(res.getInt(1), res.getString(2));
+				//resultItems.put(res.getInt(1), res.getString(2));
 				System.out.println(" Размер данных в запросе - " + this.data.size());
 				
 			}
@@ -159,7 +159,7 @@ public class ChanngeUserInfos {
 	public ObservableList<EntityEmail> whatMailsIsOnWorker(String _name, String _secondName, String _lastName) {
 		//public HashMap <Integer, String>  whatMailsIs() {
 		System.out.println(" Имя - |" +_name + "| фамилиya - |" +  _secondName + "| отчество - |" + _lastName +"|");
-			HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
+			//HashMap <Integer, String> resultItems = new HashMap <Integer, String>();
 			ObservableList<EntityEmail> dataf = FXCollections.observableArrayList();
 			String query = null;
 			if ((_name.compareTo("") != 0) && (_secondName.compareTo("") != 0) && (_lastName.compareTo("") != 0)) {
@@ -202,7 +202,7 @@ public class ChanngeUserInfos {
 					dataf.add(email);
 				//	String tablePass = res.getString(7);
 					//System.out.println(res.getString(1) +" "+res.getString(2)+" " +res.getString(3)+" "+ res.getString(4)+" "+ res.getInt(5)+" "+res.getString(7) + " "+res.getInt(8) );
-					resultItems.put(res.getInt(1), res.getString(2));
+					//resultItems.put(res.getInt(1), res.getString(2));
 					//System.out.println(" Размер данных в запросе - " + this.data.size());
 					
 				}

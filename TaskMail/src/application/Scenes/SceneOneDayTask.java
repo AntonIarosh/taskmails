@@ -61,11 +61,6 @@ public class SceneOneDayTask implements mainWindowUser{
 			private Date oneDay;
 			
 			public SceneOneDayTask(Stage primaryStage, int UserId, Date _oneDay) {
-				/*
-				this.primaryStage = primaryStage;
-				this.oldScene = primaryStage.getScene();
-				this.ounScene = createNewScene();
-				*/
 				this.oneDay = _oneDay;
 				this.id = UserId;
 				this.primaryStage = primaryStage;
@@ -106,8 +101,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				// TODO Auto-generated method stub
 				return false;
 			}
-
-
 			/**
 			 *
 			 */
@@ -126,10 +119,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				exitFromLogin.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
-						//Login firstScene = new Login(primaryStage);
-						System.out.print("DВызов назад");
-						//primaryStage.setScene(firstScene.getScene());//,oldScene);
-						//setReturnScene();
 						primaryStage.setScene(oldScene);
 						primaryStage.centerOnScreen();
 					}
@@ -137,10 +126,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				exitFromProgram.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent e) {
-						//Login firstScene = new Login(primaryStage);
-						System.out.print("DВызов назад");
-						//primaryStage.setScene(firstScene.getScene());//,oldScene);
-						
 						primaryStage.setScene(oldScene);
 						primaryStage.centerOnScreen();
 					}
@@ -168,7 +153,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				 VboxStyle lk = new VboxStyle ();
 				 VBox personalAccounts = lk.getStyleVbox();
 				 
-				 
 			     String URL = "/application/pictures/man.png";
 			     Image ICON_1 = new Image(getClass().getResourceAsStream(URL));
 			     ImageView man = new ImageView(ICON_1);
@@ -185,7 +169,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				 Namelabel.setText(info.getSecondName());
 				 Namelabel.setContentDisplay(ContentDisplay.LEFT);
 				 
-
 				 SecondNamelabel.setId("secondName");
 				 SecondNamelabel.setWrapText(true);
 				 SecondNamelabel.setMinWidth(100);
@@ -196,9 +179,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				 System.out.println(" айди юзера - " + id_user);
 				 
 				 personalAccounts.getChildren().setAll(Namelabel,SecondNamelabel);
-			/*	 if(!Joblabel.getText().isEmpty()) {
-					 personalAccounts.getChildren().add(Joblabel);
-				 }*/
 				 VboxStyle intr = new VboxStyle ();
 				 VBox instr = intr.getStyleVbox();
 				 personalAccounts.setId("pp");
@@ -212,11 +192,9 @@ public class SceneOneDayTask implements mainWindowUser{
 				
 				 exits.getChildren().addAll(exitFromProgram,exitFromLogin);
 				 exits.setId("exit");
-				 //TitledPane personalAccount= new TitledPane("Личный кабинет",personalAccounts);
 				 TitledPane  instrument = new TitledPane("Инструменты",instr);
 				 TitledPane  exit = new TitledPane("Выход или назад",exits);
 
-				
 			     accordion.getPanes().addAll(/*personalAccount,*/
 			    		 instrument,exit);
 			        accordion.setMinSize(250, 200);
@@ -245,16 +223,12 @@ public class SceneOneDayTask implements mainWindowUser{
 			    Label quick = new Label("Быстрое электронное письмо ");
 			    quick.setWrapText(true);
 				TextField emailThem = new TextField();
-				//emailThem.setMinSize(250, 80);
 				emailThem.setPromptText("Введите тему сообщения");
-				//TextField email = new TextField();
 				TextArea email = new TextArea();
 				email.setPrefRowCount(6);            
 				
 				email.setPromptText("Введите сообщение");
-				//email.setMinSize(250, 100);
 				Button adress = new Button("Выберите адресата");
-				//int idChoseUser = 0;
 				adress.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent e) {
@@ -292,44 +266,7 @@ public class SceneOneDayTask implements mainWindowUser{
 					}
 				});
 				bottom.getChildren().setAll(quickMail/*,quick,emailThem, email,adress,push */);
-				//bottom.getChildren().
-				/*push.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent e) {
-						int idch = 0;
-						Scanner scanner = null;
-						try {
-							BufferedReader reader = new BufferedReader(new FileReader("idChosenUser.txt"));
-							scanner = new Scanner(reader);
-							while (scanner.hasNext()) {
-								idch = scanner.nextInt();
-								//text.setText(Integer.toString(scanner.nextInt()));
-								//System.out.println(" Вывод из главного окна - " + text.getText());
-								System.out.println(" Вывод из главного окна - " + idch);
-								scanner.nextLine();
-					
-							}
-						} catch (FileNotFoundException e1) {
-							System.out.println("Файл не найден.");
-						} catch (Exception e1) {
-							System.out.println("Ошибка при считывании из файла.");
-							scanner.close();
-						} finally {
-							scanner.close();
-						}
-						
-						QuickLetterSend sender = new QuickLetterSend();
-						try {
-							sender.senMail(emailThem.getText(), email.getText(),idch,id );
-						} catch (AddressException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (MessagingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				});*/
+
 			    // Конец бокса для низа 
 			    TabPane tabpane=new TabPane();
 			    
@@ -345,7 +282,6 @@ public class SceneOneDayTask implements mainWindowUser{
 			    task.setAlignment(Pos.CENTER_LEFT);
 			    task.setId("Task");
 			    
-			    
 			    // --- Конец бокса для новой задачи ---/
 				
 				 // Начало панели для расписания на текущую неделю -- /
@@ -357,49 +293,36 @@ public class SceneOneDayTask implements mainWindowUser{
 					_week.setMinWidth(250);
 					
 					VBox week = new VBox(50);
-					//_all.setId("C");
 					week.setSpacing(10);
 					week.setAlignment(Pos.CENTER);
-					//Label _allLabel = new Label(" Расписание ");
-					//_allLabel.setId("PULL");
 					week.getChildren().addAll(_weekLabel);
 					week.setMinWidth(250);
 
-					
 					ScrollPane weekSc = new ScrollPane();
 					weekSc.setLayoutX(10);
 					weekSc.setLayoutY(10);
-					//spComment.setHmin(400);
 					weekSc.setCursor(Cursor.CLOSED_HAND);
 					weekSc.setContent(_week);
 					weekSc.setMinWidth(250);
 					
 					 Button buttonWeek = new Button(" Обновить задачи выбранный день ");
 					 buttonWeek.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-					 //inf.setMaxWidth(160);
 					 buttonWeek.setId("button");
 					 buttonWeek.setOnAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent e) {
 								Locale.setDefault(new Locale("ru","RU"));
-								//week.getChildren().clear();
 								Date start = getWeekStartDate();
 								System.out.println("Дата начала- " + start);
 								Date end = getWeekEndDate();
 								System.out.println("Дата конца - " + end);
 								 getTasksOnThisDays (_week, oneDay);
-								//weekSc.setContent(getWeek(_week, start, end));
-							
-								//getTaskOnThisDay(_tasksAllDay);
-								
 							}
 						});
 					
 					 week.getChildren().addAll(buttonWeek,weekSc); 
 				 // конец панели для расписания на текущую неделю -- /
 				// Конец текущей задачи -- /
-					 //tabSh.setContent(_44);
-				//rootMany.getChildren().add(_44);
 				tabSh.setContent(week);
 			    tabpane.getTabs().addAll(tabSh);
 			    
@@ -409,12 +332,10 @@ public class SceneOneDayTask implements mainWindowUser{
 			    alarmBox.getChildren().setAll(alarm,uiTimer);
 		
 				alarm.setId("alarm");
-				//border.setTop(top);
 				border.setBottom(alarmBox);
 			    border.setCenter(tabpane);
 			    border.setLeft(accordion);
 			    border.setId("win");
-			   // border.setRight(bottom );
 			
 				scene.getStylesheets().add(getClass().getResource("/application/styles/mainWindow.css").toExternalForm());
 				return scene;
@@ -435,15 +356,12 @@ public class SceneOneDayTask implements mainWindowUser{
 			public void startNewScene() {
 				//this.
 			}
-
-								
+				
 			public VBox getTasksOnThisDays (VBox _tasksAllDay, Date _oneDay) {
 				LinkedList <EntityTask> data = new LinkedList <EntityTask>();
 				LinkedList <EntityTask> dataEnd = new LinkedList <EntityTask>();
 				Date thisDate = new Date();
 				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				//String currentTime = sdf.format(dt);
 				
 				java.sql.Date sqlDate = new java.sql.Date(_oneDay.getTime());
 				GregorianCalendar dateStarts = new GregorianCalendar();
@@ -461,8 +379,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				thisDayTasks.whatIs();
 				data = thisDayTasks.getData();
 				System.out.println("количество задач на сегодня - " + data.size());
-				
-				
 				//String queryForThisDayAnd ="SELECT * FROM `taskmail`.`task` WHERE `task`.`end_date_time` LIKE '" + DateSAllT +
 				//		"%' AND `start_date_time` NOT LIKE '" + DateSAllT + "'; ";
 				
@@ -472,9 +388,6 @@ public class SceneOneDayTask implements mainWindowUser{
 						+ "WHERE `task`.`end_date_time` LIKE '" + sqlDate + 
 						"%' AND `start_date_time` NOT LIKE '" + sqlDate + "' AND `users`.`id_user` ='" + this.id + "'; ";
 				System.out.println("Дата для выбора - " + queryForThisDayAnd);
-			/*	thisDayTasks.setSearchQuery(queryForThisDayAnd);
-				thisDayTasks.whatIs();
-				dataEnd.addAll(thisDayTasks.what());*/
 				
 				ReadOneTask2 thisDayTasksAnd = new ReadOneTask2();
 				thisDayTasksAnd.setSearchQuery(queryForThisDayAnd);
@@ -526,7 +439,6 @@ public class SceneOneDayTask implements mainWindowUser{
 				ScrollPane betweenSc =new ScrollPane();
 				betweenSc.setLayoutX(10);
 				betweenSc.setLayoutY(10);
-				//spComment.setHmin(400);
 				betweenSc.setCursor(Cursor.CLOSED_HAND);
 				betweenSc.setContent(TaskBetween);
 				betweenSc.setMinWidth(250);
@@ -550,7 +462,6 @@ public class SceneOneDayTask implements mainWindowUser{
 					ScrollPane allScroolForOneHour =new ScrollPane();
 					allScroolForOneHour.setLayoutX(10);
 					allScroolForOneHour.setLayoutY(10);
-					//spComment.setHmin(400);
 					allScroolForOneHour.setCursor(Cursor.CLOSED_HAND);
 					allScroolForOneHour.setContent(allTasksforOneHour);
 					allScroolForOneHour.setMinWidth(250);
@@ -571,7 +482,6 @@ public class SceneOneDayTask implements mainWindowUser{
 					Label _01Label1 = new Label(" Час " + numberTask +": ");
 					_01Label1.setId("PULL");
 					TasksforOneHour.setMinWidth(250);
-					//givenComments.getStyleClass().add("Data");
 					
 					HBox Done = new HBox(50);
 					Done.setId("C");
@@ -595,27 +505,22 @@ public class SceneOneDayTask implements mainWindowUser{
 					ScrollPane alland =new ScrollPane();
 					alland.setLayoutX(10);
 					alland.setLayoutY(10);
-					//spComment.setHmin(400);
 					alland.setCursor(Cursor.CLOSED_HAND);
 					alland.setContent(TaskEndforOneHour);
 					alland.setMinWidth(250);
 					// - Задачи проходящие через этот день -- /
 					//Окончание работ сегодня
 					
-					
-					
 					HBox day = new HBox(50);
 					day.setId("S");
 					day.setSpacing(10);
 					day.setAlignment(Pos.CENTER);
-					//day.setId("PULL");
 					day.getChildren().add(TasksforOneHour);
 					day.setMinWidth(250);
 					
 					ScrollPane ScroolForOneHour =new ScrollPane();
 					ScroolForOneHour.setLayoutX(10);
 					ScroolForOneHour.setLayoutY(10);
-					//spComment.setHmin(400);
 					ScroolForOneHour.setCursor(Cursor.CLOSED_HAND);
 					ScroolForOneHour.setContent(day);
 					ScroolForOneHour.setMinWidth(250);
@@ -637,7 +542,6 @@ public class SceneOneDayTask implements mainWindowUser{
 						if ((i+1 == dateStartss.get(Calendar.HOUR_OF_DAY)) || ( (i==0) && (0 == dateStartss.get(Calendar.HOUR_OF_DAY)))) {
 						System.out.println("Начался вывод задач ");
 						EntityTask thisTask = data.get(j);
-						//String name = Integer.toString(i);
 						VBox body_ = new VBox(50);
 						Label body_Label = new Label();
 						
@@ -671,12 +575,10 @@ public class SceneOneDayTask implements mainWindowUser{
 						String DateEAllT = dateEnds.get(Calendar.DAY_OF_MONTH) +"."+ Months + "."+ dateEnds.get(Calendar.YEAR) + " " +
 								dateEnds.get(Calendar.HOUR_OF_DAY) + ":" + dateEnds.get(Calendar.MINUTE);
 						
-						
 						VBox dateST = new VBox(50);
 						Label dateST_Label = new Label();
 						Label datest_Label = new Label("Дата и время\n начала выполнения: ");
 						datest_Label.setWrapText(true);
-						//dateST_Label.setText(data.get(i).getDateStrart().toString());
 						dateST_Label.setText(DateSAllTs);
 						dateST.getChildren().addAll(datest_Label, dateST_Label);
 						dateST.setAlignment(Pos.CENTER);
@@ -687,7 +589,6 @@ public class SceneOneDayTask implements mainWindowUser{
 						Label dateEn_Label = new Label();
 						Label dateen_Label = new Label("Дата и время\n окончания выполнения: ");
 						dateen_Label.setWrapText(true);
-						//dateEn_Label.setText(data.get(i).getDateEnd().toString());
 						dateEn_Label.setText(DateEAllT);
 						dateEn.getChildren().addAll(dateen_Label,dateEn_Label);
 						dateEn.setAlignment(Pos.CENTER);
@@ -714,7 +615,6 @@ public class SceneOneDayTask implements mainWindowUser{
 						
 						 Button inf = new Button("Узнать подробнее");
 						 inf.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-						 //inf.setMaxWidth(160);
 						 inf.setId("button");
 						 inf.setOnAction(new EventHandler<ActionEvent>() {
 								@Override
@@ -737,8 +637,6 @@ public class SceneOneDayTask implements mainWindowUser{
 							
 							}else {
 								allTasksforOneHour.getChildren().add(name);
-							
-								//allTasksforOneHour.getChildren().add
 							}
 						}
 						}
@@ -748,8 +646,6 @@ public class SceneOneDayTask implements mainWindowUser{
 						Label numbersTask = new Label(" Задание №" +iterator+" : ");
 						System.out.println("Время - " + i + " Задача - " + dataEnd.get(f).getTitle() + " Время начала" + dataEnd.get(f).getDateStrart());
 						Locale.setDefault(new Locale("ru","RU"));
-						/*GregorianCalendar dateCreate = new GregorianCalendar();
-						dateCreate.setTime(res.getDate(5));*/
 						Date dateEs = dataEnd.get(f).getDateEnd();
 						Date dateS = dataEnd.get(f).getDateStrart();
 						GregorianCalendar dateStartss = new GregorianCalendar();
@@ -761,14 +657,11 @@ public class SceneOneDayTask implements mainWindowUser{
 						int Months = dateStartss.get(Calendar.MONTH) + 1;
 						String DateSAllTs = " " + dateStartss.get(Calendar.DAY_OF_MONTH) + "." + Months +"."+ dateStartss.get(Calendar.YEAR) + " " +
 								dateStartss.get(Calendar.HOUR_OF_DAY) + ":" + dateStartss.get(Calendar.MINUTE);
-					
 						
 						if (i+1 == dateEndss.get(Calendar.HOUR_OF_DAY) ) {
 								// Вывод задач которые будут заканчиваться сегодня
-								System.out.println("Вывод задач которые будут заканчиваться сегодня " + dataEnd.size());
-								
+								//System.out.println("Вывод задач которые будут заканчиваться сегодня " + dataEnd.size());
 								EntityTask thisTask = dataEnd.get(f);
-								//String name = Integer.toString(i);
 								VBox body_ = new VBox(50);
 								Label body_Label = new Label();
 								
@@ -807,7 +700,6 @@ public class SceneOneDayTask implements mainWindowUser{
 								Label dateST_Label = new Label();
 								Label datest_Label = new Label("Дата и время\n начала выполнения: ");
 								datest_Label.setWrapText(true);
-								//dateST_Label.setText(data.get(i).getDateStrart().toString());
 								dateST_Label.setText(DateSAllTs);
 								dateST.getChildren().addAll(datest_Label, dateST_Label);
 								dateST.setAlignment(Pos.CENTER);
@@ -818,7 +710,6 @@ public class SceneOneDayTask implements mainWindowUser{
 								Label dateEn_Label = new Label();
 								Label dateen_Label = new Label("Дата и время\n окончания выполнения: ");
 								dateen_Label.setWrapText(true);
-								//dateEn_Label.setText(data.get(i).getDateEnd().toString());
 								dateEn_Label.setText(DateEAllT);
 								dateEn.getChildren().addAll(dateen_Label,dateEn_Label);
 								dateEn.setAlignment(Pos.CENTER);
@@ -837,7 +728,6 @@ public class SceneOneDayTask implements mainWindowUser{
 								_urgency_Label.setTextFill(Color.web("#E0FFFF"));
 								_urgencyLabel.setTextFill(Color.web("#E0FFFF"));
 								
-								
 								HBox dates = new HBox(50);
 								dates.getChildren().addAll( _urgency,dateST,dateEn);
 								dates.setAlignment(Pos.CENTER);
@@ -846,7 +736,6 @@ public class SceneOneDayTask implements mainWindowUser{
 								System.out.println("333");
 								 Button inf = new Button("Узнать подробнее");
 								 inf.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
-								 //inf.setMaxWidth(160);
 								 inf.setId("button");
 								 inf.setOnAction(new EventHandler<ActionEvent>() {
 										@Override
@@ -909,7 +798,6 @@ public class SceneOneDayTask implements mainWindowUser{
 					String DateSAllTs = " " + dateStartss.get(Calendar.DAY_OF_MONTH) + "." + Months +"."+ dateStartss.get(Calendar.YEAR) + " " +
 							dateStartss.get(Calendar.HOUR_OF_DAY) + ":" + dateStartss.get(Calendar.MINUTE);
 					
-					
 					System.out.println("Вывод задач проходящие через этот день: ");
 					EntityTask thisTask = dataThru.get(h);
 					//String name = Integer.toString(i);
@@ -946,12 +834,10 @@ public class SceneOneDayTask implements mainWindowUser{
 					String DateEAllT = dateEnds.get(Calendar.DAY_OF_MONTH) +"."+ Months + "."+ dateEnds.get(Calendar.YEAR) + " " +
 							dateEnds.get(Calendar.HOUR_OF_DAY) + ":" + dateEnds.get(Calendar.MINUTE);
 					
-					
 					VBox dateST = new VBox(50);
 					Label dateST_Label = new Label();
 					Label datest_Label = new Label("Дата и время\n начала выполнения: ");
 					datest_Label.setWrapText(true);
-					//dateST_Label.setText(data.get(i).getDateStrart().toString());
 					dateST_Label.setText(DateSAllTs);
 					dateST.getChildren().addAll(datest_Label, dateST_Label);
 					dateST.setAlignment(Pos.CENTER);
@@ -1013,8 +899,6 @@ public class SceneOneDayTask implements mainWindowUser{
 						
 							//allTasksforOneHour.getChildren().add
 						}
-					
-					
 				}
 				// Конец задач проходящих через этот день -- /
 				_tasksAllDay.getChildren().add(TaskBetween);

@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.Properties;
 
 
+
 public class LetterRecive {
 	String   IMAP_AUTH_EMAIL = null;
     String   IMAP_AUTH_PWD   = null           ;
@@ -169,7 +170,7 @@ public class LetterRecive {
             Message[] Inmessages = new Message[size];
             for(int i=0; i < messages.length; i++) {
             	String subject= messages[i].getSubject();
-               	if (subject.startsWith("Живое расписание:")) {
+               	if (subject.startsWith("Живое расписание: Задание:")) {
                		//messages[i].setFlags(new Flags(Flags.Flag.SEEN), true);
                		Inmessages[iteratorMessages] = messages[i];
                				iteratorMessages++;
@@ -200,7 +201,7 @@ public class LetterRecive {
             	System.out.println(" Конец Сообщеньки ): ");
             }*/
             
-            int count = inbox.getMessageCount();
+           // int count = inbox.getMessageCount();
             //Message[]  mes= inbox.getMessages();
             
             StringBuilder sb = new StringBuilder();
@@ -271,5 +272,9 @@ public class LetterRecive {
 	}
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+	}
+	public static void setText(String email2) {
+		// TODO Auto-generated method stub
+		
 	} 
 }

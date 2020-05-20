@@ -35,7 +35,7 @@ public class AddTaskCommentLinkDone {
 		}
 		
 		try {
-			System.out.println("Добавление чувака");
+			//System.out.println("Добавление чувака");
 			System.out.println(query);
 			answer.executeUpdate(query);
 			this.executed = true;

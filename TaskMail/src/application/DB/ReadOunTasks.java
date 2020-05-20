@@ -116,7 +116,7 @@ public class ReadOunTasks {
 			
 			//	String tablePass = res.getString(7);
 				//System.out.println (" Даты: " + res.getTime(6) + " | " + dateS + " | " +  res.getDate(6) );
-				resultItems.put(res.getDate(5), task);
+				//resultItems.put(res.getDate(5), task);
 				
 			}
 		} catch (SQLException e1) {
@@ -238,7 +238,7 @@ public class ReadOunTasks {
 	}
 	// конец срочности -- /
 	public /*HashMap <Date, EntityTask>  */ LinkedList<EntityTask> what() {
-		HashMap <Date, EntityTask> resultItems = new HashMap <Date, EntityTask>();
+		//HashMap <Date, EntityTask> resultItems = new HashMap <Date, EntityTask>();
 		//String query = "SELECT * FROM (`taskmail`.`email` JOIN `taskmail`.`user_email` ON `email`.`id_email`= `user_email`.`id_email`) JOIN `taskmail`.`users` ON `user_email`.`id_user` = `users`.`id_user` WHERE `users`.`id_user` = '" + idUser +"'";
 		LinkedList<EntityTask> dataset = new LinkedList<EntityTask>();
 		ResultSet res = null;
@@ -284,7 +284,7 @@ public class ReadOunTasks {
 				dataset.add(task);
 			//	String tablePass = res.getString(7);
 			//	System.out.println (" Даты: " + res.getTime(6) + " | " + dateS + " | " +  res.getDate(6) );
-				resultItems.put(res.getDate(5), task);
+				//resultItems.put(res.getDate(5), task);
 				
 			}
 		} catch (SQLException e1) {

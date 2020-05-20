@@ -54,7 +54,7 @@ public class DeleteEmail {
 					//int count = res.getInt(1);
 					if (res.getInt(1) > 1) {
 						this.executed = true;
-						System.out.println("Количество - " + res.getInt(1));
+						//System.out.println("Количество - " + res.getInt(1));
 					} else {
 						this.executed = false;
 					}
