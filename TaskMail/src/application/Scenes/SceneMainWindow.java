@@ -93,7 +93,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class SceneMainWindow implements mainWindowUser {
-	//protected static final int SceneMainWindow getIdUser() = 0;
 	private Stage primaryStage;
 	private Scene ounScene;
 	private Scene oldScene;
@@ -287,7 +286,6 @@ public class SceneMainWindow implements mainWindowUser {
 				public void handle(ActionEvent e) {
 					SceneHelp ds = new SceneHelp(primaryStage);				}
 			});
-		// Button mail = new Button("Электронная почта");
 		 
 		 changMyInfo.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		 changMyInfo.setMaxWidth(160);
@@ -314,15 +312,13 @@ public class SceneMainWindow implements mainWindowUser {
 				public void handle(ActionEvent e) {
 					application.Mails.LetterRecive letter = new LetterRecive(primaryStage,id);
 					LetterRecive.setText(letter.getEmail());
-					//getTaskOnThisDay(_tasksAllDay);
-					//getTasksOnThisDays (_tasksAllDay);
 				}
 			});
 		 
 		 personalAccounts.getChildren().setAll(Namelabel,SecondNamelabel);
 		 VboxStyle intr = new VboxStyle ();
 		 VBox instr = intr.getStyleVbox();
-		 personalAccounts.getChildren().addAll(/*mail,*/changMyInfo/*,workGroup,LookWorkGroup*/);
+		 personalAccounts.getChildren().addAll(changMyInfo);
 		 personalAccounts.setId("pp");
 		 personalAccounts.setMinWidth(250);
 		 
@@ -332,7 +328,6 @@ public class SceneMainWindow implements mainWindowUser {
 		 VBox exits = ex.getStyleVbox();
 		 exits.getChildren().addAll(exitFromProgram,exitFromLogin/*,mes,al*/);
 		 exits.setId("exit");
-		 //TitledPane personalAccount= new TitledPane("Личный кабинет",personalAccounts);
 		 TitledPane  instrument = new TitledPane("Инструменты",instr);
 		 TitledPane  exit = new TitledPane("Выход",exits);
 	     accordion.getPanes().addAll(/*personalAccount,*/
@@ -340,7 +335,6 @@ public class SceneMainWindow implements mainWindowUser {
 	        accordion.setMinSize(250, 200);
 	        accordion.setPrefSize(250, 200);
 	    // Аккордион меню ----/
-	        //read doc
 	    /// Тулбар ---/
 	     ToolBar toolbar = new ToolBar();
 	     toolbar.getItems().add(changMyInfo);
@@ -375,9 +369,7 @@ public class SceneMainWindow implements mainWindowUser {
 	    Label quick = new Label("Быстрое электронное письмо ");
 	    quick.setWrapText(true);
 		TextField emailThem = new TextField();
-		//emailThem.setMinSize(250, 80);
 		emailThem.setPromptText("Введите тему сообщения");
-		//TextField email = new TextField();
 		TextArea email = new TextArea();
 		email.setPrefRowCount(6);            
 		
@@ -390,13 +382,13 @@ public class SceneMainWindow implements mainWindowUser {
 					LinkedList<Integer> all = getAllIds();
 					all.clear();
 					change = new SceneChoseUser(primaryStage,  id_user, idChosenUser);
-					
+				
 					change.setId(id_user);
-					all.addAll(change.getAllIds());
+					/*all.addAll(change.getAllIds());
 					System.out.println (" Количество есть - " + change.getAllIds());
 					System.out.println (" Количество записано- " + all.size());
 					setAllIds(all);
-					System.out.println (" Количество в класса- " + getAllIds());
+					System.out.println (" Количество в класса- " + getAllIds());*/
 				}
 			});
 		Button push = new Button("Отправить");
@@ -429,7 +421,6 @@ public class SceneMainWindow implements mainWindowUser {
 			}
 		});
 		bottom.getChildren().setAll(quickMail/*,quick,emailThem, email,adress,push */);
-		//bottom.getChildren().
 		push.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -437,12 +428,7 @@ public class SceneMainWindow implements mainWindowUser {
 				all.clear(); // очистка списка
 				change.setId(id_user); 
 				all.addAll(change.getAllIds());//обновление выбранными айди 
-				//System.out.println (" Количество есть - " + change.getAllIds());
-				//System.out.println (" Количество записано- " + all.size());
 				setAllIds(all);   // установка в поле класса нового списка
-				//System.out.println (" Количество в класса- " + getAllIds());
-				
-				
 				int idch = 0;
 				Scanner scanner = null;
 				try {
@@ -451,9 +437,6 @@ public class SceneMainWindow implements mainWindowUser {
 					int numberOfRows = 0;
 					while (scanner.hasNext()) {
 						idch = scanner.nextInt();
-						//text.setText(Integer.toString(scanner.nextInt()));
-						//System.out.println(" Вывод из главного окна - " + text.getText());
-						//System.out.println(" Вывод из главного окна - " + idch);
 						scanner.nextLine();
 						numberOfRows++;
 					}
@@ -465,20 +448,13 @@ public class SceneMainWindow implements mainWindowUser {
 				} finally {
 					scanner.close();
 				}
-				
-				//QuickL s = new QuickL(emailThem.getText(), email.getText(),idch,id,getAllIds());
 				senderQuich = new QuickLetterSend();
 				
 				try {
-					//System.out.println (" Количество в классе - " + getAllIds().size());
-					//s.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
 					senderQuich.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
-					//senderQuich.;
 				} catch (AddressException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (MessagingException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -500,15 +476,8 @@ public class SceneMainWindow implements mainWindowUser {
 	    tabTask.setClosable(false);
 	    Group rootTask = new Group();
 	    tabTask.setContent(rootTask);
-	    // месяц --/
-	   /* Tab tabMonth = new Tab("Месяц");
-	    tabWork.setClosable(false);
-	    Group rootMonth = new Group();
-	    tabMonth.setContent(rootMonth);*/
-	    
 	    // --- Бокс для задачи ---/ --------------------------------------------
 	    //----------------------------------------------------прикрепление файлов----------------------------/
-	   // LinkedList <String> paths = new LinkedList();
 		Button getFile = new Button("Прикрепить файл");
 		getFile.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
 		getFile.setId("button");
@@ -547,13 +516,6 @@ public class SceneMainWindow implements mainWindowUser {
 					paths_.addAll(adder.getPaths());
 					System.out.println(" Файлы - для прикрепления: " + paths_.size());
 					setPaths(paths_);
-					
-					//paths.addAll(adder.getPaths());
-					
-					for (int i=0; i <paths_.size(); i++) {
-						System.out.println(" Файлы - для прикрепления: " + paths_.get(i));
-						
-					}
 				}
 			});
 		clearAll.setOnAction(new EventHandler<ActionEvent>() {
@@ -570,7 +532,6 @@ public class SceneMainWindow implements mainWindowUser {
 		ScrollPane ScFiles =new ScrollPane();
 		ScFiles.setLayoutX(10);
 		ScFiles.setLayoutY(10);
-		//spComment.setHmin(400);
 		ScFiles .setCursor(Cursor.CLOSED_HAND);
 		ScFiles.setContent(files );
 		ScFiles.setMaxWidth(165);
@@ -617,11 +578,9 @@ public class SceneMainWindow implements mainWindowUser {
 			int num = 42- textTaskCol.getText().length();
 			colTaskLabel.setText("Введите периодичность задачи. Осталось символов: " + num);
 			if(textTaskCol.getText().length() > 42) {
-				
 				textTaskCol.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				textTaskCol.setEditable(true);
 			}
 		});
@@ -639,11 +598,11 @@ public class SceneMainWindow implements mainWindowUser {
 					change.setId(id_user);
 					
 					change.setId(id_user);
-					all.addAll(change.getAllIds());
+					/*all.addAll(change.getAllIds());
 					System.out.println (" Количество есть - " + change.getAllIds());
 					System.out.println (" Количество записано- " + all.size());
 					setAllIds(all);
-					System.out.println (" Количество в класса- " + getAllIds());
+					System.out.println (" Количество в класса- " + getAllIds());*/
 				}
 			});
 		
@@ -660,11 +619,9 @@ public class SceneMainWindow implements mainWindowUser {
 			int num = 960- bodyMail.getText().length();
 			bodyLabel.setText("Задание. Осталось символов: " + num);
 			if(bodyMail.getText().length() > 960) {
-				
 				bodyMail.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				bodyMail.setEditable(true);
 			}
 		});
@@ -682,11 +639,9 @@ public class SceneMainWindow implements mainWindowUser {
 			int num = 960- descriptionMail.getText().length();
 			descriptionLabel.setText("Дополнительное описание. Осталось символов: " + num);
 			if(descriptionMail.getText().length() > 960) {
-				
 				descriptionMail.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				descriptionMail.setEditable(true);
 			}
 		});
@@ -700,11 +655,9 @@ public class SceneMainWindow implements mainWindowUser {
 			int num = 590 - linkMail.getText().length();
 			linkLabel.setText("Ссылка. Осталось символов: " + num);
 			if(linkMail.getText().length() > 590) {
-				
 				linkMail.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				linkMail.setEditable(true);
 			}
 		});
@@ -747,13 +700,10 @@ public class SceneMainWindow implements mainWindowUser {
 	    });
 		startHour.setOnKeyPressed(event-> {
 			int num = 2 - startHour.getText().length();
-			//linkLabel.setText("Ссылка. Осталось символов: " + num);
 			if(startHour.getText().length() > 2) {
-				
 				startHour.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				startHour.setEditable(true);
 			}
 		});
@@ -769,13 +719,10 @@ public class SceneMainWindow implements mainWindowUser {
 	    });
 		startMinute.setOnKeyPressed(event-> {
 			int num = 2 - startMinute.getText().length();
-			//linkLabel.setText("Ссылка. Осталось символов: " + num);
 			if(startMinute.getText().length() > 2) {
-				
 				startMinute.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				startMinute.setEditable(true);
 			}
 		});
@@ -812,13 +759,10 @@ public class SceneMainWindow implements mainWindowUser {
 		    });
 		endHour.setOnKeyPressed(event-> {
 			int num = 2 - endHour.getText().length();
-			//linkLabel.setText("Ссылка. Осталось символов: " + num);
 			if(endHour.getText().length() > 2) {
-				
 				endHour.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				endHour.setEditable(true);
 			}
 		});
@@ -841,13 +785,10 @@ public class SceneMainWindow implements mainWindowUser {
 	    });
 		endMinute.setOnKeyPressed(event-> {
 			int num = 2 - endMinute.getText().length();
-			//linkLabel.setText("Ссылка. Осталось символов: " + num);
 			if(endMinute.getText().length() > 2) {
-				
 				endMinute.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				endMinute.setEditable(true);
 			}
 		});
@@ -887,11 +828,9 @@ public class SceneMainWindow implements mainWindowUser {
 			int num = 195 - textSupervisor.getText().length();
 			supervisorLabel.setText("Введите Ф.И.О. руководителя задачи. Осталось символов: " + num);
 			if(textSupervisor.getText().length() > 195) {
-				
 				textSupervisor.setEditable(false);
 			}
 			if((event.getCode() == KeyCode.BACK_SPACE) || (event.getCode() == KeyCode.DELETE)) {
-				
 				textSupervisor.setEditable(true);
 			}
 		});
@@ -1000,7 +939,6 @@ public class SceneMainWindow implements mainWindowUser {
 				idurgency +=1;
 				System.out.println("код выбора - " + idurgency);
 				// конец кода срочности задачи -- /
-				//urgencyMail = Integer.toString(idurgency); 
 				// дата создания задачи -- /
 				Date dt = new Date();
 				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1050,7 +988,6 @@ public class SceneMainWindow implements mainWindowUser {
 				}
 			}
 		});
-		
 		
 		Button pushTask = new Button("Отправить");
 		pushTask.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
@@ -1125,7 +1062,6 @@ public class SceneMainWindow implements mainWindowUser {
 				setAllIds(all);
 				System.out.println (" Количество в класса- " + getAllIds());
 				
-				
 				int idch = 0;
 				String Theme = null;
 				String Text = null;
@@ -1155,7 +1091,6 @@ public class SceneMainWindow implements mainWindowUser {
 				idurgency +=1;
 				System.out.println("код выбора срочности - " + idurgency);
 				// конец кода срочности задачи -- /
-				//urgencyMail = Integer.toString(idurgency); 
 				// дата создания задачи -- /
 				Date dt = new Date();
 				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1233,9 +1168,6 @@ public class SceneMainWindow implements mainWindowUser {
 					int numberOfRows = 0;
 					while (scanner.hasNext()) {
 						idch = scanner.nextInt();
-						//text.setText(Integer.toString(scanner.nextInt()));
-						//System.out.println(" Вывод из главного окна - " + text.getText());
-						//System.out.println(" Вывод из главного окна - " + idch);
 						scanner.nextLine();
 						numberOfRows++;
 					}
@@ -1251,7 +1183,6 @@ public class SceneMainWindow implements mainWindowUser {
 				TaskLetterSend sender = new TaskLetterSend();
 				try {
 					System.out.println (" Количество в классе - " + getAllIds().size());
-					//sender.senMail(emailThem.getText(), email.getText(),idch,id,getAllIds());
 					sender.senMail(Theme, Text,idch,id,body,supervisor,link,description,dateStart,dataEnd, dataCreate,urgencyMail,taskCol,itsDone,idNewTask,getAllIds(),getPaths());
 					
 				} catch (AddressException e1) {
@@ -1307,7 +1238,6 @@ public class SceneMainWindow implements mainWindowUser {
 		tabWork.setContent(TASK);
 	    // --- Конец бокса для новой задачи ---/
 	    // Конец Новая задача
-		
 		// Начало выданная задача -- /
 		
 		VBox givenTasks = new VBox(50);
@@ -1357,7 +1287,6 @@ public class SceneMainWindow implements mainWindowUser {
 		
 		Label _Label = new Label(" Выданные задачи: ");
 		givenTasks.getChildren().add(_Label);
-		//givenTasks.setMinWidth(800);
 		givenTasks.setMinWidth(scene.getWidth());
 		
 		tabTask.setContent(AllgTaskIn);
@@ -1366,20 +1295,15 @@ public class SceneMainWindow implements mainWindowUser {
 		// КОнец попытка с циклами ... --- /
 		//01
 		VBox _tasksAllDay = new VBox(50);
-		//_all.setId("C");
 		_tasksAllDay.setSpacing(10);
 		_tasksAllDay.setAlignment(Pos.CENTER);
 		Label _allLabel = new Label(" Расписание ");
-		//_allLabel.setId("PULL");
 		_tasksAllDay.getChildren().addAll(_allLabel);
 		_tasksAllDay.setMinWidth(250);
 		
 		VBox _44 = new VBox(50);
-		//_all.setId("C");
 		_44.setSpacing(10);
 		_44.setAlignment(Pos.CENTER);
-		//Label _allLabel = new Label(" Расписание ");
-		//_allLabel.setId("PULL");
 		_44.getChildren().addAll(_allLabel);
 		_44.setMinWidth(250);
 
@@ -1387,7 +1311,6 @@ public class SceneMainWindow implements mainWindowUser {
 		all.setLayoutX(10);
 		all.setLayoutY(10);
 		all.setCursor(Cursor.CLOSED_HAND);
-		
 		all.setMinWidth(250);
 		
 		 Button whatTasks = new Button(" Обновить задачи ");
@@ -1399,8 +1322,6 @@ public class SceneMainWindow implements mainWindowUser {
 					_tasksAllDay.getChildren().clear();
 					_tasksAllDay.getChildren().addAll(_allLabel);
 					all.setContent(getTasksOnThisDays (_tasksAllDay));
-					//getTaskOnThisDay(_tasksAllDay);
-					//getTasksOnThisDays (_tasksAllDay);
 				}
 			});
 		
@@ -1412,7 +1333,6 @@ public class SceneMainWindow implements mainWindowUser {
 		
 			Label month_Label = new Label("Распиание на месяц: ");
 			month_Label.setWrapText(true);
-			//dateEn_Label.setText(data.get(i).getDateEnd().toString());
 			
 			Date dt = new Date();
 			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM");
@@ -1444,13 +1364,8 @@ public class SceneMainWindow implements mainWindowUser {
 	    alarmBox.setId("BoxForAlarm");
 	    alarmBox.getChildren().setAll(alarm,uiTimer);
 	    
-	    //double widthWindow = accordion.getWidth() + tabpane.getWidth();
 	    double widthWindow = primaryStage.getScene().getWidth()*1.7;
-	    //border.getWidth();
 		alarm.setId("alarm");
-		//alarm.setContentDisplay(ContentDisplay.CENTER);
-		//alarm.setMinWidth(widthWindow);
-		//alarm.setAlignment(Pos.CENTER);
 		
 		border.setTop(top);
 		border.setBottom(alarmBox);
@@ -1485,8 +1400,6 @@ public class SceneMainWindow implements mainWindowUser {
 		Date thisDate = new Date();
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentTime = sdf.format(thisDate);
-		//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		//String currentTime = sdf.format(dt);
 		java.sql.Date sqlDate = new java.sql.Date(thisDate.getTime());
 		GregorianCalendar dateStarts = new GregorianCalendar();
 		dateStarts.setTime(thisDate);
@@ -1497,13 +1410,10 @@ public class SceneMainWindow implements mainWindowUser {
 				+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
 				+ "`user_task`.`id_user` = `users`.`id_user` "
 				+ "WHERE `task`.`start_date_time` LIKE '" + sqlDate + "%' AND `users`.`id_user` ='" + this.id + "'; ";
-		//System.out.println("Дата для выбора - " + queryForThisDay);
 		ReadOunTasks thisDayTasks = new ReadOunTasks();
 		thisDayTasks.setSearchQuery(queryForThisDay);
 		thisDayTasks.whatIs();
 		data = thisDayTasks.getData();
-		//System.out.println("количество задач на сегодня - " + data.size());
-		
 		
 		//String queryForThisDayAnd ="SELECT * FROM `taskmail`.`task` WHERE `task`.`end_date_time` LIKE '" + DateSAllT +
 		//		"%' AND `start_date_time` NOT LIKE '" + DateSAllT + "'; ";
@@ -1519,7 +1429,6 @@ public class SceneMainWindow implements mainWindowUser {
 		thisDayTasksAnd.setSearchQuery(queryForThisDayAnd);
 		thisDayTasksAnd.whatIs();
 		dataEnd = thisDayTasksAnd.getData();
-		//System.out.println("sql data - " + sqlDate);
 		
 		String queryForBetweenDate = "SELECT * FROM (`taskmail`.`task` JOIN `taskmail`.`user_task` ON"
 				+ " `task`.`id_task` = `user_task`.`id_task`) JOIN `taskmail`.`users` ON "
@@ -1546,7 +1455,6 @@ public class SceneMainWindow implements mainWindowUser {
 		for (int i =0; i < dataEnd.size(); i ++ ) {
 			System.out.println("i - " + i + " время - " + dataEnd.get(i).getDateStrart() + " титл " + dataEnd.get(i).getTitle());
 		}*/
-		//System.out.println(" //////////////////////////// - ");
 		HBox TaskBetween = new HBox(50);
 		TaskBetween.setId("C");
 		TaskBetween.setSpacing(10);
@@ -1614,6 +1522,8 @@ public class SceneMainWindow implements mainWindowUser {
 			TaskEndforOneHour.setId("C");
 			TaskEndforOneHour.setSpacing(10);
 			TaskEndforOneHour.setAlignment(Pos.CENTER);
+			Label eng_time = new Label(" Окончание работы ");
+			TaskEndforOneHour.getChildren().add(eng_time);
 			Label _endLabel1 = new Label(" Работы надо законачить\n к этому времени: ");
 			_endLabel1.setId("PULL");
 			_endLabel1.setWrapText(true);
@@ -1657,7 +1567,6 @@ public class SceneMainWindow implements mainWindowUser {
 						dateStartss.get(Calendar.HOUR_OF_DAY) + ":" + dateStartss.get(Calendar.MINUTE);
 				
 				if ((i+1 == dateStartss.get(Calendar.HOUR_OF_DAY)) || ( (i==0) && (0 == dateStartss.get(Calendar.HOUR_OF_DAY)))) {
-				//System.out.println("Начался вывод задач ");
 				EntityTask thisTask = data.get(j);
 				VBox body_ = new VBox(50);
 				Label body_Label = new Label();
@@ -1797,8 +1706,6 @@ public class SceneMainWindow implements mainWindowUser {
 				
 				if (i+1 == dateEndss.get(Calendar.HOUR_OF_DAY) ) {
 						// Вывод задач которые будут заканчиваться сегодня
-						//System.out.println("Вывод задач которые будут заканчиваться сегодня " + dataEnd.size());
-						
 						EntityTask thisTask = dataEnd.get(f);
 						VBox body_ = new VBox(50);
 						Label body_Label = new Label();
@@ -1889,7 +1796,7 @@ public class SceneMainWindow implements mainWindowUser {
 						} else {
 							if(dataEnd.get(f).getIdUrgency() == 3) {
 								TaskEndforOneHour.getChildren().add(1,name);
-							}else {
+							} else {
 								TaskEndforOneHour.getChildren().add(name);
 							}
 						}
@@ -1927,7 +1834,6 @@ public class SceneMainWindow implements mainWindowUser {
 			String DateSAllTs = " " + dateStartss.get(Calendar.DAY_OF_MONTH) + "." + Months +"."+ dateStartss.get(Calendar.YEAR) + " " +
 					dateStartss.get(Calendar.HOUR_OF_DAY) + ":" + dateStartss.get(Calendar.MINUTE);
 			
-			//System.out.println("Вывод задач проходящие через этот день: ");
 			EntityTask thisTask = dataThru.get(h);
 			VBox body_ = new VBox(50);
 			Label body_Label = new Label();
@@ -2075,7 +1981,6 @@ public class SceneMainWindow implements mainWindowUser {
 		String StartDate = sdf.format(Start);
 		// Запрос
 		String query = "SELECT * FROM `taskmail`.`task` WHERE `task`.`supervisor` = '" + _secondName+" "+ _name+" "+ _lastName+ "' AND `task`.`create_date_time` LIKE '" + StartDate + "%';";
-		//System.out.println("Запрос на задачи - " + query);
 		ReadOunTasks ounTasks = new ReadOunTasks(_secondName+" "+ _name+" "+ _lastName);
 		ounTasks.setSearchQuery(query);
 		ounTasks.whatIs();

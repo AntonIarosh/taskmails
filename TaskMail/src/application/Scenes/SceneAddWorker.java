@@ -197,27 +197,27 @@ public class SceneAddWorker implements ChangeDataEmails {
 						oneOrMany.setQuery(countOfMail);
 						countOfUserMail = oneOrMany.serchQuery();
 						if (countOfUserMail) {
-							System.out.println("Больше одного");
+							//System.out.println("Больше одного");
 							// Поиск айди юзера.
 							delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
-							System.out.println(delFromUsersEmail);
+							//System.out.println(delFromUsersEmail);
 							add = new AddUser(delFromUsersEmail);
 							ifDel = add.execeteQuery();
 						} else {
-							System.out.println(deleteUserMAil);
+							//System.out.println(deleteUserMAil);
 							add = new AddUser(deleteUserMAil);
 							ifDel = add.execeteQuery();
-							System.out.println("Один одного");
+							//System.out.println("Один одного");
 						}
 						
 					} 
 					
 				}
 				String deleteQuery = "DELETE FROM `taskmail`.`users` WHERE `users`.`id_user` = '" + getIdUser() + "' AND `users`.`login` = 'Контакт';";
-				System.out.println(deleteQuery);
+				//System.out.println(deleteQuery);
 				add = new AddUser(deleteQuery);
 				ifDel = add.execeteQuery();
-				System.out.println("Один одного");
+				//System.out.println("Один одного");
 				
 				if(ifDel) {
 					// Сообщение об успехе -- /

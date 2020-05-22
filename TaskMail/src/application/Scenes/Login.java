@@ -154,7 +154,7 @@ public class Login implements loginScene {
 				isValid = validtion.validLogin();
 				boolVali.add(isValid);
 				if (!isValid) {
-					str.append(" Ошибка в заполнении логина пользователя\n Логин <" + text.getText() + ">\n");
+					str.append(" Ошибка в заполнении логина пользователя\n Логин <" + text.getText() + "> Требуется вводит не менее 6-ти символов\n Использовано: " + text.getText().length() + " символов\n");
 					text.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					text.setStyle("-fx-background-color: #FFFFFF;");
@@ -164,7 +164,7 @@ public class Login implements loginScene {
 				isValid = validtion.validPassword();
 				boolVali.add(isValid);
 				if (!isValid) {
-					str.append(" Ошибка в заполнении пароля пользователя\n Пароль <" + pass.getText() + "> Использовано: " + pass.getText().length() + " символов\n");
+					str.append(" Ошибка в заполнении пароля пользователя\n Пароль <" + pass.getText() + "> Требуется вводит не менее 6-ти символов \n Использовано: " + pass.getText().length() + " символов\n");
 					pass.setStyle("-fx-background-color: #FF7F50;");
 				} else {
 					pass.setStyle("-fx-background-color: #FFFFFF;");

@@ -473,6 +473,8 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 				TaskEndforOneHour.setId("C");
 				TaskEndforOneHour.setSpacing(10);
 				TaskEndforOneHour.setAlignment(Pos.CENTER);
+				Label _end_label = new Label(" Окончание работ:");
+				TaskEndforOneHour.getChildren().add(_end_label);
 				Label _endLabel1 = new Label(" Работы надо законачить\n к этому времени: ");
 				_endLabel1.setTextFill(Color.web("#E0FFFF"));
 				_endLabel1.setWrapText(true);
@@ -770,7 +772,6 @@ public class SceneOneWeekAndMonth implements mainWindowUser {
 						} else {
 							if(dataEndWeek.get(k).getIdUrgency() == 3) {
 								TaskEndforOneHour.getChildren().add(1,name);
-							
 							}else {
 								TaskEndforOneHour.getChildren().add(name);
 							}

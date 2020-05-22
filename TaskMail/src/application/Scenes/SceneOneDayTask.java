@@ -497,6 +497,8 @@ public class SceneOneDayTask implements mainWindowUser{
 					TaskEndforOneHour.setId("C");
 					TaskEndforOneHour.setSpacing(10);
 					TaskEndforOneHour.setAlignment(Pos.CENTER);
+					Label _end_label = new Label(" Окончание работ: ");
+					TaskEndforOneHour.getChildren().add(_end_label);
 					Label _endLabel1 = new Label(" Работы надо законачить\n к этому времени: ");
 					_endLabel1.setId("PULL");
 					_endLabel1.setWrapText(true);
@@ -740,7 +742,6 @@ public class SceneOneDayTask implements mainWindowUser{
 								 inf.setOnAction(new EventHandler<ActionEvent>() {
 										@Override
 										public void handle(ActionEvent e) {
-											
 											SceneOneTaskForWorker t = new SceneOneTaskForWorker(primaryStage,id,thisTask);
 										}
 									});
@@ -757,11 +758,8 @@ public class SceneOneDayTask implements mainWindowUser{
 								} else {
 									if(dataEnd.get(f).getIdUrgency() == 3) {
 										TaskEndforOneHour.getChildren().add(1,name);
-										System.out.println("777");
 									}else {
 										TaskEndforOneHour.getChildren().add(name);
-										//allTasksforOneHour.getChildren().add
-										System.out.println("888");
 									}
 								}
 							}

@@ -554,10 +554,10 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				
 				infos.whatMailsIs();
 				ObservableList<EntityEmail> dataf = infos.whatMailsIs();
-				System.out.print("Email -новый размер - " +dataf.size());
-				for (int i=0; i<dataf.size(); i++) {
-					System.out.print("Email - new" + dataf.get(i).getEmail());
-				}
+				//System.out.print("Email -новый размер - " +dataf.size());
+				/*for (int i=0; i<dataf.size(); i++) {
+					//System.out.print("Email - new" + dataf.get(i).getEmail());
+				}*/
 				 tableView.getItems().setAll(dataf);
 				 tableView.refresh();
 				 textEnterMail.setText("");
@@ -656,7 +656,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				String whatIdMail = "SELECT `email`.`id_email` FROM `taskmail`.`email` WHERE `email` = '" + textEnterMail.getText() + "';";
 				DeleteEmail oneOrMany = new DeleteEmail(whatIdMail);
 				int idOfMail = oneOrMany.whatId();
-				System.out.println("id = " + idOfMail);
+				//System.out.println("id = " + idOfMail);
 				String countOfMail =  null;
 				boolean countOfUserMail = false;
 				String delFromUsersEmail = null;
@@ -666,16 +666,16 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					oneOrMany.setQuery(countOfMail);
 					countOfUserMail = oneOrMany.serchQuery();
 					if (countOfUserMail) {
-						System.out.println("Больше одного");
+						//System.out.println("Больше одного");
 						delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
-						System.out.println(delFromUsersEmail);
+						//System.out.println(delFromUsersEmail);
 						add = new AddUser(delFromUsersEmail);
 						ifDel = add.execeteQuery();
 					} else {
-						System.out.println(deleteUserMAil);
+						//System.out.println(deleteUserMAil);
 						add = new AddUser(deleteUserMAil);
 						ifDel = add.execeteQuery();
-						System.out.println("Один одного");
+						//System.out.println("Один одного");
 					}
 					
 				} else {
