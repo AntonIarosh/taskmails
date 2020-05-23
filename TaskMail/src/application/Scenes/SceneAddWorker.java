@@ -80,11 +80,9 @@ public class SceneAddWorker implements ChangeDataEmails {
 	}
 	@Override
 	public Scene createNewScene() {
-		
 		Popup popup;
 		popup=new Popup();
 		popup.setAutoHide(true);
-		//popup.setAutoFix(true);
 		VBox textPopup = new VBox(50);
 		textPopup.setAlignment(Pos.CENTER);
 		textPopup.setPrefSize(500, 300);
@@ -97,7 +95,6 @@ public class SceneAddWorker implements ChangeDataEmails {
 		VBox flowPane = new VBox(50);
 		// Панель для данных пользователя ---/
 		VBox userInfo = new VBox();
-		
 		
 		VBox enternName = new VBox(50);
 		Label enterLNameLabel = new Label("Введите имя");
@@ -180,7 +177,6 @@ public class SceneAddWorker implements ChangeDataEmails {
 				for (int i=0; i<dataf.size(); i++) {
 					String mail = dataf.get(i).getEmail();
 					System.out.print("Email - new" + dataf.get(i).getEmail());
-					
 					String deleteUserMAil ="DELETE FROM `taskmail`.`email` WHERE `email`.`email` = '" + mail+ "'; ";
 					// колечество упоминаний адрса
 					
@@ -197,27 +193,21 @@ public class SceneAddWorker implements ChangeDataEmails {
 						oneOrMany.setQuery(countOfMail);
 						countOfUserMail = oneOrMany.serchQuery();
 						if (countOfUserMail) {
-							//System.out.println("Больше одного");
 							// Поиск айди юзера.
 							delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
-							//System.out.println(delFromUsersEmail);
 							add = new AddUser(delFromUsersEmail);
 							ifDel = add.execeteQuery();
 						} else {
-							//System.out.println(deleteUserMAil);
 							add = new AddUser(deleteUserMAil);
 							ifDel = add.execeteQuery();
-							//System.out.println("Один одного");
 						}
 						
 					} 
 					
 				}
 				String deleteQuery = "DELETE FROM `taskmail`.`users` WHERE `users`.`id_user` = '" + getIdUser() + "' AND `users`.`login` = 'Контакт';";
-				//System.out.println(deleteQuery);
 				add = new AddUser(deleteQuery);
 				ifDel = add.execeteQuery();
-				//System.out.println("Один одного");
 				
 				if(ifDel) {
 					// Сообщение об успехе -- /
@@ -266,11 +256,9 @@ public class SceneAddWorker implements ChangeDataEmails {
 		// Вторая колонка
 		TableColumn<EntityEmail, String> secondColEmail = new TableColumn<EntityEmail, String>();
 		secondColEmail.setText("Email");
-		//StringConverter<SimpleStringProperty> converterString = new PercentageStringConverter();
 		
 		secondColEmail.setCellFactory(TextFieldTableCell.forTableColumn());
 		secondColEmail.setCellValueFactory(new PropertyValueFactory<EntityEmail, String>("Email"));
-		//secondColEmail.setCellValueFactory(new PropertyValueFactory("Email"));
 
 		// Третья колонка
 		TableColumn<EntityEmail, String> ColPass = new TableColumn<EntityEmail, String>();
@@ -287,14 +275,12 @@ public class SceneAddWorker implements ChangeDataEmails {
 		    //Пятая Колонка SMTP код
 			TableColumn<EntityEmail, Integer> ColCodeSMTP = new TableColumn<EntityEmail, Integer>();
 			ColCodeSMTP.setText("Код SMTP");
-			//StringConverter<Integer> converter = new IntegerStringConverter();
 			ColCodeSMTP.setCellFactory(TextFieldTableCell.forTableColumn(converter));
 			ColCodeSMTP.setCellValueFactory(new PropertyValueFactory<EntityEmail, Integer>("codeSMTP"));
 			
 		    //Шестая Колонка IMAP код
 			TableColumn<EntityEmail, Integer> ColCodeIMAP = new TableColumn<EntityEmail, Integer>();
 			 ColCodeIMAP.setText("Код IMAP");
-			//StringConverter<Integer> converter = new IntegerStringConverter();
 			 ColCodeIMAP.setCellFactory(TextFieldTableCell.forTableColumn(converter));
 			 ColCodeIMAP.setCellValueFactory(new PropertyValueFactory<EntityEmail, Integer>("codeIMAP"));
 			
@@ -848,10 +834,6 @@ public class SceneAddWorker implements ChangeDataEmails {
 		buttonExit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//Login firstScene = new Login(primaryStage);
-				System.out.print("DВызов назад");
-				//primaryStage.setScene(firstScene.getScene());//,oldScene);
-				
 				primaryStage.setScene(oldScene);
 				primaryStage.centerOnScreen();
 			}

@@ -58,7 +58,6 @@ public class SceneUserData implements enterDataUsers{
 
 	@Override
 	public Scene createScene() {
-		//HBox windiw = new HBox();
 		FlowPane flowPane = new FlowPane(Orientation.VERTICAL);
 		
 		String IMAGE = "/application/pictures/big.png";
@@ -101,7 +100,6 @@ public class SceneUserData implements enterDataUsers{
 		enterLogin.setAlignment(Pos.CENTER);
 		enterLogin.setSpacing(5);
 		enterLogin.getStyleClass().add("EnterUserData");
-		//enternFatherName.setMargin(child, value);
 		
 		HBox enterName = new HBox(50);
 		enterName.getChildren().addAll(enternName,enternSecondName,enternFatherName,enterLogin);
@@ -148,9 +146,7 @@ public class SceneUserData implements enterDataUsers{
 				Dialog <ButtonType> dialog = new Dialog <ButtonType>();
 				dialog.setTitle("Обработка персональных данных");
 				dialog.setHeaderText("Вы даёте согласие на это!");
-				//dialog.setContentText
 				ScrollPane sp=new ScrollPane();
-				//dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
 		 
 		        final DialogPane dialogPane = dialog.getDialogPane();
 		        dialogPane.setContentText("Настоящая политика обработки персональных данных части 1, 5 пункта 1 статьи 6 Федерального закона РФ «О персональных данных»." + 
@@ -187,11 +183,7 @@ public class SceneUserData implements enterDataUsers{
 		        dialogPane.getChildren().add(sp);
 		        dialog.setWidth(1100);
 		    	dialog.setHeight(650);
-		        //dialog.initModality(Modality.APPLICATION_MODAL);
 		        dialog.setDialogPane(dialogPane);
-		        /*dialog.showAndWait()
-		               .filter(response -> response == ButtonType.OK)
-		               .ifPresent(response -> System.out.println("The exception was approved"));*/
 		        
 		        dialog.setWidth(1000);
 		    	dialog.setHeight(750);
@@ -230,7 +222,6 @@ public class SceneUserData implements enterDataUsers{
 						}
 						
 						String login = textLogin.getText();
-						//alarm.setText("ВНиМАНИЕ! Вы не ввели Ваше Ф.И.О. и пароль!");
 						String ins = "INSERT INTO `users` (`firstname`,`secondname`,`lastname`,`id_post`,`login`,`password`) VALUES ('"+ textName.getText() 
 						+ "', '" +textSeconName.getText() + "','" + textFatherName.getText() + "','" +  idpost + "','" + textLogin.getText() + "','" + pass.getText()+"');";
 						System.out.println(login);
@@ -241,10 +232,6 @@ public class SceneUserData implements enterDataUsers{
 						if(execTrue) {
 							String found = "SELECT * FROM `users` WHERE (`login` = '"+ textLogin.getText()+"' AND `password` = '"+pass.getText()+"') ";
 							String insertMail = "INSERT INTO `taskmail`.`email`(`email`) VALUES ('"+textLogin.getText() +"');";
-							//add.setQuery(insertMail);
-							//add.setMail(textLogin.getText());
-							//String insertUserMAil ="INSERT INTO `taskmail`.`user_email` (`id_user`,`id_email`) VALUES ( '" + add.WhoAdd(found)+"', '" + add.addMail()+"');";
-							//add.addUserEmail(insertUserMAil);
 							Alert alert = new Alert(AlertType.INFORMATION,"Регистрация прошла успешно! Теперь Вы можете войти в систему");
 							alert.setTitle("Регистрация");
 							alert.setHeaderText("Вы зарегистрированы");
@@ -273,9 +260,7 @@ public class SceneUserData implements enterDataUsers{
 		buttonExit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//Login firstScene = new Login(primaryStage);
 				System.out.print("DВызов назад");
-				//primaryStage.setScene(firstScene.getScene());//,oldScene);
 				primaryStage.setScene(oldScene);
 				primaryStage.centerOnScreen();
 			}
@@ -302,7 +287,6 @@ public class SceneUserData implements enterDataUsers{
 
 	@Override
 	public boolean safeData(String name, String secondName, String fatherName, String job, String pass) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

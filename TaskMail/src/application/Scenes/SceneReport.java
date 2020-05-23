@@ -238,10 +238,6 @@ public class SceneReport {
 					buttonExit.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent e) {
-							//Login firstScene = new Login(primaryStage);
-							System.out.print("DВызов назад");
-							//primaryStage.setScene(firstScene.getScene());//,oldScene);
-							
 							primaryStage.setScene(oldScene);
 							primaryStage.centerOnScreen();
 						}
@@ -257,10 +253,8 @@ public class SceneReport {
 							public void handle(ActionEvent e) {
 								LinkedList<Integer> all = getAllIds();
 								all.clear();
-								
 								change = new SceneChoseUser(primaryStage,  Id, idChosenUser);
 								change.setId(Id);
-								
 								all.addAll(change.getAllIds());
 								System.out.println (" Количество есть - " + change.getAllIds());
 								System.out.println (" Количество записано- " + all.size());
@@ -290,10 +284,10 @@ public class SceneReport {
 							LinkedList<Integer> all = getAllIds();
 							all.clear();
 							all.addAll(change.getAllIds());
-							System.out.println (" Количество есть - " + change.getAllIds());
-							System.out.println (" Количество записано- " + all.size());
+							//System.out.println (" Количество есть - " + change.getAllIds());
+							//System.out.println (" Количество записано- " + all.size());
 							setAllIds(all);
-							System.out.println (" Количество в класса- " + getAllIds());
+							//System.out.println (" Количество в класса- " + getAllIds());
 							
 							int idch = 0;
 							String Theme = null;
@@ -322,12 +316,10 @@ public class SceneReport {
 							
 							report = bodyaddOnenComment.getText() + " Итог выполнения: " + contentDoneWork.getText() + "; Возникшие проблемы: "+
 									contentProblems.getText();
-							//String linkForDb = null;
 							// Код срочности задачи. -- /
 							int idurgency;
 							idurgency = _oneTask.getIdUrgency();
 							idurgency +=1;
-							//System.out.println("код выбора срочности - " + idurgency);
 							// конец кода срочности задачи -- /
 							
 							// Выполнение задачи -- /
@@ -500,14 +492,13 @@ public class SceneReport {
 					files = fileChooser.showOpenMultipleDialog(primaryStage);
 					if(!files.isEmpty()) {
 						for (int i=0; i <files.size(); i++) {
-							System.out.println(" Файлы - " + files.get(i).getPath());
+							//System.out.println(" Файлы - " + files.get(i).getPath());
 							pa.add(files.get(i).getPath());
 						}
 						
 						for (int i=0; i < pa.size(); i++ ) {
 							String nAme = pa.get(i);
 							addPath(nAme);
-							
 							Bloom effect = new Bloom();
 							Bloom effect_ = new Bloom(0.9);
 							Glow ef = new Glow(0.7);

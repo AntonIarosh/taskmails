@@ -60,9 +60,8 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		this.ounScene = createNewScene();
 		this.oldScene = primaryStage.getScene();
 		setNewScene(this.primaryStage,this.ounScene); 
-		
-
 	}
+	
 	@Override
 	public void setNewScene(Stage primaryStage, Scene newScene) {
 		primaryStage.close();
@@ -87,7 +86,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		Popup popup;
 		popup=new Popup();
 		popup.setAutoHide(true);
-		//popup.setAutoFix(true);
 		VBox textPopup = new VBox(50);
 		textPopup.setAlignment(Pos.CENTER);
 		textPopup.setPrefSize(500, 300);
@@ -221,11 +219,9 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		// Вторая колонка
 		TableColumn<EntityEmail, String> secondColEmail = new TableColumn<EntityEmail, String>();
 		secondColEmail.setText("Email");
-		//StringConverter<SimpleStringProperty> converterString = new PercentageStringConverter();
 		
 		secondColEmail.setCellFactory(TextFieldTableCell.forTableColumn());
 		secondColEmail.setCellValueFactory(new PropertyValueFactory<EntityEmail, String>("Email"));
-		//secondColEmail.setCellValueFactory(new PropertyValueFactory("Email"));
 
 		// Третья колонка
 		TableColumn<EntityEmail, String> ColPass = new TableColumn<EntityEmail, String>();
@@ -242,14 +238,12 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		    //Пятая Колонка SMTP код
 			TableColumn<EntityEmail, Integer> ColCodeSMTP = new TableColumn<EntityEmail, Integer>();
 			ColCodeSMTP.setText("Код SMTP");
-			//StringConverter<Integer> converter = new IntegerStringConverter();
 			ColCodeSMTP.setCellFactory(TextFieldTableCell.forTableColumn(converter));
 			ColCodeSMTP.setCellValueFactory(new PropertyValueFactory<EntityEmail, Integer>("codeSMTP"));
 			
 		    //Шестая Колонка IMAP код
 			TableColumn<EntityEmail, Integer> ColCodeIMAP = new TableColumn<EntityEmail, Integer>();
 			 ColCodeIMAP.setText("Код IMAP");
-			//StringConverter<Integer> converter = new IntegerStringConverter();
 			 ColCodeIMAP.setCellFactory(TextFieldTableCell.forTableColumn(converter));
 			 ColCodeIMAP.setCellValueFactory(new PropertyValueFactory<EntityEmail, Integer>("codeIMAP"));
 			
@@ -263,9 +257,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 	    tableView.setItems(data);
 	    tableView.getColumns().addAll( firstColId , secondColEmail,ColPass,ColSMTP,ColCodeSMTP,ColIMAP,ColCodeIMAP);
 	    
-
 		// --- Конец таблички с эмейлами --- /
-		//enternFatherName.setMargin(child, value);
 		
 		HBox enterPassMail = new HBox(50);
 		Label enterLoginPassMail = new Label("Введите пароль");
@@ -280,7 +272,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		enterPassMail.setSpacing(5);
 		enterPassMail.getStyleClass().add("EnterUserData");
 		enterPassMail.setMinWidth(450);
-		
 		
 		VBox enterInServer = new VBox(50);
 		Label InServerLabel = new Label("Введите Сервер входящей почты");
@@ -524,7 +515,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					popup.show(primaryStage);
 					
 				} else {
-				//Login firstScene = new Login(primaryStage);
 				int idpost;
 				String inServerA;
 				String outServerA;
@@ -554,10 +544,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				
 				infos.whatMailsIs();
 				ObservableList<EntityEmail> dataf = infos.whatMailsIs();
-				//System.out.print("Email -новый размер - " +dataf.size());
-				/*for (int i=0; i<dataf.size(); i++) {
-					//System.out.print("Email - new" + dataf.get(i).getEmail());
-				}*/
 				 tableView.getItems().setAll(dataf);
 				 tableView.refresh();
 				 textEnterMail.setText("");
@@ -656,7 +642,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				String whatIdMail = "SELECT `email`.`id_email` FROM `taskmail`.`email` WHERE `email` = '" + textEnterMail.getText() + "';";
 				DeleteEmail oneOrMany = new DeleteEmail(whatIdMail);
 				int idOfMail = oneOrMany.whatId();
-				//System.out.println("id = " + idOfMail);
 				String countOfMail =  null;
 				boolean countOfUserMail = false;
 				String delFromUsersEmail = null;
@@ -666,16 +651,12 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 					oneOrMany.setQuery(countOfMail);
 					countOfUserMail = oneOrMany.serchQuery();
 					if (countOfUserMail) {
-						//System.out.println("Больше одного");
 						delFromUsersEmail = "DELETE FROM `taskmail`.`user_email` WHERE `user_email`.`id_email` = '" + idOfMail + "' AND `user_email`.`id_user` = '" + getIdUser() + "';";
-						//System.out.println(delFromUsersEmail);
 						add = new AddUser(delFromUsersEmail);
 						ifDel = add.execeteQuery();
 					} else {
-						//System.out.println(deleteUserMAil);
 						add = new AddUser(deleteUserMAil);
 						ifDel = add.execeteQuery();
-						//System.out.println("Один одного");
 					}
 					
 				} else {
@@ -698,7 +679,7 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 				
 				infos.whatMailsIs();
 				ObservableList<EntityEmail> dataf = infos.whatMailsIs();
-				System.out.print("Email -новый размер - " +dataf.size());
+				//System.out.print("Email -новый размер - " +dataf.size());
 				for (int i=0; i<dataf.size(); i++) {
 					System.out.print("Email - new" + dataf.get(i).getEmail());
 				}
@@ -739,7 +720,6 @@ public class SceneChangeDada_AddMails implements ChangeDataEmails {
 		// -- Конец кнопки назад --/
 		
 		// -- Кнопка обновить данные пользователя --- /
-		//int idposts = 0;
 		buttonUpdate.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

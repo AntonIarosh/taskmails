@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,8 +24,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
 import addManyItems.addFilesToLeterTask;
+import application.ReadTask;
 import application.Validation;
-
+import application.WriteTask;
 import application.DB.GetInfoLogin;
 import application.DB.ReadOneTask2;
 import application.DB.ReadOunTasks;
@@ -335,6 +337,17 @@ public class SceneMainWindow implements mainWindowUser {
 	        accordion.setMinSize(250, 200);
 	        accordion.setPrefSize(250, 200);
 	    // Аккордион меню ----/
+			
+			Button readTask = new Button("Чтение задачи");
+			readTask.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+			readTask.setId("button");
+			readTask.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					ReadTask reader = new ReadTask(id );
+					reader.readTask(primaryStage);
+				}
+			});
 	    /// Тулбар ---/
 	     ToolBar toolbar = new ToolBar();
 	     toolbar.getItems().add(changMyInfo);
@@ -343,6 +356,7 @@ public class SceneMainWindow implements mainWindowUser {
 	     toolbar.getItems().add(contacts);
 	     toolbar.getItems().add(help);
 	     toolbar.getItems().add(about);
+	     toolbar.getItems().add(readTask);
 	        
 
 	        /// конец тулбара ---/
@@ -1057,10 +1071,10 @@ public class SceneMainWindow implements mainWindowUser {
 				all.clear();
 				change.setId(id_user);
 				all.addAll(change.getAllIds());
-				System.out.println (" Количество есть - " + change.getAllIds());
-				System.out.println (" Количество записано- " + all.size());
+				//System.out.println (" Количество есть - " + change.getAllIds());
+				//System.out.println (" Количество записано- " + all.size());
 				setAllIds(all);
-				System.out.println (" Количество в класса- " + getAllIds());
+				//System.out.println (" Количество в класса- " + getAllIds());
 				
 				int idch = 0;
 				String Theme = null;
@@ -1182,7 +1196,7 @@ public class SceneMainWindow implements mainWindowUser {
 				
 				TaskLetterSend sender = new TaskLetterSend();
 				try {
-					System.out.println (" Количество в классе - " + getAllIds().size());
+					//System.out.println (" Количество в классе - " + getAllIds().size());
 					sender.senMail(Theme, Text,idch,id,body,supervisor,link,description,dateStart,dataEnd, dataCreate,urgencyMail,taskCol,itsDone,idNewTask,getAllIds(),getPaths());
 					
 				} catch (AddressException e1) {
@@ -1194,8 +1208,186 @@ public class SceneMainWindow implements mainWindowUser {
 			}
 		});
 		
+		Button writeTask = new Button("Записать в файл");
+		writeTask.getStylesheets().add(getClass().getResource("/application/styles/button.css").toExternalForm());
+		writeTask.setId("button");
+		writeTask.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				popupL.setText("");
+				boolean isValid = true;
+				StringBuilder str = new StringBuilder();
+				Validation validtion = new Validation();
+				LinkedList <Boolean> boolVali = new LinkedList<Boolean>();
+				
+				validtion.setText(startHour.getText());
+				isValid = validtion.validHour();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты начала выполнения задания\n - час начала выполнения задачи <"+ startHour.getText() + ">\n");
+					startHour.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					startHour.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				validtion.setText(startMinute.getText());
+				isValid = validtion.validMinutes();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты начала выполнения задания\n - минуты начала выполнения задачи <" + startMinute.getText() + ">\n");
+					startMinute.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					startMinute.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				validtion.setText(endHour.getText());
+				isValid = validtion.validHour();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - час окончания выполнения задачи <" + endHour.getText() + ">\n");
+					endHour.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					endHour.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				validtion.setText(endMinute.getText());
+				isValid = validtion.validMinutes();
+				boolVali.add(isValid);
+				if (!isValid) {
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - минуты окончания выполнения задачи <" + endMinute.getText() + ">\n");
+					endMinute.setStyle("-fx-background-color: #FF7F50;");
+				} else {
+					endMinute.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				int countFalse = 0;
+				for(boolean noValid: boolVali) {
+					if (!noValid) {
+						countFalse ++;
+						isValid = false;
+					}
+				}
+				str.append(" Количество всех ошибок: "+countFalse);
+				if (isValid == false ) {
+					popupL.setText(str.toString());
+					popup.show(primaryStage);
+					
+				} else {
+				
+				//int idch = 0;
+				String Theme = null;
+				String Text = null;
+				String comment = null;
+				String body = null;
+				String supervisor = null;
+				String link = null;
+				String description = null;
+				String dateStart = null;
+				String dataEnd = null;
+				String dataCreate = null;
+				Date data = null;
+				String urgencyMail = null;
+				String taskCol = null;// Периодичность
+				String itsDone = "не выполнено";
+				body = bodyMail.getText();
+				description = descriptionMail.getText();
+				link = linkMail.getText();
+				supervisor = textSupervisor.getText();
+				taskCol = textTaskCol.getText();
+				
+				String linkForDb = null;
+
+				// Код срочности задачи. -- /
+				int idurgency;
+				idurgency = urgency.getSelectionModel().getSelectedIndex();
+				idurgency +=1;
+				//System.out.println("код выбора срочности - " + idurgency);
+				// конец кода срочности задачи -- /
+				// дата создания задачи -- /
+				Date dt = new Date();
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String currentTime = sdf.format(dt);
+				// конец даты создания задачи -- /
+				// дата начала задачи -- /
+				String StartTime = datePickerStart.getValue().toString() + " " + startHour.getText() + ":"+startMinute.getText() + ":" + 0;
+				// дата конца начала задачи -- /
+				// дата конца задачи -- /
+				String EndTime = datePickerEnd.getValue().toString() + " " + endHour.getText() + ":"+ endMinute.getText() + ":" + 0;
+				// дата конца конца задачи -- /
+				
+				// Выполнение задачи -- /
+				int itsDoneToDB = 0;
+				// конец выполнения задачи -- /
+				
+				// Запрос на добавление записи в таблицу задачи
+				String queryAddTask = "INSERT INTO `taskmail`.`task` (`title`, `body`, `id_urgency`, `create_date_time`, `start_date_time`,"
+				+ " `end_date_time`, `supervisor`, `is_done`, `taskcol`, `description`) VALUES ('" + textTheme.getText() +"', "
+				+ "'" + body + "', '" + idurgency + "', '" + currentTime + "',"
+				+ " '" + StartTime + "', '" + EndTime + "', '" + supervisor + "', ' " + itsDoneToDB + "', '" + taskCol + "', '" + description + "');";
+				// конец запроса на добавление записи в таблицу
+				
+				// Добавление задачи в бд -- /
+				WriteTaskInDBCreated add = new WriteTaskInDBCreated(queryAddTask);
+				add.execeteQuery();
+				// конец добавления задачи в бд -- /
+				
+				// Узнать какой айди у новой добавленной задачи -- /
+				String idNew = "SELECT `task`.`id_task` FROM `taskmail`.`task` WHERE `task`.`title` = '" + textTheme.getText()+ "' AND `task`.`body` = '" + body +"';";
+				//String idNew = "SELECT `task`.`id_task` FROM `taskmail`.`task` WHERE `task`.`id_task` = LAST_INSERT_ID();";
+				
+				int idNewTask = add.WhoAdd(idNew);
+				// конец узнавайния айди новой задачи -- /
+				
+				//Добавить запись в таблицу пользователь задача -- /
+				String addUserTask = "INSERT INTO `taskmail`.`user_task` (`id_user`, `id_task`) VALUES ('" + id + "', '" + idNewTask + "');";
+				add.addUserTask(addUserTask);
+				// конец добавление записи в таблицу задача пользователя -- /
+		
+				// проверка и заполнение ссылки -- /
+				if (!linkMail.getText().isEmpty() ) {
+					linkForDb = linkMail.getText(); 
+					// Дабавление записи в таблицу ссылка к задаче -- /
+					String addLink = "INSERT INTO `taskmail`.`task_link` (`id_task`, `link`) VALUES ('" + idNewTask + "', '" + linkForDb + "');";
+					add.addLink(addLink);
+					// конец Дабавление записи в таблицу ссылка к задаче -- /
+				}
+				// конец обработки ссылки -- /
+				
+				urgencyMail = urgency.getSelectionModel().getSelectedItem().toString();
+				dateStart = datePickerStart.getValue().toString() + " " + startHour.getText() + ":"+startMinute.getText() ;
+				dataEnd = datePickerEnd.getValue().toString() + " " + endHour.getText() + ":"+ endMinute.getText() ;
+				GregorianCalendar thisData = new GregorianCalendar();
+				data = thisData.getTime();
+				//dataCreate = data.toString();
+				dataCreate =  currentTime;
+				
+				Theme = "Живое расписание: " + textTheme.getText();
+				Text  = "Задание: " + body  + ";\n" +
+				"Дополниельное описание: " +description+";\n" + 
+				"Ссылка на дополнительные материалы: " + link + ";\n" +
+				"Руководитель: " +supervisor+";\n" +
+				"Периодичность выполения: " + taskCol + ";\n"+
+				"Срочность задачи: " + urgencyMail +";\n" +
+				"Дата и время начала выполнения: " + dateStart +";\n" +
+				"Дата и время окончания выполенения: " + dataEnd +";\n"+
+				"Дата и время создания задачи:" + dataCreate + ";\n" +
+				"Выполнение: " + itsDone ; 
+				
+				WriteTask writer = new WriteTask();
+				
+					///System.out.println (" Количество в классе - " + getAllIds().size());
+					try {
+						writer.writeTask(Theme, Text,id,body,supervisor,link,description,dateStart,dataEnd, dataCreate,urgencyMail,taskCol,itsDone,primaryStage,idNewTask,getPaths());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+		
+			}
+			}
+		});
+		
 		HBox buttons = new HBox(50);
-		buttons.getChildren().addAll(adressTask,pushTask,pushTaskOun);
+		buttons.getChildren().addAll(adressTask,pushTask,pushTaskOun,writeTask);
 		buttons.setAlignment(Pos.CENTER);
 		buttons.setSpacing(5);
 		buttons.getStyleClass().add("UP1");

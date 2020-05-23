@@ -59,7 +59,7 @@ public class addFilesToLeterTask {
 		
 		if(!files.isEmpty()) {
 		for (int i=0; i <files.size(); i++) {
-			System.out.println(" װאיכû - " + files.get(i).getPath());
+			//System.out.println(" װאיכû - " + files.get(i).getPath());
 			pa.add(files.get(i).getPath());
 		}
 		

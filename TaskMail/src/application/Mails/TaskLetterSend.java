@@ -35,7 +35,7 @@ public class TaskLetterSend {
 		//mailFrom = who.getDataEmail();
 		mailFrom = who.whatMailsIs();
 		
-		System.out.println (" Количество адресатов - " + allIdCh.size());
+		//System.out.println (" Количество адресатов - " + allIdCh.size());
 		Address[] cc = new Address[allIdCh.size()];
 		
 		String hostSMTPServerMailFrom = mailFrom.getSMPTserver();

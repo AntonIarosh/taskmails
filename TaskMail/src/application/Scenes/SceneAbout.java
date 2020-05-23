@@ -39,8 +39,6 @@ public class SceneAbout {
 			int numberOfRows = 0;
 			while (scanner.hasNext()) {
 				str.append(scanner.nextLine() + "\n");
-				//text.setText(Integer.toString(scanner.nextInt()));
-				//System.out.println(" Вывод из главного окна - " + text.getText());
 				numberOfRows++;
 			}
 		} catch (FileNotFoundException e1) {

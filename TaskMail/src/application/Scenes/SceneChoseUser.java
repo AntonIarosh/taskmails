@@ -209,7 +209,7 @@ public class SceneChoseUser {
 					if (!data.isEmpty()) {
 						for (int i =0; i < data.size(); i++) {
 							EntityOneUser h = data.get(i);
-							System.out.println(" логин - " + h.getEmail() + " Имя - " + h.getFirstName() );
+							//System.out.println(" логин - " + h.getEmail() + " Имя - " + h.getFirstName() );
 						}
 
 					}
@@ -261,7 +261,6 @@ public class SceneChoseUser {
 			userInfo.getChildren().addAll(search,filesLabel,ScUsers);
 			// Панель для имен пользователей ---/
 		
-			
 			VBox emails = new VBox();
 			emails.setId("email");
 			VBox enterMail = new VBox(50);
@@ -279,12 +278,8 @@ public class SceneChoseUser {
 			buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					//if (tableView.getSelectionModel().getSelectedItem().getId() != 0) {
 						text.setText(Integer.toString(tableView.getSelectionModel().getSelectedItem().getId()));
-				//	} else {
 						text.setText("0");
-					//}
-					//getAllIds().add(tableView.getSelectionModel().getSelectedItem().getId())
 					ch.add(tableView.getSelectionModel().getSelectedItem().getId());
 					int id = 0;
 					String name=null;
@@ -295,10 +290,7 @@ public class SceneChoseUser {
 					lastName = tableView.getSelectionModel().getSelectedItem().getLastName();
 					id = tableView.getSelectionModel().getSelectedItem().getId();
 					setVisibleMenuFiles(Allfusers, id, name, secondName, lastName);
-					
 					addAllIds(tableView.getSelectionModel().getSelectedItem().getId());
-					
-					System.out.println( " Айди - " + text.getText());
 					String filePath = "idChosenUser.txt";
 					PrintWriter output = null;
 					try {

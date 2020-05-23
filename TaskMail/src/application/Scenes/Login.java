@@ -142,7 +142,6 @@ public class Login implements loginScene {
 		buttonEnter.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				//System.out.println("|"+pass.getText()+"|"+ text.getText()+"|");
 				popupL.setText("");
 				boolean isValid = true;
 				StringBuilder str = new StringBuilder();
@@ -169,7 +168,6 @@ public class Login implements loginScene {
 				} else {
 					pass.setStyle("-fx-background-color: #FFFFFF;");
 				}
-				
 				int countFalse = 0;
 				for(boolean noValid: boolVali) {
 					if (!noValid) {
@@ -181,15 +179,11 @@ public class Login implements loginScene {
 				if (isValid == false ) {
 					popupL.setText(str.toString());
 					popup.show(primaryStage);
-					
 				} else {
-				
 				if (check(pass.getText(), text.getText())) {
 					alarm.setText("Вы зарегистрированы!");
 					alarm.setGraphic(yes);
-					//mainWindiw.set();
 					SceneMainWindow mainWindiw = new SceneMainWindow(primaryStage,userId);
-					
 				} else {
 					alarm.setText("Вы не правильно ввели данные\n   или не зарегистрированы!");
 					alarm.setGraphic(work);
@@ -205,7 +199,6 @@ public class Login implements loginScene {
 		ImageView image = new ImageView(ICON);
 		
 		window.getChildren().addAll(present,image, /*enterLogin, enterPass,buttonEnter,*/logPas,  need);
-		//window.setAlignment(Pos.);
 		window.setSpacing(15);
 		window.setId("win");
 		setScene(scene);
