@@ -18,7 +18,7 @@ public class ReadTask {
 	public void readTask(Stage primaryStage) {
 		
 		String title  = null;
-		String Oldtitle = null;
+		//String Oldtitle = null;
 		//String comment = null;
 		String body = null;
 		String supervisor = null;
@@ -135,9 +135,6 @@ public class ReadTask {
 					}
 				}
 			    System.out.println("|" + subStr + "|");  
-			   
-			    
-			    
 					//scanner.nextLine();
 					numberOfRows++;
 					}

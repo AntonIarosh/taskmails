@@ -2,21 +2,15 @@ package addManyItems;
 
 import java.util.LinkedList;
 import java.io.File;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
+
 import javafx.stage.Stage;
 import java.util.List;
-
-import application.Scenes.SceneOneTaskForWorker;
 
 public class addFilesToLeterTask {
 	private LinkedList <String> paths;
@@ -52,7 +46,7 @@ public class addFilesToLeterTask {
 	}
 	
 	public VBox setVisibleMenuFiles(VBox vBox,Stage primaryStage) {
-		LinkedList <String> pa = new LinkedList();
+		LinkedList <String> pa = new LinkedList<String>();
 		fileChooser.setTitle("Âûבמנ פאיכמג");
 		List <File> files = null;
 		files = fileChooser.showOpenMultipleDialog(primaryStage);
@@ -65,7 +59,6 @@ public class addFilesToLeterTask {
 		
 		for (int i=0; i < pa.size(); i++ ) {
 			String nAme = pa.get(i);
-			Bloom effect = new Bloom();
 			Bloom effect_ = new Bloom(0.9);
 			Glow ef = new Glow(0.7);
 			VBox file = new VBox(50);

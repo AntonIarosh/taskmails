@@ -7,7 +7,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import application.DB.ChoseEmailToUser;
-import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

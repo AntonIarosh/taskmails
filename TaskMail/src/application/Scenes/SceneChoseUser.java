@@ -1,23 +1,15 @@
 package application.Scenes;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-
-import addManyItems.addFilesToLeterTask;
 import application.DB.AddUser;
-import application.DB.ChanngeUserInfos;
 import application.DB.ChoseUser;
 import application.DB.SearchJobs;
-import application.Entities.EntityEmail;
 import application.Entities.EntityOneUser;
-import application.Entities.EntityUser;
-import application.interfaces.ChangeDataEmails;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,8 +35,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
 
 public class SceneChoseUser {
 		private Stage primaryStage;

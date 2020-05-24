@@ -4,19 +4,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
-
-import application.Entities.EntityOneUser;
 import application.Entities.EntityTask;
 import application.Entities.EntityUser;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class ReadOunTasks {
 	private Connection con;
@@ -181,7 +176,7 @@ public class ReadOunTasks {
 	}
 	
 	public void updateData(String query) {
-		ResultSet res = null;
+		//ResultSet res = null;
 		try {
 			answer = con.createStatement();
 			

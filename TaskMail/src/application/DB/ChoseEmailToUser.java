@@ -3,10 +3,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import java.util.Optional;
-
-import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
 import application.Entities.EntityUser;
 import javafx.collections.FXCollections;

@@ -1,7 +1,5 @@
 package application.Mails;
 
-import java.util.Date;
-
 import application.DB.WriteTaskInDBCreated;
 
 public class ParseText {

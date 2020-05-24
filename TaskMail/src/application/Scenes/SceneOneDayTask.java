@@ -1,7 +1,5 @@
 package application.Scenes;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,15 +8,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.Scanner;
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import application.DB.GetInfoLogin;
 import application.DB.ReadOneTask2;
 import application.DB.ReadOunTasks;
 import application.DB.ReadOunTasks3;
 import application.Entities.EntityTask;
-import application.Mails.QuickLetterSend;
 import application.StyleClasses.ButonStyle;
 import application.StyleClasses.VboxStyle;
 import application.interfaces.mainWindowUser;

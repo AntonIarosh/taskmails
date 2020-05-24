@@ -33,7 +33,7 @@ public class AddUser implements addToDBUser {
 	// Добавление пользователя
 	@Override
 	public boolean execeteQuery() {
-		ResultSet res = null;
+		//ResultSet res = null;
 		try {
 			answer = con.createStatement();
 			

@@ -1,36 +1,20 @@
 package application.Mails;
 
-import javax.activation.DataHandler;
 import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import javax.mail.search.FlagTerm;
-
 import application.DB.ChoseEmailToUser;
-import application.Entities.EntityEmail;
 import application.Entities.EntityEmailAll;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-//import sun.security.util.IOUtils;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.Properties;
-
-
 
 public class LetterRecive {
 	String   IMAP_AUTH_EMAIL = null;
@@ -206,7 +190,7 @@ public class LetterRecive {
             
             StringBuilder sb = new StringBuilder();
             
-            StringBuilder sv = new StringBuilder();
+            //StringBuilder sv = new StringBuilder();
             
          /*   for(int i=0; i <count; i++) {
             	String subject= mes[i].getSubject();

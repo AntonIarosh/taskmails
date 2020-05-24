@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import application.interfaces.loginCheck;
-
 public class ChoseIdUserByFIO {
 	private Connection con;
 	private DBConnection conect;

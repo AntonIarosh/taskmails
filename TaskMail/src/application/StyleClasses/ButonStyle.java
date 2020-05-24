@@ -1,8 +1,6 @@
 package application.StyleClasses;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.text.TextAlignment;
 
 public class ButonStyle {
 	private Button button;

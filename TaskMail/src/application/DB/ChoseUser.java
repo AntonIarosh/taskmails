@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-import application.Entities.EntityEmail;
 import application.Entities.EntityOneUser;
 import application.Entities.EntityUser;
 import javafx.collections.FXCollections;
@@ -146,7 +145,7 @@ public class ChoseUser {
 	}
 	
 	public void updateData(String query) {
-		ResultSet res = null;
+		//ResultSet res = null;
 		try {
 			answer = con.createStatement();
 			

@@ -6,11 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 import java.sql.*;
-
-import application.DB.DBConnection;
 import application.Scenes.Login;
-
-
 
 public class Main extends Application {
 	static Connection con;
