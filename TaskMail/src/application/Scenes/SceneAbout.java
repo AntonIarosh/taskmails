@@ -7,8 +7,10 @@ import java.util.Scanner;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -22,7 +24,7 @@ public class SceneAbout {
 	public SceneAbout(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.oldScene = primaryStage.getScene();
-		newWindow(this.primaryStage, Modality.WINDOW_MODAL);
+		newWindow(primaryStage, Modality.APPLICATION_MODAL);
 	}
 	
 	public void newWindow(Stage parent, Modality modality) {
@@ -43,12 +45,18 @@ public class SceneAbout {
 			}
 		} catch (FileNotFoundException e1) {
 			System.out.println("Файл не найден.");
+			Alert alert = new Alert(AlertType.INFORMATION,"Файл - about.txt не найден в папке с запускаемым файлом.");
+			alert.setTitle("Ошибка");
+			alert.setHeaderText("Ошибка открытия файла!");
+			alert.show();
 		} catch (Exception e1) {
 			System.out.println("Ошибка при считывании из файла.");
+			Alert alert = new Alert(AlertType.INFORMATION,"Ошибка при считывании из файла - about.tx");
+			alert.setTitle("Ошибка");
+			alert.setHeaderText("Содержание файла не может быть прочтено!");
+			alert.show();
 			scanner.close();
-		} finally {
-			scanner.close();
-		}
+		} 
 		
 		TextArea text = new TextArea(str.toString());
 		text.setEditable(false);
@@ -66,6 +74,7 @@ public class SceneAbout {
 		});
 		window.setScene(new Scene(pane,500,500));
 		window.setTitle("О программе");
+		//parent.show();
 		window.show();
 	}
 }

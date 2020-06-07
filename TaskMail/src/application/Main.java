@@ -12,12 +12,12 @@ public class Main extends Application {
 	static Connection con;
 	static Statement answer;
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws Exception {
 		try {
 			Login firstScene = new Login(primaryStage);
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("View.fxml"));
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("View.fxml"));
+			//Scene scene = new Scene(root,400,400);
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(firstScene.getScene());
 			primaryStage.setTitle("Живое Расписание");
 			primaryStage.show();
@@ -27,6 +27,9 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		launch(args);
+		Application.launch(args);
+		//launch(args);
 	}
 }
+
+

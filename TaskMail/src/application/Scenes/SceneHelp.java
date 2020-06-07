@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
@@ -14,6 +15,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -48,12 +50,18 @@ public class SceneHelp {
 			}
 		} catch (FileNotFoundException e1) {
 			System.out.println("Файл не найден.");
+			Alert alert = new Alert(AlertType.INFORMATION,"Файл - help.txt не найден в папке с запускаемым файлом.");
+			alert.setTitle("Ошибка");
+			alert.setHeaderText("Ошибка открытия файла!");
+			alert.show();
 		} catch (Exception e1) {
 			System.out.println("Ошибка при считывании из файла.");
+			Alert alert = new Alert(AlertType.INFORMATION,"Ошибка при считывании из файла - help.txt");
+			alert.setTitle("Ошибка");
+			alert.setHeaderText("Содержание файла не может быть прочтено!");
+			alert.show();
 			scanner.close();
-		} finally {
-			scanner.close();
-		}
+		} 
 		
 		TextArea text = new TextArea(str.toString());
 		text.setEditable(false);
@@ -92,9 +100,8 @@ public class SceneHelp {
 			char[] target = textSearch.getText().toCharArray();
 			int start =0;
 			int end = 0;
-			
+			someLabel:
 			for (int i=0; i < all.length; i++) {
-
 				if (all[i] == target[0]) {
 					start = i;
 					System.out.println(" нашли начало " + target[0]);
@@ -114,7 +121,8 @@ public class SceneHelp {
 							Optional <ButtonType> result = dia.showAndWait();
 							if (result.isPresent()) {
 								if(result.orElseThrow().getButtonData() == ButtonData.CANCEL_CLOSE) {
-									break;
+									System.out.println(" выход ");
+									break someLabel;
 								}
 							}
 						}

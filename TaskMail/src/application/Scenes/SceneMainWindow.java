@@ -1035,8 +1035,24 @@ public class SceneMainWindow implements mainWindowUser {
 				} else {
 					endMinute.setStyle("-fx-background-color: #FFFFFF;");
 				}
-				
 				int countFalse = 0;
+				/*if (datePickerStart.getValue().toString().equals("")) {
+					datePickerStart.setStyle("-fx-background-color: #FF7F50;");
+					countFalse ++;
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - дата начала выполнения задачи.\n");
+				} else {
+					System.out.println(" Содержание - |" + datePickerStart.getValue().toString() + "|");
+					datePickerStart.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				if (datePickerEnd.getValue().toString().equals("")) {
+					datePickerEnd.setStyle("-fx-background-color: #FF7F50;");
+					countFalse ++;
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - дата начала выполнения задачи.\n");
+				} else {
+					System.out.println(" Содержание - |" + datePickerEnd.getValue().toString() + "|");
+					datePickerEnd.setStyle("-fx-background-color: #FFFFFF;");
+				}*/
 				for(boolean noValid: boolVali) {
 					if (!noValid) {
 						countFalse ++;
@@ -1242,6 +1258,23 @@ public class SceneMainWindow implements mainWindowUser {
 				}
 				
 				int countFalse = 0;
+				/*if (datePickerStart.getValue().toString().equals("")) {
+					datePickerStart.setStyle("-fx-background-color: #FF7F50;");
+					countFalse ++;
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - дата начала выполнения задачи.\n");
+				} else {
+					
+					datePickerStart.setStyle("-fx-background-color: #FFFFFF;");
+				}
+				
+				if (datePickerEnd.getValue().toString().equals("")) {
+					datePickerEnd.setStyle("-fx-background-color: #FF7F50;");
+					countFalse ++;
+					str.append(" Ошибка в заполнении даты окончания выполнения задания\n - дата начала выполнения задачи.\n");
+				} else {
+					datePickerEnd.setStyle("-fx-background-color: #FFFFFF;");
+					System.out.println(" Содержание - |" + datePickerEnd.getValue().toString() + "|");
+				}*/
 				for(boolean noValid: boolVali) {
 					if (!noValid) {
 						countFalse ++;
